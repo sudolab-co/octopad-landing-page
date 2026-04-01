@@ -5,25 +5,30 @@ Marketing site for [octopad.ai](https://octopad.ai).
 ## Files
 
 - `index.html` — main landing page
-- `privacy.html` — privacy policy (`/privacy`)
-- `terms.html` — terms of use (`/terms`)
+- `privacy.html` — privacy policy (`/privacy.html`)
+- `terms.html` — terms of use (`/terms.html`)
 - `logo.png` — Octopad logo
 
 ## Deployment
 
-Hosted on **Cloudflare Pages**. No build step — pure static HTML.
+Hosted on **GitHub Pages**. No build step — pure static HTML.
 
 ### First deploy
 1. Push this repo to GitHub
-2. Cloudflare Pages → Create a project → Connect to Git → select this repo
-3. Leave all build settings blank (no framework, no build command, output directory `/`)
-4. Deploy → go to **Custom domains** → add `octopad.ai` and `www.octopad.ai`
-5. DNS is auto-configured since the domain is already on Cloudflare
+2. Go to **Settings → Pages**
+3. Source: **Deploy from a branch** → branch `main`, folder `/` → Save
+4. GitHub provides a `username.github.io/repo` URL within seconds
+
+### Custom domain (octopad.ai)
+1. In GitHub Pages settings → **Custom domain** → enter `octopad.ai` → Save
+2. In Cloudflare DNS, add these records — **DNS only (grey cloud), not proxied**:
+   - `CNAME` · `@` → `your-username.github.io`
+   - `CNAME` · `www` → `your-username.github.io`
+3. GitHub verifies the domain and provisions SSL automatically (a few minutes)
+
+> **Important:** the Cloudflare proxy (orange cloud) must be OFF. GitHub Pages handles SSL directly via Let's Encrypt and requires unproxied DNS to verify the domain.
 
 ### Subsequent deploys
-Push to the main branch — Cloudflare Pages redeploys automatically.
-
-### URL routing
-Cloudflare Pages serves `privacy.html` at `/privacy` and `terms.html` at `/terms` automatically — no config needed.
+Push to the main branch — GitHub Pages redeploys automatically.
 
 The app itself lives at [octopad.app](https://octopad.app).
