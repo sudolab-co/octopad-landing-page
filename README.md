@@ -7,6 +7,7 @@ Marketing site for [octopad.ai](https://octopad.ai).
 - `index.html` — main landing page
 - `privacy.html` — privacy policy (`/privacy`)
 - `terms.html` — terms of use (`/terms`)
+- `integrations/notion.html` — Notion integration page (`/integrations/notion`)
 - `logo.png` — Octopad logo
 - `vercel.json` — Vercel deployment configuration
 
