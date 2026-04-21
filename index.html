@@ -3,1681 +3,405 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Octopad gives every team member's AI persistent memory, structured tasks, and shared project context. The operating system for human-AI teams.">
-  <title>Octopad — Project intelligence for AI-native teams</title>
+  <meta name="description" content="Octopad is your AI's back-office. Make plans, run tasks, and capture what matters, all in your AI, all on one shared brain. Works with Claude, ChatGPT, Cursor, and any MCP-compatible AI.">
+  <title>Octopad — Your AI's back-office</title>
 
-  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="icon" href="/logo.png" type="image/png">
 
-  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:              #111f17;
-      --bg-2:            #172b1f;
-      --bg-3:            #1e3828;
-      --surface:         rgba(26, 45, 33, 0.7);
-      --surface-solid:   #1a2e21;
-      --border:          rgba(46, 144, 106, 0.28);
-      --border-bright:   rgba(46, 144, 106, 0.6);
-
-      --brand:           #2E906A;
-      --brand-light:     #69BA91;
-      --brand-dim:       #1e5b43;
-      --brand-glow:      rgba(46, 144, 106, 0.14);
-      --brand-glow-med:  rgba(46, 144, 106, 0.28);
-
-      --text:            #f5fdf8;
-      --text-2:          #cce8d8;
-      --text-3:          #90b8a2;
-      --text-4:          #628472;
-
-      --ff-display: 'Syne', sans-serif;
-      --ff-body:    'DM Sans', sans-serif;
-
-      --radius:    12px;
-      --radius-lg: 20px;
-
-      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--ff-body);
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── Typography ── */
-
-    h1, h2, h3, h4 {
-      font-family: var(--ff-display);
-      font-weight: 800;
-      line-height: 1.08;
-      letter-spacing: -0.025em;
-    }
-
-    .display       { font-size: clamp(3rem, 7.5vw, 6.5rem); line-height: 1.02; }
-    .heading-lg    { font-size: clamp(2rem, 4vw, 3.2rem); }
-    .heading-md    { font-size: clamp(1.5rem, 2.5vw, 2.2rem); }
-
-    .subheading {
-      font-family: var(--ff-body);
-      font-size: clamp(1rem, 1.4vw, 1.2rem);
-      font-weight: 400;
-      line-height: 1.7;
-      color: var(--text-2);
-      max-width: 54ch;
-    }
-
-    /* ── Buttons ── */
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 9px;
-      font-family: var(--ff-body);
-      font-size: 0.95rem;
-      font-weight: 500;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.18s ease;
-      border: none;
-      white-space: nowrap;
-    }
-
-    .btn-primary {
-      background: var(--brand);
-      color: #fff;
-      box-shadow: 0 0 0 1px rgba(105, 186, 145, 0.15) inset;
-    }
-    .btn-primary:hover {
-      background: #237856;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 28px rgba(46, 144, 106, 0.4);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text-2);
-      border: 1px solid var(--border-bright);
-    }
-    .btn-ghost:hover {
-      background: var(--brand-glow);
-      color: var(--text);
-      border-color: var(--brand);
-    }
-
-    .btn-lg { padding: 0.875rem 1.875rem; font-size: 1rem; border-radius: 10px; }
-
-    /* ── Container ── */
-
-    .container {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    /* ── Label / badge ── */
-
-    .label {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.28rem 0.8rem;
-      background: var(--brand-glow);
-      border: 1px solid var(--border-bright);
-      border-radius: 100px;
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--brand-light);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-family: var(--ff-display);
-    }
-
-    .dot {
-      width: 6px;
-      height: 6px;
-      background: var(--brand-light);
-      border-radius: 50%;
-      animation: pulse 2.5s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.3; }
-    }
-
-    /* ── Arrow ── */
-
-    .arrow { transition: transform 0.18s ease; }
-    .btn:hover .arrow { transform: translateX(3px); }
-
-
-    /* ─────────────────────────────────────────────
-       NAVIGATION
-    ───────────────────────────────────────────── */
-
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 100;
-      padding: 0.85rem 0;
-      transition: all 0.3s ease;
-    }
-
-    nav.scrolled {
-      background: rgba(17, 31, 23, 0.94);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav-inner {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      text-decoration: none;
-      flex-shrink: 0;
-    }
-
-    .nav-logo img { width: 28px; height: 28px; }
-
-    .nav-logo-text {
-      font-family: var(--ff-display);
-      font-weight: 800;
-      font-size: 1.05rem;
-      color: var(--text);
-      letter-spacing: -0.025em;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 0.25rem;
-      justify-content: center;
-    }
-
-    .nav-link {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--text-2);
-      text-decoration: none;
-      padding: 0.45rem 0.85rem;
-      border-radius: 7px;
-      transition: all 0.18s ease;
-      white-space: nowrap;
-    }
-
-    .nav-link:hover {
-      color: var(--text);
-      background: rgba(46, 144, 106, 0.12);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-      justify-content: flex-end;
-    }
-
-
-    /* ─────────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────────── */
-
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      padding: 8rem 0 5rem;
-    }
-
-    /* Animated radial glow */
-    .hero-glow {
-      position: absolute;
-      width: 1000px;
-      height: 1000px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -52%);
-      background: radial-gradient(ellipse, rgba(46, 144, 106, 0.25) 0%, rgba(46, 144, 106, 0.06) 45%, transparent 70%);
-      pointer-events: none;
-      animation: glow-breathe 7s ease-in-out infinite;
-    }
-
-    @keyframes glow-breathe {
-      0%, 100% { transform: translate(-50%, -52%) scale(1);    opacity: 0.85; }
-      50%       { transform: translate(-50%, -54%) scale(1.1); opacity: 1;    }
-    }
-
-    /* Grid pattern */
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(46, 144, 106, 0.08) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(46, 144, 106, 0.08) 1px, transparent 1px);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 30%, transparent 100%);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      max-width: 920px;
-    }
-
-    .hero h1 em {
-      font-style: normal;
-      color: var(--brand-light);
-    }
-
-    .hero-ctas {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 0.5rem;
-    }
-
-    /* Simulated product UI */
-    .hero-visual {
-      margin-top: 3.5rem;
-      width: 100%;
-      max-width: 760px;
-    }
-
-    .hero-ui {
-      background: var(--surface-solid);
-      border: 1px solid var(--border-bright);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow:
-        0 40px 80px rgba(0, 0, 0, 0.55),
-        0 0 0 1px rgba(0, 0, 0, 0.2);
-      text-align: left;
-    }
-
-    .ui-bar {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      padding: 0.75rem 1rem;
-      background: rgba(0, 0, 0, 0.25);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .ui-dot { width: 10px; height: 10px; border-radius: 50%; }
-
-    .ui-bar-label {
-      margin-left: 0.5rem;
-      font-family: var(--ff-display);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-      color: var(--text-3);
-    }
-
-    .ui-body { padding: 1.5rem 1.5rem 1.75rem; }
-
-    .chat-line {
-      display: flex;
-      gap: 0.7rem;
-      margin-bottom: 1.1rem;
-      opacity: 0;
-      transform: translateY(6px);
-      animation: chat-appear 0.4s var(--ease-out) forwards;
-    }
-
-    .chat-line:nth-child(1) { animation-delay: 0.6s; }
-    .chat-line:nth-child(2) { animation-delay: 1.4s; }
-    .chat-line:nth-child(3) { animation-delay: 2.3s; }
-    .chat-line:nth-child(4) { animation-delay: 3.2s; }
-
-    @keyframes chat-appear { to { opacity: 1; transform: none; } }
-
-    .chat-avatar {
-      width: 28px;
-      height: 28px;
-      border-radius: 7px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.65rem;
-      font-weight: 800;
-      font-family: var(--ff-display);
-    }
-
-    .av-human { background: rgba(105, 186, 145, 0.18); color: var(--brand-light); border: 1px solid rgba(105,186,145,0.28); }
-    .av-ai    { background: rgba(46, 144, 106, 0.14);  color: var(--brand);       border: 1px solid rgba(46, 144, 106, 0.28); }
-
-    .chat-bubble {
-      padding: 0.55rem 0.8rem;
-      border-radius: 9px;
-      max-width: 86%;
-      font-size: 0.85rem;
-      line-height: 1.55;
-    }
-
-    .bub-human { background: rgba(105, 186, 145, 0.07); border: 1px solid rgba(105,186,145,0.14); color: var(--text-2); }
-    .bub-ai    { background: rgba(46, 144, 106, 0.07);  border: 1px solid rgba(46, 144, 106, 0.14); color: var(--text);  }
-    .bub-ai .hl { color: var(--brand-light); font-weight: 500; }
-
-
-    /* ─────────────────────────────────────────────
-       TRUST STRIP
-    ───────────────────────────────────────────── */
-
-    .trust-strip {
-      padding: 2rem 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .trust-strip-inner {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.25rem;
-    }
-
-    .trust-label-sm {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      font-family: var(--ff-display);
-    }
-
-    .trust-items {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .trust-item {
-      font-family: var(--ff-display);
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--text-4);
-      letter-spacing: -0.01em;
-      transition: color 0.2s;
-    }
-
-    .trust-item:hover { color: var(--text-2); }
-
-    .trust-sep { color: var(--text-4); font-size: 0.7rem; }
-
-    .mcp-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.22rem 0.6rem;
-      background: rgba(105, 186, 145, 0.1);
-      border: 1px solid rgba(105, 186, 145, 0.22);
-      border-radius: 4px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--brand-light);
-      font-family: var(--ff-display);
-      letter-spacing: 0.05em;
-    }
-
-
-    /* ─────────────────────────────────────────────
-       SECTION BASE
-    ───────────────────────────────────────────── */
-
-    section { padding: 6rem 0; }
-
-    .section-header {
-      text-align: center;
-      max-width: 640px;
-      margin: 0 auto 4rem;
-    }
-
-    .section-header .label   { margin-bottom: 1.1rem; }
-    .section-header .subheading { margin: 0.9rem auto 0; }
-
-
-    /* ─────────────────────────────────────────────
-       PROBLEM
-    ───────────────────────────────────────────── */
-
-    .problem { background: var(--bg-2); }
-
-    .problem-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .problem-card {
-      background: var(--surface-solid);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s var(--ease-out);
-    }
-
-    /* Animated top-edge line on hover */
-    .problem-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--brand-light), transparent);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .problem-card:hover::before { opacity: 1; }
-    .problem-card:hover {
-      border-color: var(--border-bright);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .problem-num {
-      font-family: var(--ff-display);
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--brand);
-      margin-bottom: 1rem;
-    }
-
-    .problem-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--brand-glow);
-      border: 1px solid var(--border-bright);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .problem-card h3 {
-      font-family: var(--ff-display);
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 0.7rem;
-    }
-
-    .problem-card p {
-      font-size: 0.875rem;
-      color: var(--text-2);
-      line-height: 1.65;
-    }
-
-    .evidence {
-      margin-top: 1.1rem;
-      padding: 0.7rem 0.85rem;
-      background: rgba(0, 0, 0, 0.22);
-      border-radius: 7px;
-      border-left: 2px solid var(--brand-dim);
-      font-size: 0.78rem;
-      color: var(--text-3);
-      font-style: italic;
-      line-height: 1.55;
-    }
-
-
-    /* ─────────────────────────────────────────────
-       PARADIGM SHIFT (BEFORE / AFTER)
-    ───────────────────────────────────────────── */
-
-    .paradigm { background: var(--bg); }
-
-    .paradigm-split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      max-width: 880px;
-      margin: 0 auto;
-    }
-
-    .paradigm-side {
-      border-radius: var(--radius-lg);
-      padding: 2.25rem;
-    }
-
-    .paradigm-side.before {
-      background: rgba(0, 0, 0, 0.28);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .paradigm-side.after {
-      background: linear-gradient(140deg, rgba(46,144,106,0.12), rgba(46,144,106,0.04));
-      border: 1px solid rgba(46, 144, 106, 0.28);
-      position: relative;
-    }
-
-    .paradigm-side.after::after {
-      content: 'With Octopad';
-      position: absolute;
-      top: -0.65rem;
-      left: 1.5rem;
-      padding: 0.2rem 0.7rem;
-      background: var(--brand);
-      color: #fff;
-      font-family: var(--ff-display);
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      border-radius: 4px;
-    }
-
-    .paradigm-label {
-      font-family: var(--ff-display);
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-
-    .before .paradigm-label { color: var(--text-4); }
-    .after  .paradigm-label { display: none; }
-
-    .p-step {
-      display: flex;
-      gap: 0.7rem;
-      margin-bottom: 1rem;
-      font-size: 0.875rem;
-      line-height: 1.55;
-    }
-
-    .p-step .ico { flex-shrink: 0; margin-top: 1px; }
-    .before .p-step { color: var(--text-3); }
-    .after  .p-step { color: var(--text); }
-
-
-    /* ─────────────────────────────────────────────
-       HOW IT WORKS
-    ───────────────────────────────────────────── */
-
-    .how { background: var(--bg-2); }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-
-    .step {
-      background: var(--bg-2);
-      padding: 2.25rem 1.75rem;
-      transition: background 0.2s ease;
-    }
-
-    .step:hover { background: var(--bg-3); }
-
-    .step-num {
-      font-family: var(--ff-display);
-      font-size: 0.66rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--brand);
-      margin-bottom: 1rem;
-    }
-
-    .step-icon { font-size: 1.7rem; margin-bottom: 1rem; }
-
-    .step h3 {
-      font-family: var(--ff-display);
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .step p { font-size: 0.85rem; color: var(--text-2); line-height: 1.6; }
-
-    .step-pill {
-      display: inline-flex;
-      align-items: center;
-      margin-top: 0.9rem;
-      padding: 0.18rem 0.55rem;
-      background: var(--brand-glow);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 0.66rem;
-      font-weight: 700;
-      color: var(--brand-light);
-      font-family: var(--ff-display);
-      letter-spacing: 0.05em;
-    }
-
-
-    /* ─────────────────────────────────────────────
-       CAPABILITIES
-    ───────────────────────────────────────────── */
-
-    .caps { background: var(--bg); }
-
-    .caps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .cap-card {
-      background: var(--surface-solid);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      transition: all 0.35s var(--ease-out);
-    }
-
-    .cap-card:hover {
-      border-color: var(--border-bright);
-      background: var(--bg-3);
-      transform: translateY(-2px);
-    }
-
-    .cap-card.feat {
-      background: linear-gradient(140deg, rgba(46,144,106,0.11), rgba(46,144,106,0.03));
-      border-color: rgba(46, 144, 106, 0.32);
-    }
-
-    .cap-icon {
-      width: 46px;
-      height: 46px;
-      background: var(--brand-glow);
-      border: 1px solid var(--border-bright);
-      border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .cap-card h3 {
-      font-family: var(--ff-display);
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .cap-card p { font-size: 0.875rem; color: var(--text-2); line-height: 1.6; }
-
-
-    /* ─────────────────────────────────────────────
-       VERSUS
-    ───────────────────────────────────────────── */
-
-    .versus { background: var(--bg-2); }
-
-    .versus-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .versus-card {
-      background: var(--surface-solid);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-    }
-
-    .versus-card h3 {
-      font-family: var(--ff-display);
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-3);
-      margin-bottom: 1.4rem;
-    }
-
-    .vrow {
-      display: flex;
-      gap: 0.5rem;
-      align-items: flex-start;
-      margin-bottom: 0.8rem;
-      font-size: 0.85rem;
-      color: var(--text-2);
-      line-height: 1.5;
-    }
-
-    .vtag {
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 17px;
-      height: 17px;
-      border-radius: 4px;
-      font-size: 0.6rem;
-      font-weight: 700;
-      margin-top: 1px;
-    }
-
-    .vtag-them { background: rgba(255,255,255,0.05); color: var(--text-4); }
-    .vtag-us   { background: rgba(46,144,106,0.18);  color: var(--brand-light); }
-
-    .vrow.us { color: var(--brand-light); margin-top: 1.25rem; }
-
-
-    /* ─────────────────────────────────────────────
-       MARKET SIGNALS
-    ───────────────────────────────────────────── */
-
-    .signals { background: var(--bg); text-align: center; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-top: 3rem;
-    }
-
-    .stat {
-      background: var(--bg);
-      padding: 2.5rem 1.25rem;
-      text-align: center;
-      transition: background 0.2s ease;
-    }
-
-    .stat:hover { background: var(--bg-3); }
-
-    .stat-num {
-      font-family: var(--ff-display);
-      font-size: clamp(2rem, 3.5vw, 2.75rem);
-      font-weight: 800;
-      color: var(--brand-light);
-      letter-spacing: -0.035em;
-      line-height: 1;
-      margin-bottom: 0.6rem;
-    }
-
-    .stat-desc { font-size: 0.8rem; color: var(--text-3); line-height: 1.5; }
-
-
-    /* ─────────────────────────────────────────────
-       CTA
-    ───────────────────────────────────────────── */
-
-    .cta-section {
-      background: var(--bg-2);
-      text-align: center;
-      padding: 8rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .cta-glow {
-      position: absolute;
-      width: 700px;
-      height: 500px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      background: radial-gradient(ellipse, rgba(46,144,106,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .cta-inner {
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta-section h2 { max-width: 560px; margin: 0 auto 1.25rem; }
-    .cta-section .subheading { margin: 0 auto 2.75rem; }
-
-    .cta-actions {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-
-    /* ─────────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────────── */
-
-    footer {
-      background: var(--bg);
-      border-top: 1px solid var(--border);
-      padding: 2.5rem 0;
-    }
-
-    .footer-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-
-    .footer-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-
-    .footer-logo img { width: 22px; height: 22px; }
-
-    .footer-logo-text {
-      font-family: var(--ff-display);
-      font-weight: 800;
-      font-size: 0.95rem;
-      color: var(--text);
-    }
-
-    .footer-copy { font-size: 0.78rem; color: var(--text-4); }
-
-    .footer-right { display: flex; gap: 1.75rem; flex-wrap: wrap; }
-
-    .footer-link {
-      font-size: 0.82rem;
-      color: var(--text-3);
-      text-decoration: none;
-      transition: color 0.18s;
-    }
-
-    .footer-link:hover { color: var(--text); }
-
-
-    /* ─────────────────────────────────────────────
-       SCROLL REVEAL
-    ───────────────────────────────────────────── */
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition:
-        opacity 0.65s var(--ease-out),
-        transform 0.65s var(--ease-out);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-
-    .d1 { transition-delay: 0.08s; }
-    .d2 { transition-delay: 0.18s; }
-    .d3 { transition-delay: 0.28s; }
-    .d4 { transition-delay: 0.38s; }
-    .d5 { transition-delay: 0.48s; }
-
-
-    /* ─────────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────────── */
-
-    @media (max-width: 900px) {
-      .problem-grid   { grid-template-columns: 1fr; }
-      .steps          { grid-template-columns: 1fr 1fr; }
-      .caps-grid      { grid-template-columns: 1fr 1fr; }
-      .versus-grid    { grid-template-columns: 1fr; }
-      .stats-grid     { grid-template-columns: 1fr 1fr; }
-      .paradigm-split { grid-template-columns: 1fr; }
-    }
-
-    /* ─────────────────────────────────────────────
-       PRICING
-    ───────────────────────────────────────────── */
-
-    .pricing { background: var(--bg); }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      align-items: start;
-    }
-
-    .pricing-card {
-      background: var(--surface-solid);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      position: relative;
-      transition: all 0.35s var(--ease-out);
-    }
-
-    .pricing-card:hover {
-      border-color: var(--border-bright);
-      transform: translateY(-3px);
-    }
-
-    .pricing-card.featured {
-      background: linear-gradient(160deg, rgba(46,144,106,0.13), rgba(46,144,106,0.04));
-      border-color: rgba(46, 144, 106, 0.4);
-      box-shadow: 0 0 40px rgba(46, 144, 106, 0.1);
-    }
-
-    .pricing-card.coming-soon {
-      opacity: 0.75;
-    }
-
-    .plan-badge {
-      display: inline-flex;
-      padding: 0.2rem 0.65rem;
-      background: var(--brand);
-      color: #fff;
-      font-family: var(--ff-display);
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      border-radius: 4px;
-      margin-bottom: 1.25rem;
-    }
-
-    .plan-badge.soon {
-      background: var(--surface-solid);
-      border: 1px solid var(--border-bright);
-      color: var(--brand-light);
-    }
-
-    .plan-header { margin-bottom: 1.5rem; }
-
-    .plan-name {
-      font-family: var(--ff-display);
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text);
-      margin-bottom: 0.5rem;
-    }
-
-    .plan-price {
-      display: flex;
-      align-items: baseline;
-      gap: 0.25rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .price-amount {
-      font-family: var(--ff-display);
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      color: var(--brand-light);
-      line-height: 1;
-    }
-
-    .price-period {
-      font-size: 0.85rem;
-      color: var(--text-3);
-    }
-
-    .plan-desc {
-      font-size: 0.875rem;
-      color: var(--text-2);
-      line-height: 1.6;
-    }
-
-    .plan-features {
-      list-style: none;
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .plan-features li {
-      display: flex;
-      align-items: baseline;
-      gap: 0.6rem;
-      font-size: 0.875rem;
-      color: var(--text-2);
-    }
-
-    .feat-check {
-      font-size: 0.75rem;
-      color: var(--brand-light);
-      flex-shrink: 0;
-      font-weight: 700;
-    }
-
-    .feat-check.feat-brand { color: var(--brand-light); }
-
-    .feat-dim {
-      font-size: 0.75rem;
-      color: var(--text-4);
-      flex-shrink: 0;
-    }
-
-    @media (max-width: 900px) {
-      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
-    }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-    }
-
-    @media (max-width: 600px) {
-      .caps-grid    { grid-template-columns: 1fr; }
-      .steps        { grid-template-columns: 1fr; }
-      .hero-ctas    { flex-direction: column; align-items: stretch; }
-      .footer-inner { flex-direction: column; align-items: flex-start; }
-    }
-  </style>
+  <link rel="stylesheet" href="/styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Octopad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Octopad is a task and knowledge management system built for AI. Where tools like Notion and Asana were designed for humans to write into and AI got bolted on later, Octopad was designed from day one for your AI to read, update, and run the work from. Think of it as the back-office your AI has been missing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why should I use Octopad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Because today you talk to your AI, but the actual work still lands in Notion, Linear, Slack, or a scratchpad somewhere. Octopad lets your AI do the meaningful work with you right inside the chat: planning, tracking, capturing decisions. You still get a clean UI where you can create, edit, and organize tasks, pages, and goals by hand whenever you want. We recommend driving Octopad through your AI rather than the UI, because your AI adds richer context and rationale as it goes, which makes every task easier to run later."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which AI tools work with Octopad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Octopad works with any AI that supports the open MCP standard. That already includes Claude (Desktop, Code, claude.ai), ChatGPT, Cursor, and the Gemini CLI, and any new AI tool that adds MCP support plugs in the same way. A few specifics by host: in ChatGPT, Octopad requires developer mode because we are not yet listed as an official OpenAI partner app, and that turns off ChatGPT's default session memory unless you flip the toggle that lets it use existing memory while working with Octopad. In Claude, we are working toward inclusion in the official MCP directory so users can find us among verified connectors; today you connect us with a URL. Gemini's web app does not speak MCP yet, so only the Gemini CLI is supported. If you switch or add a new AI later, your workspace stays with you."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I use Octopad with other tools like Slack or Notion?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Because Octopad connects through MCP, it chains with every other MCP your AI has connected. You can ask your AI to scan a Slack channel for action items and file them as Octopad tasks, or create a task in Octopad and have the AI message the assignee to explain why they got it. Any tool that speaks MCP becomes part of the same workflow."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Octopad store information?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Two formats, both chosen because AI reads them natively. Long-form content like specs, research, and meeting notes lives in markdown pages, the same format every AI model understands best. Atomic pieces of information, decisions, open questions, risks, and key facts, live in a separate typed system where each item is tagged, searchable, and linkable across tasks and pages. Together they give your AI a clean, structured picture of your company, not a pile of documents it has to guess its way through."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are Octobots?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Octobots are internal agents that run in the background to keep your workspace fresh. They summarize each work stream's activity, condense past sessions into short handoffs, and keep a living picture of progress per goal. When your next AI conversation starts, it reads a clean, up-to-date summary instead of a pile of raw logs."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it free to try?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The Free plan lets you set up a workspace and use Octopad with your AI at no cost, no credit card required. Pro is $9 per seat per month, or $7 per seat per month billed annually, for teams that need shared workspaces and more capacity."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Octopad different from Claude Projects or ChatGPT Projects?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Projects are read-only folders locked to one AI host. Your AI can read the files you upload, but it cannot write back, and nothing inside carries over when you switch to another AI. Octopad is the opposite: one shared brain every AI your team uses can both read and update, so what one assistant learns stays available to the next."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Octopad different from Notion, Asana, or Linear?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Notion, Asana, and Linear were built for humans first, with AI bolted on top. Octopad is built for AI first: strategy, tasks, and knowledge live in a structured, typed format any AI you use can actually reason over and write back into. The workspace compounds as your AI works, instead of a filing cabinet your team has to keep in sync by hand."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can my whole team use it?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Invite teammates, and each person connects their own AI to the same shared workspace. When one person captures a decision or ships a task, everyone else's AI picks it up on the next conversation, so the team stays on the same page without a sync meeting."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What about my data and privacy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your data stays yours. Workspace content is never used to train AI models, and it is encrypted in transit and at rest. Access is scoped to your workspace and the roles you assign, so only the people and AIs you authorize can read or update it. You can ask us to delete your account at any time."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
-<!-- ─── NAVIGATION ─── -->
+<!-- ─── NAV ─── -->
 <nav id="nav">
   <div class="container">
     <div class="nav-inner">
-      <a href="#" class="nav-logo">
-        <img src="logo.png" alt="Octopad logo">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Octopad logo">
         <span class="nav-logo-text">Octopad</span>
       </a>
       <div class="nav-links">
-        <a href="#problem" class="nav-link">Problem</a>
-        <a href="#how" class="nav-link">How it works</a>
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#pricing" class="nav-link">Pricing</a>
+        <a href="/pricing" class="nav-link">Pricing</a>
+        <a href="/getting-started" class="nav-link">Quick Start</a>
+        <a href="/about" class="nav-link">About</a>
+        <a href="/blog" class="nav-link">Blog</a>
       </div>
       <div class="nav-actions">
-        <a href="https://octopad.app" class="btn btn-primary">Open app <span class="arrow">→</span></a>
+        <a href="https://octopad.app" class="nav-link">Log in</a>
+        <a href="https://octopad.app" class="btn btn-primary">Start free <span class="arrow">→</span></a>
       </div>
     </div>
   </div>
 </nav>
 
 
-<!-- ─── HERO ─── -->
+<!-- ─── SECTION 1 · HERO ─── -->
 <section class="hero">
   <div class="hero-glow"></div>
   <div class="hero-grid"></div>
 
   <div class="container">
     <div class="hero-content">
-      <div class="label"><span class="dot"></span>Now in beta</div>
-
       <h1 class="display">
-        Your AI finally<br><em>knows your project</em>
+        Your AI's<br><em>back-office.</em>
       </h1>
 
-      <p class="subheading">
-        Octopad is the shared workspace where your team and their AI work from the same memory.
-        Every session picks up exactly where the last one left off — for everyone.
+      <p class="subheading" style="font-size: clamp(1.1rem, 1.5vw, 1.3rem); max-width: 56ch;">
+        Make plans, run tasks, and capture what matters, all in your AI, all on one shared brain.
       </p>
 
       <div class="hero-ctas">
         <a href="https://octopad.app" class="btn btn-primary btn-lg">
-          Open Octopad <span class="arrow">→</span>
+          Start free <span class="arrow">→</span>
         </a>
-        <a href="#how" class="btn btn-ghost btn-lg">How it works</a>
+        <a href="/getting-started" class="btn btn-ghost btn-lg">See how it works</a>
       </div>
 
-      <!-- Simulated product UI -->
-      <div class="hero-visual">
-        <div class="hero-ui">
-          <div class="ui-bar">
-            <div class="ui-dot" style="background:#ff5f56"></div>
-            <div class="ui-dot" style="background:#ffbd2e"></div>
-            <div class="ui-dot" style="background:#27c93f"></div>
-            <span class="ui-bar-label">Claude — Octopad workspace</span>
-          </div>
-          <div class="ui-body">
-            <div class="chat-line">
-              <div class="chat-avatar av-human">D</div>
-              <div class="chat-bubble bub-human">
-                What's the status on the API redesign? We haven't talked in a week.
-              </div>
-            </div>
-            <div class="chat-line">
-              <div class="chat-avatar av-ai">AI</div>
-              <div class="chat-bubble bub-ai">
-                The API redesign is <span class="hl">in progress</span>. Last session (3 days ago), you completed the
-                authentication endpoints. <span class="hl">3 tasks remain:</span> rate limiting, pagination,
-                and the SDK update. Sarah flagged a blocker on rate limiting — she needs your input on the Redis config.
-              </div>
-            </div>
-            <div class="chat-line">
-              <div class="chat-avatar av-human">D</div>
-              <div class="chat-bubble bub-human">
-                Delegate the SDK update to an agent and create a task for the Redis discussion with Sarah.
-              </div>
-            </div>
-            <div class="chat-line">
-              <div class="chat-avatar av-ai">AI</div>
-              <div class="chat-bubble bub-ai">
-                Done. <span class="hl">SDK Update</span> queued to Octobot — I'll log progress automatically.
-                <span class="hl">Redis config discussion</span> task created and assigned to you, due Friday.
-                Sarah notified via Slack.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <p class="hero-trust">Free plan, no card. Pro from $9 per seat when you're ready.</p>
     </div>
   </div>
 </section>
 
 
-<!-- ─── TRUST STRIP ─── -->
+<!-- ─── SECTION 2 · SOCIAL PROOF STRIP ─── -->
 <div class="trust-strip">
   <div class="container">
     <div class="trust-strip-inner">
-      <span class="trust-label-sm">Works with any AI that supports MCP</span>
+      <p class="trust-label-sm">Works with Claude, ChatGPT, Cursor, and any MCP-compatible AI.</p>
       <div class="trust-items">
         <span class="trust-item">Claude</span>
         <span class="trust-sep">·</span>
         <span class="trust-item">ChatGPT</span>
         <span class="trust-sep">·</span>
-        <span class="trust-item">Gemini</span>
-        <span class="trust-sep">·</span>
         <span class="trust-item">Cursor</span>
-        <span class="trust-sep">·</span>
-        <span class="trust-item">Any MCP client</span>
-        <span class="mcp-pill">MCP</span>
+        <span class="mcp-pill">+ any MCP-compatible AI</span>
       </div>
     </div>
   </div>
 </div>
 
 
-<!-- ─── PROBLEM ─── -->
-<section class="problem" id="problem">
+<!-- ─── SECTION 3 · PILLAR 1 · CONTEXT ─── -->
+<section class="pillars" id="pillars">
   <div class="container">
-    <div class="section-header reveal">
-      <div class="label">The problem</div>
-      <h2 class="heading-lg">Three gaps that break AI collaboration</h2>
-      <p class="subheading">
-        Your team adopted AI. But the gap between what it promises and what it delivers
-        for team work is real — and structural.
-      </p>
-    </div>
+    <div class="pillar-stack">
 
-    <div class="problem-grid">
-      <div class="problem-card reveal d1">
-        <div class="problem-num">01 · AI Amnesia</div>
-        <div class="problem-icon">🧠</div>
-        <h3>Every session starts from scratch</h3>
-        <p>
-          An employee spends an hour explaining project context to Claude, gets great output,
-          comes back the next day — and the AI has forgotten everything.
-          Multiply this by every team member, every single day.
-        </p>
-        <div class="evidence">
-          "Agent memory loss is the #1 pain point in agentic workflows." — Oracle, multiple industry surveys
+      <div class="pillar-card reveal">
+        <h3>The right context for every task.</h3>
+        <p class="pillar-sub">Your AI pulls the information it needs, without any prompt.</p>
+        <div class="pillar-block">
+          Every job needs its specific context. Your AI reaches into your shared brain,
+          pulls what matters, and builds the right mix before you even ask.
         </div>
       </div>
 
-      <div class="problem-card reveal d2">
-        <div class="problem-num">02 · PM Tools Don't Speak AI</div>
-        <div class="problem-icon">🔌</div>
-        <h3>The AI is a second-class citizen</h3>
-        <p>
-          Asana, Linear, and Notion were built for humans clicking buttons. When an AI needs
-          to create a task, log a decision, or check dependencies, it does it clumsily
-          through generic integrations — or not at all.
-        </p>
-        <div class="evidence">
-          Today's PM tools have added AI features, but the architecture is "AI assists human."
-          The AI reads and summarizes. It does not participate as a team member.
+      <!-- ─── SECTION 4 · PILLAR 2 · PLANS ─── -->
+      <div class="pillar-card reveal">
+        <h3>Detailed plans ready for execution.</h3>
+        <p class="pillar-sub">Your AI generates detail-rich tasks and maintains execution coherence from start to finish.</p>
+        <div class="pillar-block">
+          A plan is only as strong as its execution. Your AI writes every task the same way,
+          ties it to your strategy, and keeps the work moving across every session, on its own.
         </div>
       </div>
 
-      <div class="problem-card reveal d3">
-        <div class="problem-num">03 · Agents are for Developers</div>
-        <div class="problem-icon">🔒</div>
-        <h3>95% of teams can't access agentic AI</h3>
-        <p>
-          Launching an AI agent requires choosing a framework, writing code, and debugging.
-          This is accessible to 5% of knowledge workers at best.
-          The other 95% hear about "AI agents" but have no practical way to use them.
-        </p>
-        <div class="evidence">
-          "Research our top 5 competitors and create tasks for each gap" shouldn't require a sprint.
-          It should require one sentence.
+      <!-- ─── SECTION 5 · PILLAR 3 · MEMORY ─── -->
+      <div class="pillar-card reveal">
+        <h3>Information captured as you go.</h3>
+        <p class="pillar-sub">Your AI keeps your team's knowledge current as new information surfaces.</p>
+        <div class="pillar-block">
+          Every conversation leaves something worth keeping. Every teammate's AI writes it down,
+          connects it to what's already there, and updates it as things change, all on one shared brain.
         </div>
       </div>
+
     </div>
   </div>
 </section>
 
 
-<!-- ─── PARADIGM SHIFT ─── -->
-<section class="paradigm">
+<!-- ─── SECTION 6 · QUICK START TEASER ─── -->
+<section class="quickstart-teaser" id="quickstart">
   <div class="container">
     <div class="section-header reveal">
-      <div class="label">The solution</div>
-      <h2 class="heading-lg">The operating system between<br>humans and their AI</h2>
-      <p class="subheading">
-        Octopad sits between your team and their AI assistants. Connect your AI and it
-        immediately knows the project — what's been done, what's next, what decisions were made.
-      </p>
-    </div>
-
-    <div class="paradigm-split reveal">
-      <div class="paradigm-side before">
-        <div class="paradigm-label">Today</div>
-        <div class="p-step">
-          <span class="ico">😩</span>
-          <span>Open Asana. Read tasks. Switch to Claude. Explain all the context from scratch — again.</span>
-        </div>
-        <div class="p-step">
-          <span class="ico">😩</span>
-          <span>Get output. Switch back. Manually update tasks. Your AI has no memory of this session.</span>
-        </div>
-        <div class="p-step">
-          <span class="ico">😩</span>
-          <span>Your teammate's AI doesn't know about your conversation. The team is siloed by default.</span>
-        </div>
-        <div class="p-step">
-          <span class="ico">😩</span>
-          <span>Want to delegate to an agent? That requires a developer, a framework, and a week of setup.</span>
-        </div>
-      </div>
-
-      <div class="paradigm-side after">
-        <div class="p-step">
-          <span class="ico">✓</span>
-          <span>Open Claude (or any AI). It already knows the project. "What's blocking the launch?" gets a real answer.</span>
-        </div>
-        <div class="p-step">
-          <span class="ico">✓</span>
-          <span>"Update the task and notify Sarah" happens in one sentence. Octopad handles it.</span>
-        </div>
-        <div class="p-step">
-          <span class="ico">✓</span>
-          <span>Every team member's AI works from the same shared memory. No silos. No drift.</span>
-        </div>
-        <div class="p-step">
-          <span class="ico">✓</span>
-          <span>"Research competitor pricing and draft our page" — delegated to an agent, tracked automatically.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ─── HOW IT WORKS ─── -->
-<section class="how" id="how">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="label">How it works</div>
-      <h2 class="heading-lg">Set up once. Stay in sync forever.</h2>
+      <h2 class="heading-lg">Set up in minutes.</h2>
     </div>
 
     <div class="steps reveal">
       <div class="step">
         <div class="step-num">Step 01</div>
-        <div class="step-icon">🔗</div>
-        <h3>Connect</h3>
-        <p>Add the Octopad MCP server to your AI assistant. One-time setup in Claude, Cursor, or any MCP-compatible client.</p>
-        <span class="step-pill">MCP Protocol</span>
+        <p>Sign up. Free, no credit card.</p>
+        <div class="step-cta">
+          <a href="https://octopad.app" class="btn btn-primary">Start free <span class="arrow">→</span></a>
+        </div>
       </div>
       <div class="step">
         <div class="step-num">Step 02</div>
-        <div class="step-icon">💬</div>
-        <h3>Work normally</h3>
-        <p>Chat with your AI as you always do. Octopad captures tasks, decisions, and knowledge in the background — automatically.</p>
+        <p>Follow the onboarding to connect your AI and set up your workspace.</p>
       </div>
       <div class="step">
         <div class="step-num">Step 03</div>
-        <div class="step-icon">👥</div>
-        <h3>Share with your team</h3>
-        <p>Invite teammates to the workspace. Every team member's AI now works from the same shared project memory.</p>
+        <p>
+          In your AI, say <code>use octopad</code> and tell it about your company and what you
+          are building. Your AI will capture that information and load it at each session.
+        </p>
       </div>
       <div class="step">
         <div class="step-num">Step 04</div>
-        <div class="step-icon">🐙</div>
-        <h3>Delegate</h3>
-        <p>Say "research our competitors" and it happens. Octobots run in the background, tracked and logged automatically.</p>
-        <span class="step-pill">Octobots</span>
+        <p>Your AI's back-office is now ready for work.</p>
       </div>
     </div>
+
+    <a href="/getting-started" class="quickstart-link">See the full setup guide →</a>
   </div>
 </section>
 
 
-<!-- ─── CAPABILITIES ─── -->
-<section class="caps" id="features">
+<!-- ─── SECTION 7 · FAQ ─── -->
+<section class="faq" id="faq">
   <div class="container">
-    <div class="section-header reveal">
-      <div class="label">Capabilities</div>
-      <h2 class="heading-lg">Everything your project needs,<br>designed for AI from day one</h2>
-    </div>
+    <div class="faq-list reveal">
 
-    <div class="caps-grid">
-      <div class="cap-card feat reveal d1">
-        <div class="cap-icon">🧠</div>
-        <h3>Persistent Memory</h3>
+      <details class="faq-item">
+        <summary>What is Octopad?</summary>
         <p>
-          Every session builds on the last. The Smart Context Builder assembles exactly
-          what the AI needs — tasks, decisions, session history — without overwhelming it.
-          The AI feels like it already understands the project.
+          Octopad is a task and knowledge management system built for AI. Where tools like Notion
+          and Asana were designed for humans to write into and AI got bolted on later, Octopad was
+          designed from day one for your AI to read, update, and run the work from. Think of it as
+          the back-office your AI has been missing.
         </p>
-      </div>
+      </details>
 
-      <div class="cap-card reveal d2">
-        <div class="cap-icon">✅</div>
-        <h3>Structured Tasks</h3>
+      <details class="faq-item">
+        <summary>Why should I use Octopad?</summary>
         <p>
-          Tasks with status, priority, subtasks, dependencies, and file attachments.
-          Your AI creates and updates them natively — no copy-paste, no manual entry after every session.
+          Because today you talk to your AI, but the actual work still lands in Notion, Linear,
+          Slack, or a scratchpad somewhere. Octopad lets your AI do the meaningful work with you
+          right inside the chat: planning, tracking, capturing decisions. You still get a clean UI
+          where you can create, edit, and organize tasks, pages, and goals by hand whenever you
+          want. We recommend driving Octopad through your AI rather than the UI, because your AI
+          adds richer context and rationale as it goes, which makes every task easier to run later.
         </p>
-      </div>
+      </details>
 
-      <div class="cap-card reveal d3">
-        <div class="cap-icon">💡</div>
-        <h3>Team Knowledge Base</h3>
+      <details class="faq-item">
+        <summary>Which AI tools work with Octopad?</summary>
         <p>
-          Structured memory for decisions, key information, risks, and open questions.
-          When you capture a new decision, Octopad checks for duplicates and links related work automatically.
+          Octopad works with any AI that supports the open MCP standard. That already includes
+          Claude (Desktop, Code, claude.ai), ChatGPT, Cursor, and the Gemini CLI, and any new AI
+          tool that adds MCP support plugs in the same way. A few specifics by host: in ChatGPT,
+          Octopad requires developer mode because we are not yet listed as an official OpenAI
+          partner app, and that turns off ChatGPT's default session memory unless you flip the
+          toggle that lets it use existing memory while working with Octopad. In Claude, we are
+          working toward inclusion in the official MCP directory so users can find us among
+          verified connectors; today you connect us with a URL. Gemini's web app does not speak
+          MCP yet, so only the Gemini CLI is supported. If you switch or add a new AI later, your
+          workspace stays with you.
         </p>
-      </div>
+      </details>
 
-      <div class="cap-card reveal d1">
-        <div class="cap-icon">📄</div>
-        <h3>Living Pages</h3>
+      <details class="faq-item">
+        <summary>Can I use Octopad with other tools like Slack or Notion?</summary>
         <p>
-          Long-form docs for specs, research, and meeting notes. AI reads, writes, and updates them.
-          Nothing is a frozen file nobody maintains — knowledge evolves naturally as work happens.
+          Yes. Because Octopad connects through MCP, it chains with every other MCP your AI has
+          connected. You can ask your AI to scan a Slack channel for action items and file them as
+          Octopad tasks, or create a task in Octopad and have the AI message the assignee to
+          explain why they got it. Any tool that speaks MCP becomes part of the same workflow.
         </p>
-      </div>
+      </details>
 
-      <div class="cap-card feat reveal d2">
-        <div class="cap-icon">🐙</div>
-        <h3>Octobots</h3>
+      <details class="faq-item">
+        <summary>How does Octopad store information?</summary>
         <p>
-          Background AI agents for research, analysis, and content generation.
-          Delegate from a single sentence. No code, no framework, no YAML.
-          One conversation triggers the whole thing.
+          Two formats, both chosen because AI reads them natively. Long-form content like specs,
+          research, and meeting notes lives in markdown pages, the same format every AI model
+          understands best. Atomic pieces of information, decisions, open questions, risks, and
+          key facts, live in a separate typed system where each item is tagged, searchable, and
+          linkable across tasks and pages. Together they give your AI a clean, structured picture
+          of your company, not a pile of documents it has to guess its way through.
         </p>
-      </div>
+      </details>
 
-      <div class="cap-card reveal d3">
-        <div class="cap-icon">🛡️</div>
-        <h3>Governance</h3>
+      <details class="faq-item">
+        <summary>What are Octobots?</summary>
         <p>
-          Controls how much autonomy AI has in your workspace. As agents become more capable,
-          governance ensures humans stay in control — the AI proposes, you approve.
+          Octobots are internal agents that run in the background to keep your workspace fresh.
+          They summarize each work stream's activity, condense past sessions into short handoffs,
+          and keep a living picture of progress per goal. When your next AI conversation starts,
+          it reads a clean, up-to-date summary instead of a pile of raw logs.
         </p>
-      </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Is it free to try?</summary>
+        <p>
+          Yes. The Free plan lets you set up a workspace and use Octopad with your AI at no cost,
+          no credit card required. Pro is $9 per seat per month, or $7 per seat per month billed
+          annually, for teams that need shared workspaces and more capacity.
+        </p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How is Octopad different from Claude Projects or ChatGPT Projects?</summary>
+        <p>
+          Projects are read-only folders locked to one AI host. Your AI can read the files you
+          upload, but it cannot write back, and nothing inside carries over when you switch to
+          another AI. Octopad is the opposite: one shared brain every AI your team uses can both
+          read and update, so what one assistant learns stays available to the next.
+        </p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How is Octopad different from Notion, Asana, or Linear?</summary>
+        <p>
+          Notion, Asana, and Linear were built for humans first, with AI bolted on top. Octopad is
+          built for AI first: strategy, tasks, and knowledge live in a structured, typed format any
+          AI you use can actually reason over and write back into. The workspace compounds as your
+          AI works, instead of a filing cabinet your team has to keep in sync by hand.
+        </p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can my whole team use it?</summary>
+        <p>
+          Yes. Invite teammates, and each person connects their own AI to the same shared
+          workspace. When one person captures a decision or ships a task, everyone else's AI
+          picks it up on the next conversation, so the team stays on the same page without a
+          sync meeting.
+        </p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What about my data and privacy?</summary>
+        <p>
+          Your data stays yours. Workspace content is never used to train AI models, and it is
+          encrypted in transit and at rest. Access is scoped to your workspace and the roles you
+          assign, so only the people and AIs you authorize can read or update it. You can ask us
+          to delete your account at any time.
+        </p>
+      </details>
+
     </div>
   </div>
 </section>
 
 
-<!-- ─── VERSUS ─── -->
-<section class="versus">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="label">Differentiation</div>
-      <h2 class="heading-lg">Built different by design</h2>
-      <p class="subheading">
-        Every alternative either treats AI as an add-on or misses the team-scale picture entirely.
-        Octopad is AI-native from the ground up.
-      </p>
-    </div>
-
-    <div class="versus-grid">
-      <div class="versus-card reveal d1">
-        <h3>vs. Asana · Linear · Monday</h3>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>AI is an add-on: it reads tasks and writes summaries, but doesn't live in the tool</span>
-        </div>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>No shared context across team members' different AI assistants</span>
-        </div>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>No delegation to background agents from natural conversation</span>
-        </div>
-        <div class="vrow us">
-          <span class="vtag vtag-us">✓</span>
-          <span>In Octopad, the AI is a native team member with a session, context, and the ability to create tasks</span>
-        </div>
-      </div>
-
-      <div class="versus-card reveal d2">
-        <h3>vs. Notion · Confluence</h3>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>AI features are read-only toward external systems — the AI reads, not writes</span>
-        </div>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>Documents are static — nobody updates them after the first week</span>
-        </div>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>Locked to the Notion ecosystem; not model-agnostic</span>
-        </div>
-        <div class="vrow us">
-          <span class="vtag vtag-us">✓</span>
-          <span>Octopad makes your docs work — AI reads, writes, and updates them continuously as the project evolves</span>
-        </div>
-      </div>
-
-      <div class="versus-card reveal d3">
-        <h3>vs. ChatGPT · Claude Projects</h3>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>Per-user silos — your AI doesn't know what your teammate's AI worked on yesterday</span>
-        </div>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>No structured task management, dependencies, or work streams</span>
-        </div>
-        <div class="vrow">
-          <span class="vtag vtag-them">✗</span>
-          <span>No delegation pipeline, no governance, no background agents</span>
-        </div>
-        <div class="vrow us">
-          <span class="vtag vtag-us">✓</span>
-          <span>Octopad is the team-scale version of what Projects hints at — with structured work, delegation, and shared memory</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ─── MARKET SIGNALS ─── -->
-<section class="signals">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="label">Market signals</div>
-      <h2 class="heading-lg">The shift is already happening</h2>
-      <p class="subheading">
-        The infrastructure for AI-native teams is being built right now.
-        Octopad is built for the world already forming.
-      </p>
-    </div>
-
-    <div class="stats-grid reveal">
-      <div class="stat">
-        <div class="stat-num">8M+</div>
-        <div class="stat-desc">MCP server downloads — the universal AI standard adopted by Anthropic, OpenAI, Google &amp; Microsoft</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">85%</div>
-        <div class="stat-desc">of enterprises expected to deploy AI agents by end of 2025 (Gartner)</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">#1</div>
-        <div class="stat-desc">Agent memory loss ranked the top pain point in agentic workflows, across multiple surveys</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">$30B</div>
-        <div class="stat-desc">Agent orchestration market projected for 2030 — and arriving years ahead of schedule</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ─── PRICING ─── -->
-<section class="pricing" id="pricing">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="label">Pricing</div>
-      <h2 class="heading-lg">Simple, honest pricing</h2>
-      <p class="subheading">Start free. Upgrade when your team grows.</p>
-    </div>
-
-    <div class="pricing-grid reveal">
-
-      <!-- Reef (Free) -->
-      <div class="pricing-card">
-        <div class="plan-header">
-          <div class="plan-name">Squid</div>
-          <div class="plan-price">
-            <span class="price-amount">$0</span>
-            <span class="price-period">/ month</span>
-          </div>
-          <p class="plan-desc">Everything you need to get started with AI-native project work.</p>
-        </div>
-        <a href="https://octopad.app" class="btn btn-ghost" style="width:100%; justify-content:center;">
-          Get started free
-        </a>
-        <ul class="plan-features">
-          <li><span class="feat-check">✓</span> 1 workspace</li>
-          <li><span class="feat-check">✓</span> Up to 3 members</li>
-          <li><span class="feat-check">✓</span> Up to 50 tasks</li>
-          <li><span class="feat-check">✓</span> Up to 10 pages</li>
-          <li><span class="feat-check">✓</span> Knowledge base</li>
-          <li><span class="feat-check">✓</span> MCP integration</li>
-          <li><span class="feat-check">✓</span> Session memory</li>
-          <li><span class="feat-dim">—</span> Octobot jobs</li>
-        </ul>
-      </div>
-
-      <!-- Ink ($9) -->
-      <div class="pricing-card featured">
-        <div class="plan-badge">Most popular</div>
-        <div class="plan-header">
-          <div class="plan-name">Nautilus</div>
-          <div class="plan-price">
-            <span class="price-amount">$9</span>
-            <span class="price-period">/ month</span>
-          </div>
-          <p class="plan-desc">No limits on your workspace. Full power for your whole team.</p>
-        </div>
-        <a href="https://octopad.app" class="btn btn-primary" style="width:100%; justify-content:center;">
-          Start with Nautilus <span class="arrow">→</span>
-        </a>
-        <ul class="plan-features">
-          <li><span class="feat-check">✓</span> Unlimited workspaces</li>
-          <li><span class="feat-check">✓</span> Unlimited members</li>
-          <li><span class="feat-check">✓</span> Unlimited tasks</li>
-          <li><span class="feat-check">✓</span> Unlimited pages</li>
-          <li><span class="feat-check">✓</span> Knowledge base</li>
-          <li><span class="feat-check">✓</span> MCP integration</li>
-          <li><span class="feat-check">✓</span> Session memory</li>
-          <li><span class="feat-dim">—</span> Octobot jobs</li>
-        </ul>
-      </div>
-
-      <!-- Kraken (Coming soon) -->
-      <div class="pricing-card coming-soon">
-        <div class="plan-badge soon">Coming soon</div>
-        <div class="plan-header">
-          <div class="plan-name">Kraken</div>
-          <div class="plan-price">
-            <span class="price-amount" style="color: var(--text-3);">TBD</span>
-          </div>
-          <p class="plan-desc">Everything in Ink, plus AI agents that work for you around the clock.</p>
-        </div>
-        <button class="btn btn-ghost" style="width:100%; justify-content:center; opacity:0.5; cursor:not-allowed;">
-          Coming soon
-        </button>
-        <ul class="plan-features">
-          <li><span class="feat-check">✓</span> Everything in Ink</li>
-          <li><span class="feat-check feat-brand">✓</span> <strong>Octobot jobs</strong></li>
-          <li style="padding-left: 1.5rem; font-size: 0.8rem; color: var(--text-3);">Research & analysis tasks</li>
-          <li style="padding-left: 1.5rem; font-size: 0.8rem; color: var(--text-3);">Content generation</li>
-          <li style="padding-left: 1.5rem; font-size: 0.8rem; color: var(--text-3);">Background execution</li>
-          <li style="padding-left: 1.5rem; font-size: 0.8rem; color: var(--text-3);">Automatic progress tracking</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ─── CTA ─── -->
+<!-- ─── SECTION 8 · FINAL CTA ─── -->
 <section class="cta-section">
   <div class="cta-glow"></div>
   <div class="container">
     <div class="cta-inner reveal">
-      <div class="label" style="margin: 0 auto 1.5rem;">
-        <span class="dot"></span>Join the beta
-      </div>
-      <h2 class="heading-lg">Give your team's AI a memory</h2>
+      <h2 class="heading-lg">Give your AI the back-office it's been missing.</h2>
       <p class="subheading">
-        Connect your AI assistant to Octopad today. Your next session will pick up exactly
-        where the last one left off — for everyone on the team.
+        Free to start. One month of Pro included. Works with any MCP-compatible model.
+        Pro from $9 per seat when you're ready for more.
       </p>
       <div class="cta-actions">
         <a href="https://octopad.app" class="btn btn-primary btn-lg">
-          Open Octopad <span class="arrow">→</span>
+          Start free <span class="arrow">→</span>
         </a>
-        <a href="https://octopad.app" class="btn btn-ghost btn-lg">Learn more</a>
+        <a href="/pricing" class="btn btn-ghost btn-lg">See pricing</a>
       </div>
     </div>
   </div>
@@ -1687,20 +411,53 @@
 <!-- ─── FOOTER ─── -->
 <footer>
   <div class="container">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <a href="https://octopad.ai" class="footer-logo">
-          <img src="logo.png" alt="Octopad">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="/logo.png" alt="Octopad">
           <span class="footer-logo-text">Octopad</span>
         </a>
-        <span class="footer-copy">© 2026 Octopad. All rights reserved.</span>
+        <p class="footer-tagline">Your AI's back-office. One shared brain every AI your team uses can read and update.</p>
       </div>
-      <div class="footer-right">
-        <a href="https://octopad.app" class="footer-link">App</a>
-        <a href="#how" class="footer-link">How it works</a>
-        <a href="/privacy" class="footer-link">Privacy</a>
-        <a href="/terms" class="footer-link">Terms</a>
-        <a href="mailto:support@octopad.ai" class="footer-link">Contact</a>
+
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#pillars">Features</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+          <li><a href="/getting-started">Quick Start</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="mailto:support@octopad.ai">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Works with</h4>
+        <p class="footer-note">Any MCP-compatible AI model.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Octopad</span>
+      <div class="footer-social">
+        <a href="https://x.com/octopad_ai" target="_blank" rel="noopener">@octopad_ai on X</a>
+        <span class="pending">LinkedIn coming soon</span>
+        <span class="pending">GitHub coming soon</span>
       </div>
     </div>
   </div>
@@ -1708,13 +465,11 @@
 
 
 <script>
-  // ─── Sticky nav ───
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 24);
   }, { passive: true });
 
-  // ─── Scroll reveal ───
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver(
     (entries) => {

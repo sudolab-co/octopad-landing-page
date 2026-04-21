@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Getting started with Octopad. How your AI connects to your workspace, finds the right context, and runs the work with you.">
+  <title>Getting Started | Octopad</title>
+
+  <link rel="icon" href="/logo.png" type="image/png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/logo.png" alt="Octopad logo">
+        <span class="nav-logo-text">Octopad</span>
+      </a>
+      <div class="nav-links">
+        <a href="/pricing" class="nav-link">Pricing</a>
+        <a href="/getting-started" class="nav-link active">Quick Start</a>
+        <a href="/about" class="nav-link">About</a>
+        <a href="/blog" class="nav-link">Blog</a>
+      </div>
+      <div class="nav-actions">
+        <a href="https://octopad.app" class="nav-link">Log in</a>
+        <a href="https://octopad.app" class="btn btn-primary">Start free <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ─── HERO ─── -->
+<section class="subhero">
+  <div class="subhero-glow"></div>
+  <div class="container">
+    <div class="subhero-inner reveal">
+      <h1>Getting Started with Octopad</h1>
+      <p class="subheading">
+        This guide walks you through how Octopad works, from setup to your daily rhythm.
+        No prior knowledge assumed.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── GUIDE BODY ─── -->
+<div class="guide-body">
+  <div class="container-narrow">
+
+    <div class="guide-shortcut reveal">
+      <strong>Shortcut worth knowing:</strong> once your AI is connected, you can ask it anything
+      you read here. "What is a work stream?" "How do I capture a decision?" Your AI already
+      knows. This guide is the printed backup. Your AI is the live tutor.
+    </div>
+
+    <div class="guide-toc reveal">
+      <h3>Table of contents</h3>
+      <ol>
+        <li><a href="#s1">What Octopad is in 60 seconds</a></li>
+        <li><a href="#s2">Set up</a></li>
+        <li><a href="#s3">How your AI finds the right context</a></li>
+        <li><a href="#s4">How work is organized</a></li>
+        <li><a href="#s5">The "use octopad" handshake</a></li>
+        <li><a href="#s6">Running your day</a></li>
+        <li><a href="#s7">Our little helpers in the background</a></li>
+        <li><a href="#s8">Chain with your other tools</a></li>
+        <li><a href="#s9">The right mindset, and what's next</a></li>
+      </ol>
+    </div>
+
+    <section class="guide-section reveal" id="s1">
+      <h2>1. What Octopad is in 60 seconds</h2>
+      <p>
+        Octopad is your AI's back-office: your strategy, your tasks, your plans, your decisions,
+        and your team's know-how, all in one shared brain your AI can read, write, and work from.
+      </p>
+      <p>
+        You work mostly by talking to your AI. The AI creates tasks, wires dependencies, captures
+        decisions, writes pages, ties work to strategy. The Octopad interface is a control panel
+        where you see what your AI does and steer when needed. You can click around and build
+        things by hand, but the AI is the faster path and produces richer output for the same
+        effort.
+      </p>
+      <p>
+        Why this matters. A normal AI chat has no back-office. Every new conversation starts cold.
+        Octopad gives every session a shared brain with everything your team has captured, and a
+        structured place to capture what comes next. Nothing gets re-explained. Nothing gets lost.
+      </p>
+    </section>
+
+    <section class="guide-section reveal" id="s2">
+      <h2>2. Set up</h2>
+      <p>Seven small moves. About five minutes.</p>
+
+      <h3>Sign up.</h3>
+      <p>Free, no credit card. Head to <a href="https://octopad.app"><code>octopad.app</code></a>.</p>
+
+      <h3>Follow the onboarding.</h3>
+      <p>
+        It walks you through connecting your AI and setting up your workspace. Come back here
+        when it's done.
+      </p>
+
+      <h3>Open your first chat and say "use octopad."</h3>
+      <p>
+        Start a new conversation with your AI and type it exactly: <strong>"use octopad."</strong>
+        Your AI connects to your workspace and is ready to work inside Octopad. Your workspace is
+        still mostly empty; you're about to fill it.
+      </p>
+
+      <h3>Give your AI information about your company and your product.</h3>
+      <p>
+        In that same chat, share the basics. Your AI turns what you share into pages inside
+        Octopad, typically a Product Overview and a Company Overview. These become your first
+        reference documents.
+      </p>
+
+      <h3>Turn on "add to workspace context" for those pages.</h3>
+      <p>
+        As a workspace admin, flip the toggle on your Product Overview and Company Overview.
+        Every teammate's AI will now load those summaries at the start of every session, so no
+        one on the team has to re-explain the basics. (There's a per-user version of the toggle
+        too, for pages you only want in your own context.)
+      </p>
+
+      <h3>Verify it loads.</h3>
+      <p>
+        Close that chat and open a fresh one. Say "use octopad" and ask a question about what you
+        just shared: "what does our product do?" or "who are we building for?" Your AI should
+        read it back.
+      </p>
+
+      <h3>Set your first strategy.</h3>
+      <p>
+        Ask your AI to create at least one goal and one work stream. For example: a goal like
+        "Launch our beta by June 30" and a work stream under it called "Marketing Website."
+        Goals and streams are how your AI understands where any task fits. A task on its own is
+        just a line item. A task inside a stream, under a goal, has purpose.
+      </p>
+    </section>
+
+    <section class="guide-section reveal" id="s3">
+      <h2>3. How your AI finds the right context</h2>
+      <p>
+        Your AI's context in Octopad sits in three systems, working together. Your AI handles
+        them for you. Knowing what's under the hood helps you get more out of the product.
+      </p>
+
+      <h3>Pages.</h3>
+      <p>
+        Long-form documents. This is where your core reference content lives: Product Overview,
+        Company Overview, Brand Guidelines, strategy notes, research, meeting notes, anything
+        your AI should be able to pull from later. Every page gets an auto-generated summary, so
+        your AI can skim the index before opening any page in full.
+      </p>
+
+      <h3>Key Information.</h3>
+      <p>
+        Short, atomic items. Four kinds: a fact ("we ship on Fridays"), a decision ("we chose
+        Stripe over Paddle for native payouts"), an open question ("do we need SOC 2 before
+        Q4?"), and a risk ("our top competitor just raised"). Your AI captures these
+        automatically as they come up in conversation, and pulls the relevant ones back when it
+        picks up a task later.
+      </p>
+
+      <h3>Build Context.</h3>
+      <p>
+        The engine that assembles the right material for each job. When you ask your AI to work
+        on a task, it calls build context. That pulls the task description, its dependencies, its
+        linked pages, related key information, the tracker page for its work stream (more on
+        trackers in the next section), and additional page chunks that match the task
+        semantically, even if they were never linked directly. Your AI shows up already briefed.
+      </p>
+
+      <p>
+        An example. You ask your AI to start working on the "Create the pricing page" task.
+        Build context loads the task, your Brand Guidelines page, last week's Value Propositions
+        page, the decision about positioning you captured on Monday, and a few relevant chunks
+        from other pages in your workspace. Your AI starts writing already knowing everything you
+        know.
+      </p>
+    </section>
+
+    <section class="guide-section reveal" id="s4">
+      <h2>4. How work is organized</h2>
+      <p>Four concepts, stacked from biggest to smallest.</p>
+
+      <h3>Organizations and Workspaces.</h3>
+      <p>
+        An organization is your company. Workspaces live inside it. You invite people at the org
+        level, then grant them access to specific workspaces.
+      </p>
+      <p>
+        <strong>We suggest starting with one workspace.</strong> Context isn't shared across
+        workspaces yet, so one workspace keeps everything in one brain. You can always split
+        later.
+      </p>
+      <p>
+        Roles are simple. At the org level: <strong>Owner</strong> (full control, including
+        deleting the org), <strong>Admin</strong> (invites members, creates workspaces, manages
+        settings), <strong>Member</strong> (access only to workspaces they're explicitly invited
+        to). Inside each workspace: <strong>Admin</strong> (manages members and integrations)
+        and <strong>Contributor</strong> (creates and edits everything: tasks, pages, knowledge).
+      </p>
+
+      <h3>Goals.</h3>
+      <p>
+        What you're trying to achieve and why. Quarterly or yearly. For example: "Launch our beta
+        by June 30."
+      </p>
+
+      <h3>Work Streams.</h3>
+      <p>How you get there. A stream is a project or an area of work. Two flavors:</p>
+      <ul>
+        <li><strong>Ongoing streams</strong> never close. They cover permanent areas like "Customer Support" or "Content."</li>
+        <li><strong>Time-bound streams</strong> have a target date and a finish line. They sit under a goal, for example "Marketing Website" under "Launch our beta by June 30."</li>
+      </ul>
+      <p>
+        Every stream gets an auto-generated <strong>tracker page</strong> that logs activity and
+        progress summaries on its own. You don't update it by hand.
+      </p>
+
+      <h3>Tasks.</h3>
+      <p>
+        The unit of work. Each task has a Why (the problem), a What (the scope), and a How (the
+        approach, when it's non-obvious). Your AI also adds a "Done when" line so you know when
+        it's really finished. Tasks have priority, impact, can have subtasks, and can depend on
+        other tasks with a one-line rationale so the order is never mysterious.
+      </p>
+
+      <h3>A note on task standards.</h3>
+      <p>
+        Your AI follows a template when it creates tasks, which is why they're richer than what
+        you'd type by hand in a hurry. The template isn't user-customizable yet. We're always
+        looking to make Octopad better, so if you want to change what the template includes,
+        tell us.
+      </p>
+
+      <h3>AI score.</h3>
+      <p>
+        Every task gets a score. It combines priority, impact, deadline pressure, and where the
+        task sits in the dependency chain. It surfaces what's most important to work on next, so
+        you don't have to scan the whole backlog. Read it as a useful recommendation.
+      </p>
+
+      <h3>Automatic rituals.</h3>
+      <p>
+        When a task closes, your AI writes a completion comment: what shipped, why that approach,
+        any follow-up. When a time-bound stream finishes, your AI writes a closing report. These
+        compound. A month in, your workspace is a real record of what got done and why.
+      </p>
+
+      <p>
+        A full example. You're launching the beta of your product. Goal: "Launch our beta by
+        June 30." Work stream under it: "Marketing Website." Tasks inside: "Write the homepage
+        copy," "Set up email capture," "Record the demo video," "Publish the site." Subtasks
+        break the bigger ones down. Dependencies wire the order ("Write the homepage copy"
+        before "Record the demo video," since the video echoes the copy). Your AI picks what to
+        work on next based on the score. You can always override.
+      </p>
+    </section>
+
+    <section class="guide-section reveal" id="s5">
+      <h2>5. The "use octopad" handshake</h2>
+      <p>
+        Every new chat with your AI starts cold unless you tell it otherwise. Say
+        <strong>"use octopad"</strong> at the start of any fresh conversation and your AI loads a
+        package from your workspace before doing any real work.
+      </p>
+
+      <p>What's in the package:</p>
+      <ul>
+        <li>Your core pages (the ones you toggled into workspace context).</li>
+        <li>A quick strategy briefing: your active goals and your open work streams.</li>
+        <li>A short recap of your last three sessions, so your AI knows what you were doing recently.</li>
+        <li>The Octopad playbook: how to capture decisions, how to create good tasks, when to update a tracker, how to close things out. This is what keeps your AI consistent across conversations.</li>
+      </ul>
+
+      <p>
+        When to say it. Every time you start a new chat with your AI, before you ask for any real
+        work. If you forget, your AI will still try, but the quality drops because it's flying
+        without the briefing.
+      </p>
+    </section>
+
+    <section class="guide-section reveal" id="s6">
+      <h2>6. Running your day</h2>
+
+      <h3>Your to-do list.</h3>
+      <p>
+        Your personal, ordered queue of what you're working on now. Two ways to fill it. Ask your
+        AI to generate it ("what should I work on today?") and it picks up to five tasks based on
+        priority, dependencies, and deadlines. Or pin specific tasks yourself ("add the homepage
+        copy task to my to-do list").
+      </p>
+
+      <h3>Resume one thing.</h3>
+      <p>
+        Say <strong>"resume working on my to-do list"</strong> and your AI runs you through the
+        queue in order. Say <strong>"resume working on the homepage copy"</strong> to jump
+        straight to one task. If that task has subtasks, your AI automatically picks the right
+        next one. You don't need to specify.
+      </p>
+    </section>
+
+    <section class="guide-section reveal" id="s7">
+      <h2>7. Our little helpers in the background</h2>
+      <p>
+        Octopad has a small fleet of always-on AI agents we call <strong>octobots</strong>. They
+        run in the background and keep your workspace tidy without anyone triggering them. A few
+        examples:
+      </p>
+      <ul>
+        <li><strong>Session Scribe</strong> writes a short summary of what happened every time a session ends, so the next one picks up cleanly.</li>
+        <li><strong>Page Summarizer</strong> keeps every page's summary fresh as you edit, so your AI can skim before diving in.</li>
+        <li><strong>Stream Activity Logger</strong> writes one entry per work stream every time something changes, so your tracker pages stay current.</li>
+        <li><strong>Work Stream Reconciler</strong> runs nightly and compresses the day's activity into a clean progress report on each active stream.</li>
+      </ul>
+      <p>
+        You don't interact with them. They just do their job. We're actively building more to
+        take even more routine work off your plate and make the system smarter over time.
+      </p>
+    </section>
+
+    <section class="guide-section reveal" id="s8">
+      <h2>8. Chain with your other tools</h2>
+      <p>
+        Octopad is one connector in a bigger picture. Your AI can talk to many other apps the
+        same way: Slack, Gmail, GitHub, Tiny Fish, your calendar, and more. When you connect more
+        than one, your AI can work across all of them in a single conversation.
+      </p>
+
+      <p>Three examples you can say out loud to your AI today:</p>
+      <ul>
+        <li><em>"Scan our #product channel in Slack for anything that should become a task in Octopad."</em> Your AI reads the last week of messages, picks what's actionable, creates tasks in the right stream, and links back to the original messages.</li>
+        <li><em>"Create a task for John to review the pricing page, then send him a Slack message explaining why I'm assigning it."</em> Your AI creates the task in Octopad, then sends John a short message in Slack with the context, so he knows the what and why before he even opens Octopad.</li>
+        <li><em>"Ask Tiny Fish to run a competitor analysis and log the findings to a page in Octopad."</em> Tiny Fish runs the research; your AI takes the results and writes them up as a page in the right stream, with sources attached.</li>
+      </ul>
+
+      <p>
+        Each of these is one sentence. No copy-paste between tabs, no "where did I save that."
+        Your AI becomes the connective tissue between your tools, and Octopad is where the
+        durable context lives so nothing falls through the cracks.
+      </p>
+    </section>
+
+    <section class="guide-section reveal" id="s9">
+      <h2>9. The right mindset, and what's next</h2>
+
+      <h3>AI-first.</h3>
+      <p>
+        Octopad is designed so you talk to your AI, and the interface catches what the AI does.
+        You can absolutely click around and build things by hand, but when you ask your AI to do
+        it, you get richer descriptions, better-linked pages, cleaner dependencies, and captured
+        decisions, all for the same amount of effort on your part. Treat the interface as a
+        control panel: a place to see, steer, and occasionally click.
+      </p>
+
+      <h3>Your AI is the tutor.</h3>
+      <p>
+        Anything in this guide, your AI can explain on demand. Ask: "what is a work stream?" or
+        "how does build context work?" or "how do I archive a task?" If something feels
+        confusing, the answer is one sentence away.
+      </p>
+
+      <h3>Tell us what's missing.</h3>
+      <p>
+        If something doesn't make sense, if you wish Octopad worked differently, or if your AI is
+        missing a capability, tell us. There's a feedback button in every workspace.
+      </p>
+    </section>
+
+  </div>
+</div>
+
+
+<!-- ─── CTA ─── -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="container">
+    <div class="cta-inner reveal">
+      <h2 class="heading-lg">Ready to give your AI a back-office?</h2>
+      <p class="subheading">Free to start. No credit card. Connect your AI in minutes.</p>
+      <div class="cta-actions">
+        <a href="https://octopad.app" class="btn btn-primary btn-lg">
+          Start free <span class="arrow">→</span>
+        </a>
+        <a href="/pricing" class="btn btn-ghost btn-lg">See pricing</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="/logo.png" alt="Octopad">
+          <span class="footer-logo-text">Octopad</span>
+        </a>
+        <p class="footer-tagline">Your AI's back-office. One shared brain every AI your team uses can read and update.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="/#pillars">Features</a></li>
+          <li><a href="/pricing">Pricing</a></li>
+          <li><a href="/getting-started">Quick Start</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="mailto:support@octopad.ai">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy">Privacy</a></li>
+          <li><a href="/terms">Terms</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Works with</h4>
+        <p class="footer-note">Any MCP-compatible AI model.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Octopad</span>
+      <div class="footer-social">
+        <a href="https://x.com/octopad_ai" target="_blank" rel="noopener">@octopad_ai on X</a>
+        <span class="pending">LinkedIn coming soon</span>
+        <span class="pending">GitHub coming soon</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 24);
+  }, { passive: true });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
+  );
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
