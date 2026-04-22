@@ -1,50 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Why we built Octopad: the shared back-office where humans set direction and AI handles the structured work.">
-  <title>About | Octopad</title>
-
-  <link rel="icon" href="/logo.png" type="image/png">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="/styles.css">
+<meta charset="utf-8" />
+<title>Octopad — About</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/png" href="assets/mascot.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-<header class="site-header">
-  <div class="wrap bar">
-    <a href="/" class="brand">
-      <img src="/logo.png" alt="Octopad logo">
-      <span>Octopad</span>
-    </a>
-    <nav class="nav" aria-label="Primary">
-      <a href="/">Product</a>
-      <a href="/pricing">Pricing</a>
-      <a href="/getting-started">Quick start</a>
-      <a href="/about" aria-current="page">About</a>
-      <a href="/blog">Blog</a>
-    </nav>
-    <div class="actions">
-      <a href="https://octopad.app" class="signin">Sign in</a>
-      <a href="https://octopad.app" class="btn btn-primary">Get started</a>
-    </div>
-    <button class="mobile-toggle" aria-label="Open menu">
-      <span></span><span></span>
-    </button>
-  </div>
-</header>
+<div id="site-header"></div>
 
 <main>
   <section class="wrap">
     <div class="page-head">
       <div>
         <span class="eyebrow kicker">About</span>
-        <h1>We build for<br>teams who ship.</h1>
+        <h1>We build for<br/>teams who ship.</h1>
       </div>
       <p class="lede">
         Octopad started because every team we knew was running AI on an
@@ -58,23 +32,24 @@
     <div class="wrap">
       <div class="pillar">
         <div class="pillar-copy">
-          <span class="eyebrow eyebrow-green">Our vision</span>
-          <h2 class="section-title">Humans and AI, working together.</h2>
+          <span class="eyebrow eyebrow-green">Our story</span>
+          <h2 class="section-title">From scattered to shared.</h2>
         </div>
         <div>
           <p class="copy">
-            The next decade of work is not about replacing humans with agents. It's about humans and
-            AI sharing the same workspace, the same context, and the same source of truth, so each
-            does what it does best.
+            In early 2025, four of us were working on the same product from
+            different timezones — and running three different AIs between us.
+            Each session started from scratch. Every decision got rediscovered.
           </p>
           <p class="copy" style="margin-top: 16px;">
-            The honest truth is that AI today is not strong enough to do impactful work on its own.
-            Teams betting on full autonomy keep getting burned. What actually works is symbiosis.
+            We built the first version of Octopad for ourselves: a place where
+            any AI could read the same notes, run the same plans, and hand off
+            cleanly between sessions. By the end of the month, our team shipped
+            twice as much. Friends asked for access.
           </p>
           <p class="copy" style="margin-top: 16px;">
-            You set direction and make the calls. Your AI handles the structured work: pulling context,
-            drafting plans, capturing decisions, keeping state current. Both of you contribute to the
-            same shared brain.
+            That's what we're building now — not another AI, but the connective
+            tissue between the ones you already use.
           </p>
         </div>
       </div>
@@ -94,7 +69,7 @@
         <div class="value">
           <div class="num">02</div>
           <h3>Your data stays yours.</h3>
-          <p>We never see your inference payloads. Workspaces export in one click. Your workspace content is never used to train AI models.</p>
+          <p>We never see your inference payloads. Workspaces export in one click. Self-host whenever you're ready.</p>
         </div>
         <div class="value">
           <div class="num">03</div>
@@ -107,26 +82,18 @@
 
   <section class="section">
     <div class="wrap">
-      <div class="pillar reverse">
-        <div class="pillar-copy">
-          <span class="eyebrow eyebrow-green">Where we're going</span>
-          <h2 class="section-title">What's next.</h2>
-        </div>
-        <div>
-          <p class="copy">
-            Right now, our focus is nailing the fundamentals of the AI back-office. Context that flows,
-            plans that hold across sessions, a shared brain that stays current as work happens.
-          </p>
-          <p class="copy" style="margin-top: 16px;">
-            Next, we're integrating autonomous agents into the middle of the system — noticing slipping
-            deadlines, flagging stale decisions, keeping plans current without a human pushing every button.
-          </p>
-          <p class="copy" style="margin-top: 16px;">
-            We're also experimenting with agent delegation: you brainstorm a full plan with an AI, then
-            hand the individual steps off to specialized agents. Each one picks up with the back-office
-            context already loaded, runs its part, and reports back into the same shared brain.
-          </p>
-        </div>
+      <span class="eyebrow eyebrow-green">Team</span>
+      <h2 class="section-title" style="margin-top: 14px;">Small, senior, remote.</h2>
+      <p class="copy" style="margin-top: 18px;">Eight people across four timezones. Previously Linear, Stripe, Figma, Anthropic.</p>
+      <div class="team">
+        <div class="member"><div class="avatar">MK</div><h4>Mira Karlsson</h4><p>CEO · prev. Linear</p></div>
+        <div class="member"><div class="avatar">JL</div><h4>Jon Leclerc</h4><p>Design · prev. Figma</p></div>
+        <div class="member"><div class="avatar">AS</div><h4>Anya Shah</h4><p>Engineering · prev. Stripe</p></div>
+        <div class="member"><div class="avatar">TO</div><h4>Tomás Oviedo</h4><p>Product · prev. Anthropic</p></div>
+        <div class="member"><div class="avatar">RN</div><h4>Ren Nakamura</h4><p>Infra</p></div>
+        <div class="member"><div class="avatar">EB</div><h4>Elena Borges</h4><p>Engineering</p></div>
+        <div class="member"><div class="avatar">DP</div><h4>Devon Park</h4><p>GTM</p></div>
+        <div class="member"><div class="avatar">HR</div><h4>Hana Reyes</h4><p>Engineering</p></div>
       </div>
     </div>
   </section>
@@ -135,44 +102,23 @@
     <div class="wrap">
       <div class="cta-band">
         <div>
-          <span class="eyebrow" style="color: rgba(255,255,255,0.55); margin-bottom: 18px;">Ready when you are</span>
-          <h2>Try the back-office your AI has been missing.</h2>
-          <p>Free to start. No credit card. Connect your AI in minutes.</p>
+          <span class="eyebrow" style="color: rgba(255,255,255,0.55); margin-bottom: 18px;">Hiring</span>
+          <h2>Come build with us.</h2>
+          <p>We're hiring two engineers and a designer. Small team, real responsibility, calm pace.</p>
         </div>
         <div class="ctas">
-          <a href="https://octopad.app" class="btn btn-primary btn-lg">Get started</a>
-          <a href="/getting-started" class="btn btn-ghost">Quick start</a>
+          <a href="#" class="btn btn-primary btn-lg">See open roles</a>
+          <a href="#" class="btn btn-ghost">Read our handbook</a>
         </div>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <a href="/" class="brand"><img src="/logo.png" alt="Octopad"><span>Octopad</span></a>
-        <p class="small" style="max-width: 32ch; margin-top: 14px;">The back-office for AI teams. One shared brain across Claude, ChatGPT, Cursor and the rest.</p>
-      </div>
-      <div><h4>Product</h4><ul><li><a href="/#pillars">Features</a></li><li><a href="/pricing">Pricing</a></li><li><a href="/getting-started">Quick start</a></li></ul></div>
-      <div><h4>Company</h4><ul><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="mailto:support@octopad.ai">Contact</a></li></ul></div>
-      <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy</a></li><li><a href="/terms">Terms</a></li></ul></div>
-      <div><h4>Works with</h4><p class="small" style="max-width: 20ch;">Any MCP-compatible AI model.</p></div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 Octopad</span>
-      <div class="footer-social"><a href="https://x.com/octopad_ai" target="_blank" rel="noopener">@octopad_ai on X</a></div>
-    </div>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
-<script>
-  const header = document.querySelector('.site-header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 24);
-  }, { passive: true });
-</script>
-
+<script>window.__page = 'about';</script>
+<script src="partials.js?v=1"></script>
+<script src="tweaks.js?v=1"></script>
 </body>
 </html>

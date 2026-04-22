@@ -1,97 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Octopad blog. What we're building, what we're learning, and occasionally what we're wrong about.">
-  <title>Blog | Octopad</title>
-
-  <link rel="icon" href="/logo.png" type="image/png">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="/styles.css">
+<meta charset="utf-8" />
+<title>Octopad — Blog</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/png" href="assets/mascot.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-<header class="site-header">
-  <div class="wrap bar">
-    <a href="/" class="brand">
-      <img src="/logo.png" alt="Octopad logo">
-      <span>Octopad</span>
-    </a>
-    <nav class="nav" aria-label="Primary">
-      <a href="/">Product</a>
-      <a href="/pricing">Pricing</a>
-      <a href="/getting-started">Quick start</a>
-      <a href="/about">About</a>
-      <a href="/blog" aria-current="page">Blog</a>
-    </nav>
-    <div class="actions">
-      <a href="https://octopad.app" class="signin">Sign in</a>
-      <a href="https://octopad.app" class="btn btn-primary">Get started</a>
-    </div>
-    <button class="mobile-toggle" aria-label="Open menu">
-      <span></span><span></span>
-    </button>
-  </div>
-</header>
+<div id="site-header"></div>
 
 <main>
   <section class="wrap">
     <div class="page-head">
       <div>
-        <span class="eyebrow kicker">Blog</span>
-        <h1>Notes from<br>the shared brain.</h1>
+        <span class="eyebrow kicker">Blog · Dispatches</span>
+        <h1>Notes from<br/>the shared brain.</h1>
       </div>
       <p class="lede">
         What we're building, what we're learning, and occasionally what we're
-        wrong about.
+        wrong about. Posts land every week or two.
       </p>
     </div>
   </section>
 
   <section class="wrap" style="padding-bottom: 80px;">
-    <div class="blog-stub">
-      <p class="copy">We're writing the first posts. Meanwhile, take a look at the Quick Start guide, or say hello.</p>
-      <div style="display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
-        <a href="/getting-started" class="btn btn-primary btn-lg">
-          Read the guide
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5"/></svg>
-        </a>
-        <a href="mailto:support@octopad.ai" class="btn btn-ghost">Say hello</a>
+    <div class="post-grid">
+
+      <article class="post featured">
+        <div>
+          <div class="meta">
+            <span class="cat">Product</span>
+            <span>April 18, 2026</span>
+            <span>8 min read</span>
+          </div>
+          <h3><a href="#">The back-office pattern: why AI teams keep rediscovering it</a></h3>
+          <p class="excerpt">
+            Every AI team we've talked to builds the same three things — a
+            place for context, a place for plans, a place for decisions. Here's
+            why, and what we think it means for the shape of AI tooling over
+            the next year.
+          </p>
+          <div style="margin-top: 14px;">
+            <a href="#" class="btn btn-ghost">Read the post</a>
+          </div>
+        </div>
+        <div class="thumb">
+          <img src="assets/mascot.png" alt="" />
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="meta"><span class="cat">Engineering</span><span>April 10, 2026</span></div>
+        <h3><a href="#">Why we run on Postgres and nothing else</a></h3>
+        <p class="excerpt">A boring stack is the best stack when you're chasing a moving target. How Octopad's one-process footprint keeps us fast.</p>
+      </article>
+
+      <article class="post">
+        <div class="meta"><span class="cat">Design</span><span>April 3, 2026</span></div>
+        <h3><a href="#">Designing for calm: the Octopad interface principles</a></h3>
+        <p class="excerpt">AI tools don't need more dashboards. We wrote down the seven rules we use to keep the interface out of your way.</p>
+      </article>
+
+      <article class="post">
+        <div class="meta"><span class="cat">Product</span><span>March 27, 2026</span></div>
+        <h3><a href="#">v0.4 — checkpoints, shared brain exports, and Linear sync</a></h3>
+        <p class="excerpt">The biggest release since we opened the beta. Three things you asked for, and one we wanted to sneak in.</p>
+      </article>
+
+      <article class="post">
+        <div class="meta"><span class="cat">Essays</span><span>March 19, 2026</span></div>
+        <h3><a href="#">The difference between an AI tool and an AI team</a></h3>
+        <p class="excerpt">Individual AI tools make individuals more productive. Teams need something else entirely — here's what.</p>
+      </article>
+
+      <article class="post">
+        <div class="meta"><span class="cat">Engineering</span><span>March 12, 2026</span></div>
+        <h3><a href="#">Model-agnostic without the mess</a></h3>
+        <p class="excerpt">Supporting Claude, ChatGPT, Cursor, and local models shouldn't be a feature flag swamp. How we keep routing clean.</p>
+      </article>
+
+      <article class="post">
+        <div class="meta"><span class="cat">Company</span><span>March 4, 2026</span></div>
+        <h3><a href="#">Hello, Octopad</a></h3>
+        <p class="excerpt">Why we're building this, and who it's for. A short one to mark the occasion.</p>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section" style="padding-bottom: 80px;">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <span class="eyebrow" style="color: rgba(255,255,255,0.55); margin-bottom: 18px;">Subscribe</span>
+          <h2>One post, once a week.</h2>
+          <p>No newsletter bloat. Just what we're building and thinking about.</p>
+        </div>
+        <div class="ctas">
+          <form onsubmit="event.preventDefault()" style="display: flex; gap: 10px; align-items: center;">
+            <input type="email" placeholder="you@team.com"
+              style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: var(--paper); padding: 12px 16px; border-radius: 8px; font: inherit; font-size: 14px; min-width: 220px;" />
+            <button class="btn btn-primary btn-lg" type="submit">Subscribe</button>
+          </form>
+        </div>
       </div>
     </div>
   </section>
 </main>
 
-<footer class="site-footer">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <a href="/" class="brand"><img src="/logo.png" alt="Octopad"><span>Octopad</span></a>
-        <p class="small" style="max-width: 32ch; margin-top: 14px;">The back-office for AI teams. One shared brain across Claude, ChatGPT, Cursor and the rest.</p>
-      </div>
-      <div><h4>Product</h4><ul><li><a href="/#pillars">Features</a></li><li><a href="/pricing">Pricing</a></li><li><a href="/getting-started">Quick start</a></li></ul></div>
-      <div><h4>Company</h4><ul><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="mailto:support@octopad.ai">Contact</a></li></ul></div>
-      <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy</a></li><li><a href="/terms">Terms</a></li></ul></div>
-      <div><h4>Works with</h4><p class="small" style="max-width: 20ch;">Any MCP-compatible AI model.</p></div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 Octopad</span>
-      <div class="footer-social"><a href="https://x.com/octopad_ai" target="_blank" rel="noopener">@octopad_ai on X</a></div>
-    </div>
-  </div>
-</footer>
+<div id="site-footer"></div>
 
-<script>
-  const header = document.querySelector('.site-header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 24);
-  }, { passive: true });
-</script>
-
+<script>window.__page = 'blog';</script>
+<script src="partials.js?v=1"></script>
+<script src="tweaks.js?v=1"></script>
 </body>
 </html>
