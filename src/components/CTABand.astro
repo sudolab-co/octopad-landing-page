@@ -1,6 +1,6 @@
 ---
 interface Props {
-  eyebrow: string;
+  eyebrow?: string;
   heading: string;
   description: string;
   paddingBottom?: string;
@@ -13,12 +13,14 @@ const { eyebrow, heading, description, paddingBottom = '80px' } = Astro.props;
   <div class="wrap">
     <div class="cta-band">
       <div>
-        <span
-          class="eyebrow"
-          style="color: rgba(255,255,255,0.55); margin-bottom: 18px;"
-        >
-          {eyebrow}
-        </span>
+        {eyebrow && (
+          <span
+            class="eyebrow"
+            style="color: rgba(255,255,255,0.55); margin-bottom: 18px;"
+          >
+            {eyebrow}
+          </span>
+        )}
         <h2>{heading}</h2>
         <p>{description}</p>
       </div>

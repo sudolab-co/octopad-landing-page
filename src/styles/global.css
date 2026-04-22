@@ -175,6 +175,7 @@ h3.tile-title {
 .trust .logos { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; color: var(--ink-soft); }
 .trust .logos b { font-weight: 500; letter-spacing: -0.2px; font-size: 15px; }
 .trust .dot { width: 3px; height: 3px; border-radius: 2px; background: currentColor; opacity: .35; }
+.mcp-pill { font-size: 13px; font-weight: 500; color: var(--ink-soft); background: var(--line-soft); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
 
 /* ───────── Pillars / feature rows ───────── */
 .pillar {
@@ -469,3 +470,65 @@ h3.tile-title {
   font-size: 12px; color: var(--ink-soft);
 }
 .tweaks-panel .seg button.active { background: var(--ink); color: var(--paper); }
+
+/* ───────── Quick Start teaser (Section 06) ───────── */
+.quickstart-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--green); font-weight: 500; font-size: 15px;
+  text-decoration: none; margin-top: 22px;
+  border-bottom: 1.5px solid transparent;
+  transition: border-color .15s ease;
+}
+.quickstart-link:hover { border-bottom-color: var(--green); }
+
+.quickstart-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.quickstart-steps li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 18px 22px;
+  border-top: 1px solid var(--line-soft);
+}
+.quickstart-steps li:first-child { border-top: none; }
+
+.quickstart-steps .step-num {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  padding-top: 3px;
+}
+
+.quickstart-steps .step-body {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.quickstart-steps .step-lead {
+  font-weight: 500;
+  color: var(--ink);
+}
+.quickstart-steps code {
+  background: var(--green-soft);
+  color: var(--ink);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+.quickstart-steps .step-cta {
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+@media (max-width: 560px) {
+  .quickstart-steps li { padding: 16px 16px; gap: 12px; grid-template-columns: 32px 1fr; }
+  .quickstart-steps .step-cta { margin-left: 0; margin-top: 8px; display: inline-flex; }
+}

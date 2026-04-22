@@ -20,26 +20,24 @@ const captureRows = [
   page="product"
 >
   <Hero
-    eyebrow="The back-office for AI teams"
     heading="Your AI's<br/>back-office."
-    lede="A shared workspace where any AI your team uses — Claude, ChatGPT, Cursor — can make plans, run tasks, and capture what matters on one shared brain."
-    primaryCta={{ label: 'Get started', href: '#' }}
-    secondaryCta={{ label: 'Read the quick start', href: '/quick-start' }}
+    lede="Make plans, run tasks, and capture what matters, all in your AI, all on one shared brain."
+    primaryCta={{ label: 'Start free', href: '#' }}
+    secondaryCta={{ label: 'See how it works', href: '#' }}
+    trustLine="Free plan, no card. Pro from $9 per seat when you're ready."
   />
 
   <hr class="rule" />
 
-  <!-- Trust strip -->
+  <!-- Social proof strip -->
   <section class="wrap">
     <div class="trust">
-      <span class="eyebrow label">Works with the tools you already use</span>
+      <span class="eyebrow label">Works with Claude, ChatGPT, Cursor, and any MCP-compatible AI.</span>
       <div class="logos">
         <b>Claude</b><span class="dot"></span>
         <b>ChatGPT</b><span class="dot"></span>
         <b>Cursor</b><span class="dot"></span>
-        <b>Linear</b><span class="dot"></span>
-        <b>GitHub</b><span class="dot"></span>
-        <b>Slack</b>
+        <span class="mcp-pill">+ any MCP-compatible AI</span>
       </div>
     </div>
   </section>
@@ -49,11 +47,11 @@ const captureRows = [
     <div class="wrap">
       <Pillar>
         <Fragment slot="copy">
-          <span class="eyebrow eyebrow-green">01 — Context</span>
+          <span class="eyebrow eyebrow-green">Context</span>
           <h2 class="section-title">The right context for every task.</h2>
+          <p class="lede">Your AI pulls the information it needs, without any prompt.</p>
           <p class="copy">
-            Give your AI the documents, links, and decisions it needs — once.
-            It pulls the right pieces for every new task, automatically.
+            Every job needs its specific context. Your AI reaches into your shared brain, pulls what matters, and builds the right mix before you even ask.
           </p>
         </Fragment>
         <div class="tiles">
@@ -96,12 +94,11 @@ const captureRows = [
     <div class="wrap">
       <Pillar reverse>
         <Fragment slot="copy">
-          <span class="eyebrow eyebrow-green">02 — Plans</span>
-          <h2 class="section-title">From idea to plan, without the ceremony.</h2>
+          <span class="eyebrow eyebrow-green">Plans</span>
+          <h2 class="section-title">Detailed plans ready for execution.</h2>
+          <p class="lede">Your AI generates detail-rich tasks and maintains execution coherence from start to finish.</p>
           <p class="copy">
-            Describe an outcome. Octopad breaks it into steps your AI can run,
-            with checkpoints where you want to weigh in — no project manager
-            required.
+            A plan is only as strong as its execution. Your AI writes every task the same way, ties it to your strategy, and keeps the work moving across every session, on its own.
           </p>
         </Fragment>
         <Card ariaHidden>
@@ -145,17 +142,16 @@ const captureRows = [
     </div>
   </section>
 
-  <!-- Pillar 03 — Capture -->
+  <!-- Pillar 03 — Memory -->
   <section class="section">
     <div class="wrap">
       <Pillar>
         <Fragment slot="copy">
-          <span class="eyebrow eyebrow-green">03 — Capture</span>
-          <h2 class="section-title">What gets decided, gets remembered.</h2>
+          <span class="eyebrow eyebrow-green">Memory</span>
+          <h2 class="section-title">Information captured as you go.</h2>
+          <p class="lede">Your AI keeps your team's knowledge current as new information surfaces.</p>
           <p class="copy">
-            Decisions, caveats, and open threads live in Octopad — not
-            scattered across Slack and DMs. The next session picks up where
-            the last one left off.
+            Every conversation leaves something worth keeping. Every teammate's AI writes it down, connects it to what's already there, and updates it as things change, all on one shared brain.
           </p>
         </Fragment>
         <Card flush ariaHidden>
@@ -193,12 +189,56 @@ const captureRows = [
     </div>
   </section>
 
+  <!-- Section 06 — Quick Start teaser -->
+  <section class="section">
+    <div class="wrap">
+      <Pillar reverse>
+        <Fragment slot="copy">
+          <span class="eyebrow">Quick Start</span>
+          <h2 class="section-title">Set up in minutes.</h2>
+          <p class="lede">
+            Four short steps. No credit card to start. One month of Pro included.
+          </p>
+          <a href="/getting-started" class="quickstart-link">See the full setup guide →</a>
+        </Fragment>
+        <Card flush ariaHidden={false}>
+          <ol class="quickstart-steps">
+            <li>
+              <span class="step-num">01</span>
+              <div class="step-body">
+                <span class="step-lead">Sign up.</span> Free, no credit card.
+                <a href="#" class="btn btn-primary step-cta">Start free →</a>
+              </div>
+            </li>
+            <li>
+              <span class="step-num">02</span>
+              <div class="step-body">
+                Follow the onboarding to connect your AI and set up your workspace.
+              </div>
+            </li>
+            <li>
+              <span class="step-num">03</span>
+              <div class="step-body">
+                In your AI, say <code>use octopad</code> and tell it about your company and what you are building. Your AI will capture that information and load it at each session.
+              </div>
+            </li>
+            <li>
+              <span class="step-num">04</span>
+              <div class="step-body">
+                Your AI's back-office is now ready for work.
+              </div>
+            </li>
+          </ol>
+        </Card>
+      </Pillar>
+    </div>
+  </section>
+
   <CTABand
-    eyebrow="Ready when you are"
-    heading="Give your AI a place to think."
-    description="Free for small teams. Bring your own models — Octopad doesn't touch your data, and you can self-host when you're ready."
+    heading="Give your AI the back-office it's been missing."
+    description="Free to start. One month of Pro included. Works with any MCP-compatible model. Pro from $9 per seat when you're ready for more."
   >
-    <a href="#" class="btn btn-primary btn-lg">Get started</a>
+    <a href="#" class="btn btn-primary btn-lg">Start free</a>
     <a href="/pricing" class="btn btn-ghost">See pricing</a>
   </CTABand>
 </BaseLayout>

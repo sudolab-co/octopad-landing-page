@@ -1,19 +1,20 @@
 ---
 interface Props {
-  eyebrow: string;
+  eyebrow?: string;
   heading: string;
   lede: string;
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
+  trustLine?: string;
 }
 
-const { eyebrow, heading, lede, primaryCta, secondaryCta } = Astro.props;
+const { eyebrow, heading, lede, primaryCta, secondaryCta, trustLine } = Astro.props;
 ---
 
 <section class="wrap">
   <div class="hero">
     <div class="hero-copy">
-      <span class="eyebrow">{eyebrow}</span>
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
       <h1 class="display" set:html={heading} />
       <p class="lede">{lede}</p>
       <div class="hero-ctas">
@@ -33,6 +34,7 @@ const { eyebrow, heading, lede, primaryCta, secondaryCta } = Astro.props;
         </a>
         <a href={secondaryCta.href} class="btn btn-ghost">{secondaryCta.label}</a>
       </div>
+      {trustLine && <p class="small" style="margin-top: 14px; color: var(--ink-mute);">{trustLine}</p>}
     </div>
     <div class="hero-art" aria-hidden="true">
       <div class="glow"></div>
