@@ -10,181 +10,161 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
-<!-- ─── NAV ─── -->
-<nav id="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">
-        <img src="/logo.png" alt="Octopad logo">
-        <span class="nav-logo-text">Octopad</span>
-      </a>
-      <div class="nav-links">
-        <a href="/pricing" class="nav-link active">Pricing</a>
-        <a href="/getting-started" class="nav-link">Quick Start</a>
-        <a href="/about" class="nav-link">About</a>
-        <a href="/blog" class="nav-link">Blog</a>
-      </div>
-      <div class="nav-actions">
-        <a href="https://octopad.app" class="nav-link">Log in</a>
-        <a href="https://octopad.app" class="btn btn-primary">Start free <span class="arrow">→</span></a>
-      </div>
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="brand">
+      <img src="/logo.png" alt="Octopad logo">
+      <span>Octopad</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/">Product</a>
+      <a href="/pricing" aria-current="page">Pricing</a>
+      <a href="/getting-started">Quick start</a>
+      <a href="/about">About</a>
+      <a href="/blog">Blog</a>
+    </nav>
+    <div class="actions">
+      <a href="https://octopad.app" class="signin">Sign in</a>
+      <a href="https://octopad.app" class="btn btn-primary">Get started</a>
     </div>
+    <button class="mobile-toggle" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
   </div>
-</nav>
+</header>
 
-
-<!-- ─── HERO ─── -->
-<section class="subhero">
-  <div class="subhero-glow"></div>
-  <div class="container">
-    <div class="subhero-inner reveal">
-      <h1>Simple pricing.</h1>
-      <p class="subheading">Free forever, with one month of Pro on the house.</p>
+<main>
+  <section class="wrap">
+    <div class="page-head">
+      <div>
+        <span class="eyebrow kicker">Pricing</span>
+        <h1>Pay for<br>what you run.</h1>
+      </div>
+      <p class="lede">
+        Octopad is free for small teams. When you're ready, upgrade for more
+        capacity — not a different product. First month of Pro on the house.
+      </p>
     </div>
-  </div>
-</section>
+  </section>
 
-
-<!-- ─── PLANS ─── -->
-<section class="pricing" style="padding-top: 3rem;">
-  <div class="container">
-    <div class="pricing-grid reveal">
-
-      <div class="pricing-card">
-        <div class="plan-header">
-          <div class="plan-name">Free</div>
-          <div class="plan-price">
-            <span class="price-amount">$0</span>
-            <span class="price-period">/ forever</span>
-          </div>
-          <p class="plan-desc">For a founder or small team trying Octopad with their AI.</p>
-        </div>
-        <a href="https://octopad.app" class="btn btn-ghost" style="width:100%; justify-content:center;">
-          Start free
-        </a>
-        <ul class="plan-features">
-          <li><span class="feat-check">✓</span> 1 workspace</li>
-          <li><span class="feat-check">✓</span> Unlimited members, tasks, goals, and work streams</li>
-          <li><span class="feat-check">✓</span> 100 pages</li>
-          <li><span class="feat-check">✓</span> 10 file uploads, up to 5 MB each</li>
-          <li><span class="feat-check">✓</span> 1 week of AI session memory</li>
-          <li><span class="feat-check">✓</span> Essential octobots</li>
-          <li><span class="feat-check">✓</span> Slack, Telegram, and GitHub integrations</li>
-          <li><span class="feat-check">✓</span> Notion import</li>
+  <section class="wrap" style="padding-bottom: 80px;">
+    <div class="plans">
+      <div class="plan">
+        <div class="name"><h3>Free</h3></div>
+        <div class="price">$0<small> / forever</small></div>
+        <p class="small">For a founder or small team trying Octopad with their AI.</p>
+        <a href="https://octopad.app" class="btn btn-secondary btn-lg" style="justify-content: center;">Get started</a>
+        <hr class="rule">
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>1 workspace</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Unlimited members, tasks, goals, and work streams</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>100 pages</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>10 file uploads, up to 5 MB each</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>1 week of AI session memory</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Essential octobots</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Slack, Telegram, and GitHub integrations</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Notion import</li>
         </ul>
       </div>
 
-      <div class="pricing-card featured">
-        <div class="plan-badge">First month free on every new account</div>
-        <div class="plan-header">
-          <div class="plan-name">Pro</div>
-          <div class="plan-price">
-            <span class="price-amount">$9</span>
-            <span class="price-period">/ seat / month</span>
-          </div>
-          <p class="plan-billing">Or $7 per seat per month billed annually.</p>
-          <p class="plan-desc">For teams running real work through their AI every day.</p>
+      <div class="plan featured">
+        <div class="name">
+          <h3>Pro</h3>
+          <span class="badge">First month free</span>
         </div>
-        <a href="https://octopad.app" class="btn btn-primary" style="width:100%; justify-content:center;">
-          Start free <span class="arrow">→</span>
-        </a>
-        <ul class="plan-features">
-          <li><span class="feat-check">✓</span> <strong>Everything in Free, plus:</strong></li>
-          <li><span class="feat-check">✓</span> Unlimited workspaces</li>
-          <li><span class="feat-check">✓</span> Unlimited pages and files (up to 20 MB each)</li>
-          <li><span class="feat-check">✓</span> Unlimited AI session memory</li>
-          <li><span class="feat-check">✓</span> All octobots</li>
-          <li><span class="feat-check">✓</span> Email support</li>
+        <div class="price">$9<small> / seat / month</small></div>
+        <p class="small">Or $7 per seat per month billed annually. For teams running real work through their AI every day.</p>
+        <a href="https://octopad.app" class="btn btn-primary btn-lg" style="justify-content: center;">Start free</a>
+        <hr class="rule">
+        <ul>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Everything in Free, plus:</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Unlimited workspaces</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Unlimited pages and files (up to 20 MB each)</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Unlimited AI session memory</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>All octobots</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5"/></svg>Email support</li>
         </ul>
       </div>
-
     </div>
-  </div>
-</section>
+  </section>
 
+  <!-- FAQ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="pillar">
+        <div class="pillar-copy">
+          <span class="eyebrow eyebrow-green">FAQ</span>
+          <h2 class="section-title">The common ones.</h2>
+        </div>
+        <div class="pricing-faq-list">
+          <details class="pricing-faq" open>
+            <summary>Do you charge per AI call?</summary>
+            <p>No. You bring your own model keys (Anthropic, OpenAI, etc.) and pay them directly for inference. Octopad charges per seat.</p>
+          </details>
+          <details class="pricing-faq">
+            <summary>Which AIs does Octopad work with?</summary>
+            <p>Any AI that supports MCP. That includes Claude, ChatGPT, Cursor, and the Gemini CLI today, with more adding MCP support regularly.</p>
+          </details>
+          <details class="pricing-faq">
+            <summary>What happens if I cancel?</summary>
+            <p>Export your workspace at any time as Markdown or JSON. Your data stays yours.</p>
+          </details>
+          <details class="pricing-faq">
+            <summary>Is there a free trial on Pro?</summary>
+            <p>Your first month of Pro is free on every new account, no card required. After that it's $9 per seat per month, or $7 billed annually.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- ─── FOOTER ─── -->
-<footer>
-  <div class="container">
+  <section class="section" style="padding-bottom: 80px;">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <span class="eyebrow" style="color: rgba(255,255,255,0.55); margin-bottom: 18px;">Still weighing it</span>
+          <h2>Try it on a real project.</h2>
+          <p>The free tier is more than enough to decide. Start a workspace, connect your AI, and run one plan — you'll know within a day.</p>
+        </div>
+        <div class="ctas">
+          <a href="https://octopad.app" class="btn btn-primary btn-lg">Get started</a>
+          <a href="/getting-started" class="btn btn-ghost">Quick start</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
     <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo">
-          <img src="/logo.png" alt="Octopad">
-          <span class="footer-logo-text">Octopad</span>
-        </a>
-        <p class="footer-tagline">Your AI's back-office. One shared brain every AI your team uses can read and update.</p>
+      <div>
+        <a href="/" class="brand"><img src="/logo.png" alt="Octopad"><span>Octopad</span></a>
+        <p class="small" style="max-width: 32ch; margin-top: 14px;">The back-office for AI teams. One shared brain across Claude, ChatGPT, Cursor and the rest.</p>
       </div>
-
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="/#pillars">Features</a></li>
-          <li><a href="/pricing">Pricing</a></li>
-          <li><a href="/getting-started">Quick Start</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="/about">About</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="mailto:support@octopad.ai">Contact</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="/privacy">Privacy</a></li>
-          <li><a href="/terms">Terms</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Works with</h4>
-        <p class="footer-note">Any MCP-compatible AI model.</p>
-      </div>
+      <div><h4>Product</h4><ul><li><a href="/#pillars">Features</a></li><li><a href="/pricing">Pricing</a></li><li><a href="/getting-started">Quick start</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="mailto:support@octopad.ai">Contact</a></li></ul></div>
+      <div><h4>Legal</h4><ul><li><a href="/privacy">Privacy</a></li><li><a href="/terms">Terms</a></li></ul></div>
+      <div><h4>Works with</h4><p class="small" style="max-width: 20ch;">Any MCP-compatible AI model.</p></div>
     </div>
-
     <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Octopad</span>
-      <div class="footer-social">
-        <a href="https://x.com/octopad_ai" target="_blank" rel="noopener">@octopad_ai on X</a>
-        <span class="pending">LinkedIn coming soon</span>
-        <span class="pending">GitHub coming soon</span>
-      </div>
+      <span>&copy; 2026 Octopad</span>
+      <div class="footer-social"><a href="https://x.com/octopad_ai" target="_blank" rel="noopener">@octopad_ai on X</a></div>
     </div>
   </div>
 </footer>
 
-
 <script>
-  const nav = document.getElementById('nav');
+  const header = document.querySelector('.site-header');
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
+    header.classList.toggle('scrolled', window.scrollY > 24);
   }, { passive: true });
-
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
-  );
-
-  reveals.forEach(el => observer.observe(el));
 </script>
 
 </body>

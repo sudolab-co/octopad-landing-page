@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Octopad is your AI's back-office. Make plans, run tasks, and capture what matters, all in your AI, all on one shared brain. Works with Claude, ChatGPT, Cursor, and any MCP-compatible AI.">
+  <meta name="description" content="A shared workspace where any AI your team uses — Claude, ChatGPT, Cursor — can make plans, run tasks, and capture what matters on one shared brain.">
   <title>Octopad — Your AI's back-office</title>
 
   <link rel="icon" href="/logo.png" type="image/png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/styles.css">
 
@@ -40,7 +40,7 @@
         "name": "Which AI tools work with Octopad?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Octopad works with any AI that supports the open MCP standard. That already includes Claude (Desktop, Code, claude.ai), ChatGPT, Cursor, and the Gemini CLI, and any new AI tool that adds MCP support plugs in the same way. A few specifics by host: in ChatGPT, Octopad requires developer mode because we are not yet listed as an official OpenAI partner app, and that turns off ChatGPT's default session memory unless you flip the toggle that lets it use existing memory while working with Octopad. In Claude, we are working toward inclusion in the official MCP directory so users can find us among verified connectors; today you connect us with a URL. Gemini's web app does not speak MCP yet, so only the Gemini CLI is supported. If you switch or add a new AI later, your workspace stays with you."
+          "text": "Octopad works with any AI that supports the open MCP standard. That already includes Claude (Desktop, Code, claude.ai), ChatGPT, Cursor, and the Gemini CLI, and any new AI tool that adds MCP support plugs in the same way."
         }
       },
       {
@@ -56,7 +56,7 @@
         "name": "How does Octopad store information?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Two formats, both chosen because AI reads them natively. Long-form content like specs, research, and meeting notes lives in markdown pages, the same format every AI model understands best. Atomic pieces of information, decisions, open questions, risks, and key facts, live in a separate typed system where each item is tagged, searchable, and linkable across tasks and pages. Together they give your AI a clean, structured picture of your company, not a pile of documents it has to guess its way through."
+          "text": "Two formats, both chosen because AI reads them natively. Long-form content like specs, research, and meeting notes lives in markdown pages, the same format every AI model understands best. Atomic pieces of information, decisions, open questions, risks, and key facts, live in a separate typed system where each item is tagged, searchable, and linkable across tasks and pages."
         }
       },
       {
@@ -113,323 +113,406 @@
 </head>
 <body>
 
-<!-- ─── NAV ─── -->
-<nav id="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">
-        <img src="/logo.png" alt="Octopad logo">
-        <span class="nav-logo-text">Octopad</span>
+<!-- ─── HEADER ─── -->
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="brand">
+      <img src="/logo.png" alt="Octopad logo">
+      <span>Octopad</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/" aria-current="page">Product</a>
+      <a href="/pricing">Pricing</a>
+      <a href="/getting-started">Quick start</a>
+      <a href="/about">About</a>
+      <a href="/blog">Blog</a>
+    </nav>
+    <div class="actions">
+      <a href="https://octopad.app" class="signin">Sign in</a>
+      <a href="https://octopad.app" class="btn btn-primary">Get started</a>
+    </div>
+    <button class="mobile-toggle" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</header>
+
+
+<!-- ─── HERO ─── -->
+<main>
+  <section class="wrap">
+    <div class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">The back-office for AI teams</span>
+        <h1 class="display">Your AI's<br>back-office.</h1>
+        <p class="lede">
+          A shared workspace where any AI your team uses — Claude, ChatGPT,
+          Cursor — can make plans, run tasks, and capture what matters on
+          one shared brain.
+        </p>
+        <div class="hero-ctas">
+          <a href="https://octopad.app" class="btn btn-primary btn-lg">
+            Get started
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5"/></svg>
+          </a>
+          <a href="/getting-started" class="btn btn-ghost">Read the quick start</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="glow"></div>
+        <img src="/logo.png" alt="Octopad mascot">
+        <span class="fig">Fig. 01 — Octopad</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+
+  <!-- ─── TRUST STRIP ─── -->
+  <section class="wrap">
+    <div class="trust">
+      <span class="eyebrow label">Works with the tools you already use</span>
+      <div class="logos">
+        <b>Claude</b><span class="dot"></span>
+        <b>ChatGPT</b><span class="dot"></span>
+        <b>Cursor</b><span class="dot"></span>
+        <b>Linear</b><span class="dot"></span>
+        <b>GitHub</b><span class="dot"></span>
+        <b>Slack</b>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── PILLAR 01 · CONTEXT ─── -->
+  <section class="section" id="pillars">
+    <div class="wrap">
+      <div class="pillar">
+        <div class="pillar-copy">
+          <span class="eyebrow eyebrow-green">01 — Context</span>
+          <h2 class="section-title">The right context for every task.</h2>
+          <p class="copy">
+            Give your AI the documents, links, and decisions it needs — once.
+            It pulls the right pieces for every new task, automatically.
+          </p>
+        </div>
+        <div class="tiles">
+          <div class="tile">
+            <span class="tag"><span class="sq" style="background: var(--green)"></span>Plan</span>
+            <h3>Launch v0.4</h3>
+            <p>Brand voice, eng handoff, timeline</p>
+          </div>
+          <div class="tile">
+            <span class="tag"><span class="sq" style="background: var(--ink-mute)"></span>Doc</span>
+            <h3>Pricing memo</h3>
+            <p>Source of truth for tier names and limits</p>
+          </div>
+          <div class="tile">
+            <span class="tag"><span class="sq" style="background: var(--ink-mute)"></span>Link</span>
+            <h3>Design review</h3>
+            <p>Latest Figma, annotations, decisions</p>
+          </div>
+          <div class="tile dark span-2">
+            <span class="tag">
+              <span class="pulse"></span>
+              Task · running
+            </span>
+            <h3>Draft the launch email</h3>
+            <p>Pulled 3 docs · reviewed brand voice · ready for edit</p>
+          </div>
+          <div class="tile">
+            <span class="tag"><span class="sq" style="background: var(--ink-mute)"></span>Decision</span>
+            <h3>Ship Friday</h3>
+            <p>Agreed with eng, Mar 21</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── PILLAR 02 · PLANS ─── -->
+  <section class="section">
+    <div class="wrap">
+      <div class="pillar reverse">
+        <div class="pillar-copy">
+          <span class="eyebrow eyebrow-green">02 — Plans</span>
+          <h2 class="section-title">From idea to plan, without the ceremony.</h2>
+          <p class="copy">
+            Describe an outcome. Octopad breaks it into steps your AI can
+            run, with checkpoints where you want to weigh in — no project
+            manager required.
+          </p>
+        </div>
+        <div class="card" aria-hidden="true">
+          <div class="plan-header-row">
+            <span class="pulse"></span>
+            <span class="plan-label">Plan: Ship v0.4 onboarding</span>
+            <span class="small" style="margin-left: auto;">4 of 7</span>
+          </div>
+          <ol class="plan-steps">
+            <li class="step-done">
+              <span class="check-bullet">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5L4 7.5L8.5 2.5"/></svg>
+              </span>
+              <span>Audit current onboarding drop-off</span>
+              <span class="small" style="margin-left: auto;">Claude · 2m</span>
+            </li>
+            <li class="step-done">
+              <span class="check-bullet">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5L4 7.5L8.5 2.5"/></svg>
+              </span>
+              <span>Draft 3 flow variations</span>
+              <span class="small" style="margin-left: auto;">Cursor · 11m</span>
+            </li>
+            <li class="step-active">
+              <span class="pulse" style="margin-left: 4px;"></span>
+              <span class="step-active-label">Copywriting pass</span>
+              <span class="small" style="margin-left: auto;">ChatGPT · running</span>
+            </li>
+            <li class="step-pending">
+              <span class="step-circle"></span>
+              <span class="step-pending-label">Your review — mockups + copy</span>
+              <span class="small checkpoint" style="margin-left: auto;">Checkpoint</span>
+            </li>
+            <li class="step-pending">
+              <span class="step-circle"></span>
+              <span class="step-pending-label">Ship to staging</span>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── PILLAR 03 · CAPTURE ─── -->
+  <section class="section">
+    <div class="wrap">
+      <div class="pillar">
+        <div class="pillar-copy">
+          <span class="eyebrow eyebrow-green">03 — Capture</span>
+          <h2 class="section-title">What gets decided, gets remembered.</h2>
+          <p class="copy">
+            Decisions, caveats, and open threads live in Octopad — not
+            scattered across Slack and DMs. The next session picks up where
+            the last one left off.
+          </p>
+        </div>
+        <div class="card capture-card" aria-hidden="true">
+          <div class="capture-header">
+            <span class="small capture-title">Shared brain · this week</span>
+            <span class="small">12 items</span>
+          </div>
+          <div class="capture-rows" id="capture-rows"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── QUICK START TEASER ─── -->
+  <section class="section">
+    <div class="wrap">
+      <div class="quickstart-grid">
+        <div class="quickstart-copy">
+          <span class="eyebrow">Getting started</span>
+          <h2 class="section-title">Set up in minutes.</h2>
+        </div>
+        <div class="steps-list">
+          <div class="qs-step">
+            <div class="qs-num">01</div>
+            <div>
+              <p>Sign up. Free, no credit card.</p>
+              <a href="https://octopad.app" class="btn btn-primary" style="margin-top: 12px;">Start free <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5"/></svg></a>
+            </div>
+          </div>
+          <div class="qs-step">
+            <div class="qs-num">02</div>
+            <p>Follow the onboarding to connect your AI and set up your workspace.</p>
+          </div>
+          <div class="qs-step">
+            <div class="qs-num">03</div>
+            <p>In your AI, say <code>use octopad</code> and tell it about your company and what you are building. Your AI will capture that information and load it at each session.</p>
+          </div>
+          <div class="qs-step">
+            <div class="qs-num">04</div>
+            <p>Your AI's back-office is now ready for work.</p>
+          </div>
+        </div>
+      </div>
+      <a href="/getting-started" class="quickstart-link">See the full setup guide
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5"/></svg>
       </a>
-      <div class="nav-links">
-        <a href="/pricing" class="nav-link">Pricing</a>
-        <a href="/getting-started" class="nav-link">Quick Start</a>
-        <a href="/about" class="nav-link">About</a>
-        <a href="/blog" class="nav-link">Blog</a>
-      </div>
-      <div class="nav-actions">
-        <a href="https://octopad.app" class="nav-link">Log in</a>
-        <a href="https://octopad.app" class="btn btn-primary">Start free <span class="arrow">→</span></a>
+    </div>
+  </section>
+
+
+  <!-- ─── FAQ ─── -->
+  <section class="section faq-section" id="faq">
+    <div class="wrap">
+      <div class="faq-list">
+
+        <details class="faq-item">
+          <summary>What is Octopad?</summary>
+          <p>
+            Octopad is a task and knowledge management system built for AI. Where tools like Notion
+            and Asana were designed for humans to write into and AI got bolted on later, Octopad was
+            designed from day one for your AI to read, update, and run the work from. Think of it as
+            the back-office your AI has been missing.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Why should I use Octopad?</summary>
+          <p>
+            Because today you talk to your AI, but the actual work still lands in Notion, Linear,
+            Slack, or a scratchpad somewhere. Octopad lets your AI do the meaningful work with you
+            right inside the chat: planning, tracking, capturing decisions. You still get a clean UI
+            where you can create, edit, and organize tasks, pages, and goals by hand whenever you
+            want. We recommend driving Octopad through your AI rather than the UI, because your AI
+            adds richer context and rationale as it goes, which makes every task easier to run later.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Which AI tools work with Octopad?</summary>
+          <p>
+            Octopad works with any AI that supports the open MCP standard. That already includes
+            Claude (Desktop, Code, claude.ai), ChatGPT, Cursor, and the Gemini CLI, and any new AI
+            tool that adds MCP support plugs in the same way. If you switch or add a new AI later,
+            your workspace stays with you.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I use Octopad with other tools like Slack or Notion?</summary>
+          <p>
+            Yes. Because Octopad connects through MCP, it chains with every other MCP your AI has
+            connected. You can ask your AI to scan a Slack channel for action items and file them as
+            Octopad tasks, or create a task in Octopad and have the AI message the assignee to
+            explain why they got it. Any tool that speaks MCP becomes part of the same workflow.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How does Octopad store information?</summary>
+          <p>
+            Two formats, both chosen because AI reads them natively. Long-form content like specs,
+            research, and meeting notes lives in markdown pages, the same format every AI model
+            understands best. Atomic pieces of information, decisions, open questions, risks, and
+            key facts, live in a separate typed system where each item is tagged, searchable, and
+            linkable across tasks and pages. Together they give your AI a clean, structured picture
+            of your company, not a pile of documents it has to guess its way through.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What are Octobots?</summary>
+          <p>
+            Octobots are internal agents that run in the background to keep your workspace fresh.
+            They summarize each work stream's activity, condense past sessions into short handoffs,
+            and keep a living picture of progress per goal. When your next AI conversation starts,
+            it reads a clean, up-to-date summary instead of a pile of raw logs.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is it free to try?</summary>
+          <p>
+            Yes. The Free plan lets you set up a workspace and use Octopad with your AI at no cost,
+            no credit card required. Pro is $9 per seat per month, or $7 per seat per month billed
+            annually, for teams that need shared workspaces and more capacity.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How is Octopad different from Claude Projects or ChatGPT Projects?</summary>
+          <p>
+            Projects are read-only folders locked to one AI host. Your AI can read the files you
+            upload, but it cannot write back, and nothing inside carries over when you switch to
+            another AI. Octopad is the opposite: one shared brain every AI your team uses can both
+            read and update, so what one assistant learns stays available to the next.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How is Octopad different from Notion, Asana, or Linear?</summary>
+          <p>
+            Notion, Asana, and Linear were built for humans first, with AI bolted on top. Octopad is
+            built for AI first: strategy, tasks, and knowledge live in a structured, typed format any
+            AI you use can actually reason over and write back into. The workspace compounds as your
+            AI works, instead of a filing cabinet your team has to keep in sync by hand.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can my whole team use it?</summary>
+          <p>
+            Yes. Invite teammates, and each person connects their own AI to the same shared
+            workspace. When one person captures a decision or ships a task, everyone else's AI
+            picks it up on the next conversation, so the team stays on the same page without a
+            sync meeting.
+          </p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What about my data and privacy?</summary>
+          <p>
+            Your data stays yours. Workspace content is never used to train AI models, and it is
+            encrypted in transit and at rest. Access is scoped to your workspace and the roles you
+            assign, so only the people and AIs you authorize can read or update it. You can ask us
+            to delete your account at any time.
+          </p>
+        </details>
+
       </div>
     </div>
-  </div>
-</nav>
+  </section>
 
 
-<!-- ─── SECTION 1 · HERO ─── -->
-<section class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-grid"></div>
-
-  <div class="container">
-    <div class="hero-content">
-      <h1 class="display">
-        Your AI's<br><em>back-office.</em>
-      </h1>
-
-      <p class="subheading" style="font-size: clamp(1.1rem, 1.5vw, 1.3rem); max-width: 56ch;">
-        Make plans, run tasks, and capture what matters, all in your AI, all on one shared brain.
-      </p>
-
-      <div class="hero-ctas">
-        <a href="https://octopad.app" class="btn btn-primary btn-lg">
-          Start free <span class="arrow">→</span>
-        </a>
-        <a href="/getting-started" class="btn btn-ghost btn-lg">See how it works</a>
-      </div>
-
-      <p class="hero-trust">Free plan, no card. Pro from $9 per seat when you're ready.</p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ─── SECTION 2 · SOCIAL PROOF STRIP ─── -->
-<div class="trust-strip">
-  <div class="container">
-    <div class="trust-strip-inner">
-      <p class="trust-label-sm">Works with Claude, ChatGPT, Cursor, and any MCP-compatible AI.</p>
-      <div class="trust-items">
-        <span class="trust-item">Claude</span>
-        <span class="trust-sep">·</span>
-        <span class="trust-item">ChatGPT</span>
-        <span class="trust-sep">·</span>
-        <span class="trust-item">Cursor</span>
-        <span class="mcp-pill">+ any MCP-compatible AI</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- ─── SECTION 3 · PILLAR 1 · CONTEXT ─── -->
-<section class="pillars" id="pillars">
-  <div class="container">
-    <div class="pillar-stack">
-
-      <div class="pillar-card reveal">
-        <h3>The right context for every task.</h3>
-        <p class="pillar-sub">Your AI pulls the information it needs, without any prompt.</p>
-        <div class="pillar-block">
-          Every job needs its specific context. Your AI reaches into your shared brain,
-          pulls what matters, and builds the right mix before you even ask.
+  <!-- ─── CTA BAND ─── -->
+  <section class="section" style="padding-bottom: 80px;">
+    <div class="wrap">
+      <div class="cta-band">
+        <div>
+          <span class="eyebrow" style="color: rgba(255,255,255,0.55); margin-bottom: 18px;">Ready when you are</span>
+          <h2>Give your AI a place to think.</h2>
+          <p>Free for small teams. Pro from $9 per seat when you're ready. Works with any MCP-compatible AI.</p>
+        </div>
+        <div class="ctas">
+          <a href="https://octopad.app" class="btn btn-primary btn-lg">Get started</a>
+          <a href="/pricing" class="btn btn-ghost">See pricing</a>
         </div>
       </div>
-
-      <!-- ─── SECTION 4 · PILLAR 2 · PLANS ─── -->
-      <div class="pillar-card reveal">
-        <h3>Detailed plans ready for execution.</h3>
-        <p class="pillar-sub">Your AI generates detail-rich tasks and maintains execution coherence from start to finish.</p>
-        <div class="pillar-block">
-          A plan is only as strong as its execution. Your AI writes every task the same way,
-          ties it to your strategy, and keeps the work moving across every session, on its own.
-        </div>
-      </div>
-
-      <!-- ─── SECTION 5 · PILLAR 3 · MEMORY ─── -->
-      <div class="pillar-card reveal">
-        <h3>Information captured as you go.</h3>
-        <p class="pillar-sub">Your AI keeps your team's knowledge current as new information surfaces.</p>
-        <div class="pillar-block">
-          Every conversation leaves something worth keeping. Every teammate's AI writes it down,
-          connects it to what's already there, and updates it as things change, all on one shared brain.
-        </div>
-      </div>
-
     </div>
-  </div>
-</section>
-
-
-<!-- ─── SECTION 6 · QUICK START TEASER ─── -->
-<section class="quickstart-teaser" id="quickstart">
-  <div class="container">
-    <div class="section-header reveal">
-      <h2 class="heading-lg">Set up in minutes.</h2>
-    </div>
-
-    <div class="steps reveal">
-      <div class="step">
-        <div class="step-num">Step 01</div>
-        <p>Sign up. Free, no credit card.</p>
-        <div class="step-cta">
-          <a href="https://octopad.app" class="btn btn-primary">Start free <span class="arrow">→</span></a>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">Step 02</div>
-        <p>Follow the onboarding to connect your AI and set up your workspace.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">Step 03</div>
-        <p>
-          In your AI, say <code>use octopad</code> and tell it about your company and what you
-          are building. Your AI will capture that information and load it at each session.
-        </p>
-      </div>
-      <div class="step">
-        <div class="step-num">Step 04</div>
-        <p>Your AI's back-office is now ready for work.</p>
-      </div>
-    </div>
-
-    <a href="/getting-started" class="quickstart-link">See the full setup guide →</a>
-  </div>
-</section>
-
-
-<!-- ─── SECTION 7 · FAQ ─── -->
-<section class="faq" id="faq">
-  <div class="container">
-    <div class="faq-list reveal">
-
-      <details class="faq-item">
-        <summary>What is Octopad?</summary>
-        <p>
-          Octopad is a task and knowledge management system built for AI. Where tools like Notion
-          and Asana were designed for humans to write into and AI got bolted on later, Octopad was
-          designed from day one for your AI to read, update, and run the work from. Think of it as
-          the back-office your AI has been missing.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Why should I use Octopad?</summary>
-        <p>
-          Because today you talk to your AI, but the actual work still lands in Notion, Linear,
-          Slack, or a scratchpad somewhere. Octopad lets your AI do the meaningful work with you
-          right inside the chat: planning, tracking, capturing decisions. You still get a clean UI
-          where you can create, edit, and organize tasks, pages, and goals by hand whenever you
-          want. We recommend driving Octopad through your AI rather than the UI, because your AI
-          adds richer context and rationale as it goes, which makes every task easier to run later.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Which AI tools work with Octopad?</summary>
-        <p>
-          Octopad works with any AI that supports the open MCP standard. That already includes
-          Claude (Desktop, Code, claude.ai), ChatGPT, Cursor, and the Gemini CLI, and any new AI
-          tool that adds MCP support plugs in the same way. A few specifics by host: in ChatGPT,
-          Octopad requires developer mode because we are not yet listed as an official OpenAI
-          partner app, and that turns off ChatGPT's default session memory unless you flip the
-          toggle that lets it use existing memory while working with Octopad. In Claude, we are
-          working toward inclusion in the official MCP directory so users can find us among
-          verified connectors; today you connect us with a URL. Gemini's web app does not speak
-          MCP yet, so only the Gemini CLI is supported. If you switch or add a new AI later, your
-          workspace stays with you.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Can I use Octopad with other tools like Slack or Notion?</summary>
-        <p>
-          Yes. Because Octopad connects through MCP, it chains with every other MCP your AI has
-          connected. You can ask your AI to scan a Slack channel for action items and file them as
-          Octopad tasks, or create a task in Octopad and have the AI message the assignee to
-          explain why they got it. Any tool that speaks MCP becomes part of the same workflow.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>How does Octopad store information?</summary>
-        <p>
-          Two formats, both chosen because AI reads them natively. Long-form content like specs,
-          research, and meeting notes lives in markdown pages, the same format every AI model
-          understands best. Atomic pieces of information, decisions, open questions, risks, and
-          key facts, live in a separate typed system where each item is tagged, searchable, and
-          linkable across tasks and pages. Together they give your AI a clean, structured picture
-          of your company, not a pile of documents it has to guess its way through.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>What are Octobots?</summary>
-        <p>
-          Octobots are internal agents that run in the background to keep your workspace fresh.
-          They summarize each work stream's activity, condense past sessions into short handoffs,
-          and keep a living picture of progress per goal. When your next AI conversation starts,
-          it reads a clean, up-to-date summary instead of a pile of raw logs.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Is it free to try?</summary>
-        <p>
-          Yes. The Free plan lets you set up a workspace and use Octopad with your AI at no cost,
-          no credit card required. Pro is $9 per seat per month, or $7 per seat per month billed
-          annually, for teams that need shared workspaces and more capacity.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>How is Octopad different from Claude Projects or ChatGPT Projects?</summary>
-        <p>
-          Projects are read-only folders locked to one AI host. Your AI can read the files you
-          upload, but it cannot write back, and nothing inside carries over when you switch to
-          another AI. Octopad is the opposite: one shared brain every AI your team uses can both
-          read and update, so what one assistant learns stays available to the next.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>How is Octopad different from Notion, Asana, or Linear?</summary>
-        <p>
-          Notion, Asana, and Linear were built for humans first, with AI bolted on top. Octopad is
-          built for AI first: strategy, tasks, and knowledge live in a structured, typed format any
-          AI you use can actually reason over and write back into. The workspace compounds as your
-          AI works, instead of a filing cabinet your team has to keep in sync by hand.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Can my whole team use it?</summary>
-        <p>
-          Yes. Invite teammates, and each person connects their own AI to the same shared
-          workspace. When one person captures a decision or ships a task, everyone else's AI
-          picks it up on the next conversation, so the team stays on the same page without a
-          sync meeting.
-        </p>
-      </details>
-
-      <details class="faq-item">
-        <summary>What about my data and privacy?</summary>
-        <p>
-          Your data stays yours. Workspace content is never used to train AI models, and it is
-          encrypted in transit and at rest. Access is scoped to your workspace and the roles you
-          assign, so only the people and AIs you authorize can read or update it. You can ask us
-          to delete your account at any time.
-        </p>
-      </details>
-
-    </div>
-  </div>
-</section>
-
-
-<!-- ─── SECTION 8 · FINAL CTA ─── -->
-<section class="cta-section">
-  <div class="cta-glow"></div>
-  <div class="container">
-    <div class="cta-inner reveal">
-      <h2 class="heading-lg">Give your AI the back-office it's been missing.</h2>
-      <p class="subheading">
-        Free to start. One month of Pro included. Works with any MCP-compatible model.
-        Pro from $9 per seat when you're ready for more.
-      </p>
-      <div class="cta-actions">
-        <a href="https://octopad.app" class="btn btn-primary btn-lg">
-          Start free <span class="arrow">→</span>
-        </a>
-        <a href="/pricing" class="btn btn-ghost btn-lg">See pricing</a>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+</main>
 
 
 <!-- ─── FOOTER ─── -->
-<footer>
-  <div class="container">
+<footer class="site-footer">
+  <div class="wrap">
     <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="/" class="footer-logo">
+      <div>
+        <a href="/" class="brand">
           <img src="/logo.png" alt="Octopad">
-          <span class="footer-logo-text">Octopad</span>
+          <span>Octopad</span>
         </a>
-        <p class="footer-tagline">Your AI's back-office. One shared brain every AI your team uses can read and update.</p>
+        <p class="small" style="max-width: 32ch; margin-top: 14px;">
+          The back-office for AI teams. One shared brain across Claude, ChatGPT, Cursor and the rest.
+        </p>
       </div>
-
-      <div class="footer-col">
+      <div>
         <h4>Product</h4>
         <ul>
           <li><a href="/#pillars">Features</a></li>
           <li><a href="/pricing">Pricing</a></li>
-          <li><a href="/getting-started">Quick Start</a></li>
+          <li><a href="/getting-started">Quick start</a></li>
         </ul>
       </div>
-
-      <div class="footer-col">
+      <div>
         <h4>Company</h4>
         <ul>
           <li><a href="/about">About</a></li>
@@ -437,40 +520,65 @@
           <li><a href="mailto:support@octopad.ai">Contact</a></li>
         </ul>
       </div>
-
-      <div class="footer-col">
+      <div>
         <h4>Legal</h4>
         <ul>
           <li><a href="/privacy">Privacy</a></li>
           <li><a href="/terms">Terms</a></li>
         </ul>
       </div>
-
-      <div class="footer-col">
+      <div>
         <h4>Works with</h4>
-        <p class="footer-note">Any MCP-compatible AI model.</p>
+        <p class="small" style="max-width: 20ch;">Any MCP-compatible AI model.</p>
       </div>
     </div>
-
     <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Octopad</span>
+      <span>&copy; 2026 Octopad</span>
       <div class="footer-social">
         <a href="https://x.com/octopad_ai" target="_blank" rel="noopener">@octopad_ai on X</a>
-        <span class="pending">LinkedIn coming soon</span>
-        <span class="pending">GitHub coming soon</span>
       </div>
     </div>
   </div>
 </footer>
 
 
+<!-- ─── CAPTURE ROWS (JS) ─── -->
 <script>
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 24);
-  }, { passive: true });
+  const captureRows = [
+    { n: '01', t: 'Ship v0.4 Friday — plan', m: 'Agreed w/ eng · Mar 21', done: true },
+    { n: '02', t: 'Pricing: keep the free tier', m: 'Decision · Mar 18', done: true },
+    { n: '03', t: 'Design review — notes', m: '7 annotations on flow B', done: true },
+    { n: '04', t: 'Launch email draft — running', m: 'Pulled 3 docs · brand voice', done: false },
+  ];
+  const host = document.getElementById('capture-rows');
+  if (host) {
+    host.innerHTML = captureRows.map((r, i) => `
+      <div class="capture-row${i ? ' bordered' : ''}">
+        <span class="small capture-num">${r.n}</span>
+        <div class="capture-body">
+          <div class="capture-row-title">${r.t}</div>
+          <div class="small">${r.m}</div>
+        </div>
+        ${r.done
+          ? '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3.5 3.5L13 4.5"/></svg>'
+          : '<span class="pulse"></span>'
+        }
+      </div>
+    `).join('');
+  }
+</script>
 
-  const reveals = document.querySelectorAll('.reveal');
+<!-- ─── HEADER SCROLL ─── -->
+<script>
+  const header = document.querySelector('.site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 24);
+  }, { passive: true });
+</script>
+
+<!-- ─── SCROLL REVEAL ─── -->
+<script>
+  const reveals = document.querySelectorAll('.pillar, .card, .tiles, .quickstart-grid, .faq-list, .cta-band, .trust');
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach(entry => {
@@ -482,7 +590,6 @@
     },
     { threshold: 0.08, rootMargin: '0px 0px -32px 0px' }
   );
-
   reveals.forEach(el => observer.observe(el));
 </script>
 
