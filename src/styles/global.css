@@ -69,6 +69,11 @@ img { max-width: 100%; display: block; }
 .actions .signin { font-size: 14px; color: var(--ink-soft); font-weight: 450; }
 .actions .signin:hover { color: var(--ink); }
 
+@media (max-width: 720px) {
+  .site-header .nav { display: none; }
+  .actions .signin { display: none; }
+}
+
 /* ───────── Buttons ───────── */
 .btn {
   display: inline-flex; align-items: center; gap: 8px;
@@ -184,7 +189,9 @@ h3.tile-title {
 }
 .pillar.reverse { grid-template-columns: 1.15fr 0.85fr; }
 .pillar.reverse .pillar-copy { order: 2; }
-.pillar-copy h2 { margin-top: 14px; max-width: 12ch; }
+.pillar-copy h2 { margin-top: 14px; }
+.pillar-num { font-variant-numeric: tabular-nums; color: var(--green); font-weight: 600; }
+.pillar-num::before { background: var(--green); }
 .pillar-copy p { margin-top: 18px; }
 @media (max-width: 860px) {
   .pillar, .pillar.reverse { grid-template-columns: 1fr; gap: 32px; }

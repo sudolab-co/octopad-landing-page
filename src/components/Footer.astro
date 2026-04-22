@@ -3,11 +3,9 @@ const columns = [
   {
     heading: 'Product',
     links: [
-      { label: 'Overview', href: '/' },
+      { label: 'Features', href: '/' },
       { label: 'Pricing', href: '/pricing' },
       { label: 'Quick Start', href: '/getting-started' },
-      { label: 'Integrations', href: '#' },
-      { label: 'Changelog', href: '#' },
     ],
   },
   {
@@ -15,26 +13,19 @@ const columns = [
     links: [
       { label: 'About', href: '/about' },
       { label: 'Blog', href: '/blog' },
-      { label: 'Careers', href: '#' },
-      { label: 'Contact', href: '#' },
-    ],
-  },
-  {
-    heading: 'Resources',
-    links: [
-      { label: 'Docs', href: '#' },
-      { label: 'API', href: '#' },
-      { label: 'Community', href: '#' },
-      { label: 'Status', href: '#' },
+      { label: 'Contact', href: 'mailto:support@octopad.ai' },
     ],
   },
   {
     heading: 'Legal',
     links: [
-      { label: 'Privacy', href: '#' },
-      { label: 'Terms', href: '#' },
-      { label: 'Security', href: '#' },
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
     ],
+  },
+  {
+    heading: 'Works with',
+    links: [{ label: 'Any MCP-compatible AI model', href: '#' }],
   },
 ];
 ---
@@ -48,7 +39,7 @@ const columns = [
           <span>Octopad</span>
         </a>
         <p class="small" style="max-width: 32ch; margin-top: 14px;">
-          The back-office for AI teams. One shared brain across Claude, ChatGPT, Cursor and the rest.
+          Your AI's back-office. One shared brain across every AI your team uses.
         </p>
       </div>
       {columns.map((col) => (
@@ -63,8 +54,10 @@ const columns = [
       ))}
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Octopad Labs, Inc.</span>
-      <span>Made for teams who ship.</span>
+      <span>© 2026 Octopad</span>
+      <span>
+        <a href="https://x.com/octopad_ai">@octopad_ai on X</a>
+      </span>
     </div>
   </div>
 </footer>
