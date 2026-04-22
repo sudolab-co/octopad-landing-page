@@ -1,36 +1,71 @@
 ---
 // Pillar 1 — Context
-// Animated SVG that reads as a real AI chat transcript (no fake chat UI,
-// no bubbles, no speaker labels). One element per line. Mascot icon +
-// action text on a single line for the Octopad MCP tool call.
+// Animated SVG that reads as a real AI chat transcript inside a quiet
+// chat-window frame. Each line appears in sequence (user types →
+// AI calls build_context → "reading…" status lines stream in →
+// AI begins drafting Section 1 with a typewriter cursor).
 //
-// Sequence, left-to-right on the page reading order:
-//   1. User message (plain, right-aligned)
-//   2. build_context tool-call line ([mascot] build_context)
-//   3. Four pulled items cascade in
-//   4. AI reply intro + draft headline + blinking cursor
+// The whole transcript loops on a 12s cycle so a visitor scrolling
+// to the section will catch a full pass even if they arrive mid-cycle.
 ---
 
-<div class="pillar-chat" role="img" aria-label="AI chat transcript: user asks to work on the homepage copy. The AI calls build_context on Octopad and pulls Product Overview, Brand Guidelines, Monday's positioning decision and Marketing Website tracker, then starts drafting the reply.">
+<div class="pillar-chat" role="img" aria-label="AI chat transcript: Alex asks Claude to work on the homepage copy. Claude calls build_context on Octopad, reads the Product Overview page, the Brand Guidelines page, and fetches Monday's positioning decision, then begins drafting Section 1.">
   <svg viewBox="0 0 520 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
-    <!-- 1. User message — plain text, right-aligned, no bubble -->
-    <text class="user-msg" x="500" y="54" text-anchor="end">Work on the homepage copy.</text>
+    <defs>
+      <!-- Soft drop shadow for the chat-window frame -->
+      <filter id="frame-shadow" x="-4%" y="-4%" width="108%" height="110%">
+        <feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="#0a1830" flood-opacity="0.06"/>
+      </filter>
 
-    <!-- 2. AI action — build_context line -->
-    <image class="action-mascot" href="/assets/mascot.png" x="20" y="116" width="24" height="22"/>
-    <text class="action-name" x="52" y="133">build_context</text>
+      <!-- Typewriter clip for the user message (right-aligned, reveals L→R) -->
+      <clipPath id="cp-user">
+        <rect class="cp-user-rect" x="208" y="40" width="0" height="36"/>
+      </clipPath>
 
-    <!-- 3. Pulled items, nested list under build_context -->
-    <text class="item item-1" x="52" y="168">Product Overview</text>
-    <text class="item item-2" x="52" y="194">Brand Guidelines</text>
-    <text class="item item-3" x="52" y="220">Monday's positioning decision</text>
-    <text class="item item-4" x="52" y="246">Marketing Website tracker</text>
+      <!-- Typewriter clip for the AI draft line -->
+      <clipPath id="cp-draft">
+        <rect class="cp-draft-rect" x="32" y="282" width="0" height="32"/>
+      </clipPath>
+    </defs>
 
-    <!-- 4. AI reply — intro then draft line with cursor -->
-    <text class="reply-intro" x="20" y="308">Here's a draft for Section 1 —</text>
-    <text class="reply-draft" x="20" y="342">The right context for every task.</text>
-    <rect class="cursor" x="264" y="330" width="2.5" height="16"/>
+    <!-- Chat-window frame -->
+    <rect class="frame" x="4" y="4" width="512" height="432" rx="14" filter="url(#frame-shadow)"/>
+
+    <!-- Tiny live-dot in the top-right corner of the frame -->
+    <circle class="frame-dot" cx="494" cy="20" r="3"/>
+
+    <!-- 1 · User message — typed on the right -->
+    <text class="user-msg" x="488" y="64" text-anchor="end" clip-path="url(#cp-user)">Work on the homepage copy.</text>
+
+    <!-- 2 · AI tool call: build_context -->
+    <g class="step action-step">
+      <image class="action-mascot" href="/assets/mascot.png" x="32" y="99" width="24" height="22"/>
+      <text class="action-name" x="64" y="117">build_context</text>
+    </g>
+
+    <!-- 3 · Status lines (indented under build_context) -->
+    <g class="step status-1">
+      <circle class="dot" cx="68" cy="148" r="2.4"/>
+      <text class="status" x="80" y="152">reading Product Overview page</text>
+    </g>
+    <g class="step status-2">
+      <circle class="dot" cx="68" cy="176" r="2.4"/>
+      <text class="status" x="80" y="180">reading Brand Guidelines page</text>
+    </g>
+    <g class="step status-3">
+      <circle class="dot" cx="68" cy="204" r="2.4"/>
+      <text class="status" x="80" y="208">fetching Monday's positioning decision</text>
+    </g>
+
+    <!-- 4 · AI reply -->
+    <g class="step reply-step">
+      <text class="reply-intro" x="32" y="262">Here's a draft for Section 1 —</text>
+    </g>
+
+    <!-- 5 · Draft headline + tracking cursor -->
+    <text class="reply-draft" x="32" y="304" clip-path="url(#cp-draft)">The right context for every task.</text>
+    <rect class="cursor" x="32" y="288" width="2.5" height="18"/>
   </svg>
 </div>
 
@@ -38,93 +73,192 @@
   .pillar-chat { width: 100%; }
   .pillar-chat svg { display: block; width: 100%; height: auto; }
 
+  /* Frame — the "chat window" containment Alex asked for */
+  .frame {
+    fill: var(--paper-raised);
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .frame-dot {
+    fill: var(--green);
+    opacity: 0.55;
+  }
+
+  /* Typography */
   .user-msg {
     font-family: var(--font);
     font-size: 15px;
-    fill: var(--ink-soft);
+    fill: var(--ink);
   }
-
   .action-name {
     font-family: var(--mono);
     font-size: 13.5px;
     font-weight: 500;
     fill: var(--ink);
   }
-
-  .item {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    fill: var(--ink-soft);
-  }
-
-  .reply-intro {
+  .status {
     font-family: var(--font);
     font-size: 13px;
+    font-style: italic;
     fill: var(--ink-mute);
   }
-
+  .dot {
+    fill: var(--green);
+  }
+  .reply-intro {
+    font-family: var(--font);
+    font-size: 13.5px;
+    fill: var(--ink-mute);
+  }
   .reply-draft {
     font-family: var(--font);
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 500;
     fill: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .cursor {
+    fill: var(--green);
   }
 
-  .cursor { fill: var(--green); }
+  /* ---- Animation timeline ---- */
+  /* Master cycle = 12s, looping. Elements stay hidden until activated. */
 
-  /* Animation timeline (plays when the pillar scrolls into view,
-     falls back to page-load if the IntersectionObserver doesn't fire) */
-  .user-msg,
-  .action-mascot,
-  .action-name,
-  .item,
-  .reply-intro,
-  .reply-draft,
+  .step,
   .cursor { opacity: 0; }
 
-  .pillar-chat.animate .user-msg     { animation: fade-in 0.4s ease-out 0.2s forwards; }
-  .pillar-chat.animate .action-mascot{ animation: fade-in 0.4s ease-out 0.8s forwards; }
-  .pillar-chat.animate .action-name  { animation: fade-in 0.4s ease-out 0.9s forwards; }
-  .pillar-chat.animate .item-1       { animation: fade-in 0.4s ease-out 1.3s forwards; }
-  .pillar-chat.animate .item-2       { animation: fade-in 0.4s ease-out 1.5s forwards; }
-  .pillar-chat.animate .item-3       { animation: fade-in 0.4s ease-out 1.7s forwards; }
-  .pillar-chat.animate .item-4       { animation: fade-in 0.4s ease-out 1.9s forwards; }
-  .pillar-chat.animate .reply-intro  { animation: fade-in 0.4s ease-out 2.4s forwards; }
-  .pillar-chat.animate .reply-draft  { animation: fade-in 0.4s ease-out 2.8s forwards; }
-  .pillar-chat.animate .cursor       { animation: cursor-blink 1.1s step-end 3.2s infinite; }
-
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+  /* User message: typewriter via clipPath rect width */
+  .pillar-chat.animate .cp-user-rect {
+    animation: type-user 12s linear infinite;
+  }
+  @keyframes type-user {
+    0%, 3%   { width: 0; }
+    13%      { width: 280px; }
+    91%      { width: 280px; }
+    96%, 100%{ width: 0; }
   }
 
+  /* AI tool call appears */
+  .pillar-chat.animate .action-step {
+    animation: step-life 12s ease-out infinite;
+    animation-delay: 0s;
+    --start: 16%;
+    --in: 19%;
+  }
+  /* Status lines cascade in */
+  .pillar-chat.animate .status-1 { animation: step-life-1 12s ease-out infinite; }
+  .pillar-chat.animate .status-2 { animation: step-life-2 12s ease-out infinite; }
+  .pillar-chat.animate .status-3 { animation: step-life-3 12s ease-out infinite; }
+  /* Reply intro */
+  .pillar-chat.animate .reply-step { animation: step-life-r 12s ease-out infinite; }
+
+  @keyframes step-life {
+    0%, 16%  { opacity: 0; transform: translateY(4px); }
+    20%      { opacity: 1; transform: translateY(0); }
+    91%      { opacity: 1; transform: translateY(0); }
+    96%, 100%{ opacity: 0; transform: translateY(0); }
+  }
+  @keyframes step-life-1 {
+    0%, 24%  { opacity: 0; transform: translateY(4px); }
+    28%      { opacity: 1; transform: translateY(0); }
+    91%      { opacity: 1; transform: translateY(0); }
+    96%, 100%{ opacity: 0; transform: translateY(0); }
+  }
+  @keyframes step-life-2 {
+    0%, 30%  { opacity: 0; transform: translateY(4px); }
+    34%      { opacity: 1; transform: translateY(0); }
+    91%      { opacity: 1; transform: translateY(0); }
+    96%, 100%{ opacity: 0; transform: translateY(0); }
+  }
+  @keyframes step-life-3 {
+    0%, 36%  { opacity: 0; transform: translateY(4px); }
+    40%      { opacity: 1; transform: translateY(0); }
+    91%      { opacity: 1; transform: translateY(0); }
+    96%, 100%{ opacity: 0; transform: translateY(0); }
+  }
+  @keyframes step-life-r {
+    0%, 47%  { opacity: 0; transform: translateY(4px); }
+    50%      { opacity: 1; transform: translateY(0); }
+    91%      { opacity: 1; transform: translateY(0); }
+    96%, 100%{ opacity: 0; transform: translateY(0); }
+  }
+
+  /* Draft line: typewriter clip width */
+  .pillar-chat.animate .cp-draft-rect {
+    animation: type-draft 12s linear infinite;
+  }
+  @keyframes type-draft {
+    0%, 53%  { width: 0; }
+    66%      { width: 320px; }
+    91%      { width: 320px; }
+    96%, 100%{ width: 0; }
+  }
+
+  /* Cursor: tracks the typewriter position, then blinks until cycle resets */
+  .pillar-chat.animate .cursor {
+    animation:
+      cursor-pos 12s linear infinite,
+      cursor-blink 12s step-end infinite;
+  }
+  @keyframes cursor-pos {
+    0%, 53%  { transform: translateX(0); }
+    66%, 100%{ transform: translateX(285px); }
+  }
   @keyframes cursor-blink {
-    0%,   50%    { opacity: 1; }
-    50.01%, 100% { opacity: 0; }
+    0%, 52%  { opacity: 0; }
+    53%      { opacity: 1; }
+    66%      { opacity: 1; }
+    70%      { opacity: 0; }
+    74%      { opacity: 1; }
+    78%      { opacity: 0; }
+    82%      { opacity: 1; }
+    86%      { opacity: 0; }
+    90%      { opacity: 1; }
+    91%, 100%{ opacity: 0; }
   }
 
-  /* Accessibility: show everything immediately, skip motion */
+  /* Frame dot — quiet pulse so the window reads as "live" */
+  .pillar-chat.animate .frame-dot {
+    animation: dot-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes dot-pulse {
+    0%, 100% { opacity: 0.35; }
+    50%      { opacity: 0.85; }
+  }
+
+  /* Reduced-motion: show the full transcript, skip the loop */
   @media (prefers-reduced-motion: reduce) {
-    .user-msg, .action-mascot, .action-name, .item, .reply-intro, .reply-draft, .cursor {
-      animation: none !important;
-      opacity: 1;
-    }
+    .pillar-chat .step,
+    .pillar-chat .cursor { opacity: 1 !important; }
+    .pillar-chat .cp-user-rect  { width: 280px !important; }
+    .pillar-chat .cp-draft-rect { width: 320px !important; }
+    .pillar-chat .cursor        { transform: translateX(285px) !important; }
+    .pillar-chat *              { animation: none !important; }
   }
 </style>
 
 <script>
-  // Trigger the animation when the pillar is about to scroll into view.
-  // Uses a scroll listener as a reliable fallback (some environments don't
-  // fire IntersectionObserver consistently).
-  const triggerIfVisible = () => {
-    document.querySelectorAll('.pillar-chat:not(.animate)').forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      const inView = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
-      if (inView) el.classList.add('animate');
+  // Trigger the looping animation as soon as the pillar is anywhere
+  // close to the viewport, and re-trigger when it scrolls back in.
+  // Uses a scroll listener as a reliable cross-browser baseline plus
+  // an IntersectionObserver where it fires (skipped by some headless
+  // / embedded browsers).
+  const sync = () => {
+    document.querySelectorAll('.pillar-chat').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const inView = r.top < window.innerHeight * 0.9 && r.bottom > 0;
+      el.classList.toggle('animate', inView);
     });
   };
 
-  triggerIfVisible();
-  window.addEventListener('scroll', triggerIfVisible, { passive: true });
-  window.addEventListener('resize', triggerIfVisible, { passive: true });
+  sync();
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => e.target.classList.toggle('animate', e.isIntersecting));
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.pillar-chat').forEach((el) => obs.observe(el));
+  }
 </script>
