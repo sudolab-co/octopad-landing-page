@@ -1,0 +1,211 @@
+<svg
+  width="520"
+  height="440"
+  viewBox="0 0 520 440"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Claude chat: user writes 'Plan the beta launch.' — Claude responds with a structured task tree showing two dependency-wired phases with Why, What, and Done-when fields filled"
+>
+  <title>One line of input — a structured, typed, dependency-wired plan</title>
+
+  <!-- ─── Card shell ─── -->
+  <rect width="520" height="440" rx="12" fill="#ffffff"/>
+  <rect x="0.5" y="0.5" width="519" height="439" rx="11.5" fill="none" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- ─── Header bar ─── -->
+  <rect width="520" height="48" rx="12" fill="#f9f8f6"/>
+  <rect y="36" width="520" height="12" fill="#f9f8f6"/>
+  <line x1="0" y1="48" x2="520" y2="48" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- Active status dot -->
+  <circle cx="26" cy="24" r="5" fill="#2a9f73"/>
+
+  <!-- "Claude" label -->
+  <text
+    x="40" y="30"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="13"
+    font-weight="500"
+    fill="#1e2228"
+  >Claude</text>
+
+  <!-- "octopad workspace" -->
+  <text
+    x="494" y="30"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="10"
+    fill="#909298"
+    text-anchor="end"
+  >octopad workspace</text>
+
+  <!-- ─── User message ─── -->
+
+  <!-- Speaker label -->
+  <text
+    x="494" y="68"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="10"
+    fill="#909298"
+    text-anchor="end"
+  >Alex</text>
+
+  <!-- Bubble -->
+  <rect x="316" y="75" width="178" height="36" rx="8" fill="#1e2228"/>
+
+  <!-- Message text -->
+  <text
+    x="331" y="98"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="13"
+    fill="#f9f8f6"
+  >Plan the beta launch.</text>
+
+  <!-- ─── Plan block ─── -->
+  <rect x="20" y="116" width="480" height="224" rx="8" fill="#ffffff" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- Green left accent bar -->
+  <line x1="22.5" y1="126" x2="22.5" y2="330" stroke="#2a9f73" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Block header: checkmark circle -->
+  <circle cx="44" cy="135" r="8" fill="#e8f4ee"/>
+  <polyline
+    points="40,135 43.5,138.5 49,132"
+    stroke="#2a9f73" stroke-width="1.8" fill="none"
+    stroke-linecap="round" stroke-linejoin="round"
+  />
+
+  <!-- "Plan created" -->
+  <text
+    x="61" y="140"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="11.5"
+    font-weight="600"
+    fill="#2a9f73"
+    letter-spacing="0.2"
+  >Plan created</text>
+
+  <!-- Subtle annotation -->
+  <text
+    x="490" y="140"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="9.5"
+    fill="#c4c6cc"
+    text-anchor="end"
+  >2 tasks · 1 dependency</text>
+
+  <!-- Divider -->
+  <line x1="36" y1="153" x2="500" y2="153" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- ─── Research phase card ─── -->
+  <rect x="38" y="160" width="455" height="72" rx="6" fill="#f9f8f6" stroke="#e8eaed" stroke-width="0.75"/>
+
+  <!-- Phase dot -->
+  <circle cx="53" cy="177" r="4" fill="#1e2228"/>
+
+  <!-- Task title -->
+  <text
+    x="65" y="181"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="12"
+    font-weight="500"
+    fill="#1e2228"
+  >Research phase</text>
+
+  <!-- Schema tags row -->
+  <!-- WHY -->
+  <rect x="65" y="188" width="28" height="13" rx="3" fill="#e8eaed"/>
+  <text x="79" y="198" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#5f6470" text-anchor="middle">WHY</text>
+  <!-- WHAT -->
+  <rect x="98" y="188" width="32" height="13" rx="3" fill="#e8eaed"/>
+  <text x="114" y="198" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#5f6470" text-anchor="middle">WHAT</text>
+  <!-- DONE WHEN -->
+  <rect x="135" y="188" width="64" height="13" rx="3" fill="#e8eaed"/>
+  <text x="167" y="198" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#5f6470" text-anchor="middle">DONE WHEN</text>
+
+  <!-- Priority badge: HIGH -->
+  <rect x="65" y="207" width="36" height="16" rx="3" fill="#1e2228"/>
+  <text x="83" y="218.5" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#f9f8f6" text-anchor="middle">HIGH</text>
+
+  <!-- Impact badge: ◆ 4 -->
+  <rect x="106" y="207" width="32" height="16" rx="3" fill="#e8f4ee"/>
+  <text x="122" y="218.5" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#2a9f73" text-anchor="middle">◆ 4</text>
+
+  <!-- ─── Dependency connector ─── -->
+  <!-- Left tree-trunk: soft vertical thread connecting phase dots -->
+  <line x1="53" y1="181" x2="53" y2="270" stroke="#dcdfe6" stroke-width="1" stroke-linecap="round"/>
+
+  <!-- Center dashed line -->
+  <line x1="260" y1="233" x2="260" y2="249" stroke="#c4c6cc" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <!-- Arrowhead pointing down -->
+  <polygon points="255,249 265,249 260,255" fill="#c4c6cc"/>
+  <!-- "depends on" label -->
+  <text
+    x="270" y="246"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="9"
+    fill="#c4c6cc"
+  >depends on</text>
+
+  <!-- ─── Design phase card ─── -->
+  <rect x="38" y="257" width="455" height="72" rx="6" fill="#f9f8f6" stroke="#e8eaed" stroke-width="0.75"/>
+
+  <!-- Phase dot -->
+  <circle cx="53" cy="274" r="4" fill="#1e2228"/>
+
+  <!-- Task title -->
+  <text
+    x="65" y="278"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="12"
+    font-weight="500"
+    fill="#1e2228"
+  >Design phase</text>
+
+  <!-- Schema tags row -->
+  <!-- WHY -->
+  <rect x="65" y="285" width="28" height="13" rx="3" fill="#e8eaed"/>
+  <text x="79" y="295" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#5f6470" text-anchor="middle">WHY</text>
+  <!-- WHAT -->
+  <rect x="98" y="285" width="32" height="13" rx="3" fill="#e8eaed"/>
+  <text x="114" y="295" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#5f6470" text-anchor="middle">WHAT</text>
+  <!-- DONE WHEN -->
+  <rect x="135" y="285" width="64" height="13" rx="3" fill="#e8eaed"/>
+  <text x="167" y="295" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#5f6470" text-anchor="middle">DONE WHEN</text>
+
+  <!-- Priority badge: HIGH -->
+  <rect x="65" y="304" width="36" height="16" rx="3" fill="#1e2228"/>
+  <text x="83" y="315.5" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#f9f8f6" text-anchor="middle">HIGH</text>
+
+  <!-- Impact badge: ◆ 5 -->
+  <rect x="106" y="304" width="32" height="16" rx="3" fill="#e8f4ee"/>
+  <text x="122" y="315.5" font-family="'Geist Mono', 'Courier New', monospace" font-size="8.5" fill="#2a9f73" text-anchor="middle">◆ 5</text>
+
+  <!-- ─── Claude response ─── -->
+  <!-- Speaker label -->
+  <text
+    x="20" y="356"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="10"
+    fill="#909298"
+  >Claude</text>
+
+  <!-- Bubble -->
+  <rect x="20" y="364" width="480" height="56" rx="8" fill="#f9f8f6" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- Response line 1 -->
+  <text
+    x="36" y="387"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="13"
+    fill="#5f6470"
+  >Beta launch plan ready. Research goes first —</text>
+
+  <!-- Response line 2 -->
+  <text
+    x="36" y="407"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="13"
+    fill="#5f6470"
+  >Design is wired to follow. Ready to assign.</text>
+
+</svg>

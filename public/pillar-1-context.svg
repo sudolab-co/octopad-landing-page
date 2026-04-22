@@ -1,0 +1,178 @@
+<svg
+  width="520"
+  height="440"
+  viewBox="0 0 520 440"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Claude chat interface: user asks to work on homepage copy, Claude automatically loads context from the workspace — no files attached"
+>
+  <title>Claude pulls the right context automatically, without any prompt</title>
+
+  <!-- ─── Card shell ─── -->
+  <rect width="520" height="440" rx="12" fill="#ffffff"/>
+  <rect x="0.5" y="0.5" width="519" height="439" rx="11.5" fill="none" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- ─── Header bar ─── -->
+  <!-- Paper-toned top strip, rounded on top only -->
+  <rect width="520" height="48" rx="12" fill="#f9f8f6"/>
+  <!-- Cover bottom radius -->
+  <rect y="36" width="520" height="12" fill="#f9f8f6"/>
+  <!-- Bottom border -->
+  <line x1="0" y1="48" x2="520" y2="48" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- Active status dot (green pulse) -->
+  <circle cx="26" cy="24" r="5" fill="#2a9f73"/>
+
+  <!-- "Claude" label -->
+  <text
+    x="40" y="30"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="13"
+    font-weight="500"
+    fill="#1e2228"
+  >Claude</text>
+
+  <!-- "octopad workspace" label -->
+  <text
+    x="494" y="30"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="10"
+    fill="#909298"
+    text-anchor="end"
+  >octopad workspace</text>
+
+  <!-- ─── User message ─── -->
+
+  <!-- Speaker label -->
+  <text
+    x="494" y="72"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="10"
+    fill="#909298"
+    text-anchor="end"
+  >Alex</text>
+
+  <!-- Bubble -->
+  <rect x="258" y="79" width="236" height="36" rx="8" fill="#1e2228"/>
+
+  <!-- Message text -->
+  <text
+    x="274" y="102"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="13.5"
+    fill="#f9f8f6"
+  >Work on the homepage copy.</text>
+
+  <!-- ─── Context loaded block ─── -->
+
+  <!-- Block outer frame -->
+  <rect x="20" y="129" width="480" height="164" rx="8" fill="#ffffff" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- Green left accent bar (inset from corners) -->
+  <line x1="22.5" y1="139" x2="22.5" y2="283" stroke="#2a9f73" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Header: checkmark circle -->
+  <circle cx="44" cy="148" r="8" fill="#e8f4ee"/>
+  <polyline
+    points="40,148 43.5,151.5 49,145"
+    stroke="#2a9f73" stroke-width="1.8" fill="none"
+    stroke-linecap="round" stroke-linejoin="round"
+  />
+
+  <!-- Header: "Context loaded" -->
+  <text
+    x="61" y="153"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="11.5"
+    font-weight="600"
+    fill="#2a9f73"
+    letter-spacing="0.2"
+  >Context loaded</text>
+
+  <!-- Divider -->
+  <line x1="36" y1="166" x2="500" y2="166" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- Item 1 -->
+  <!-- Small doc icon -->
+  <rect x="42" y="176" width="5" height="6" rx="1.5" fill="#909298"/>
+  <text
+    x="56" y="186"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="12"
+    fill="#1e2228"
+  >Product Overview</text>
+
+  <!-- Item 2 -->
+  <line x1="36" y1="198" x2="500" y2="198" stroke="#e8eaed" stroke-width="0.75"/>
+  <rect x="42" y="207" width="5" height="6" rx="1.5" fill="#909298"/>
+  <text
+    x="56" y="217"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="12"
+    fill="#1e2228"
+  >Brand Guidelines</text>
+
+  <!-- Item 3 -->
+  <line x1="36" y1="229" x2="500" y2="229" stroke="#e8eaed" stroke-width="0.75"/>
+  <rect x="42" y="238" width="5" height="6" rx="1.5" fill="#909298"/>
+  <text
+    x="56" y="248"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="12"
+    fill="#1e2228"
+  >Monday's positioning decision</text>
+
+  <!-- Item 4 -->
+  <line x1="36" y1="260" x2="500" y2="260" stroke="#e8eaed" stroke-width="0.75"/>
+  <rect x="42" y="269" width="5" height="6" rx="1.5" fill="#909298"/>
+  <text
+    x="56" y="279"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="12"
+    fill="#1e2228"
+  >Marketing Website tracker</text>
+
+  <!-- Subtle annotation: no files attached -->
+  <text
+    x="494" y="310"
+    font-family="'Geist Mono', 'Courier New', monospace"
+    font-size="10"
+    fill="#c4c6cc"
+    text-anchor="end"
+  >Loaded automatically · no files attached</text>
+
+  <!-- ─── Claude response (beginning to write) ─── -->
+
+  <!-- Speaker label -->
+  <text
+    x="20" y="330"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="10"
+    fill="#909298"
+  >Claude</text>
+
+  <!-- Bubble -->
+  <rect x="20" y="338" width="420" height="80" rx="8" fill="#f9f8f6" stroke="#dcdfe6" stroke-width="1"/>
+
+  <!-- Intro line (ink-soft) -->
+  <text
+    x="36" y="361"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="13"
+    fill="#5f6470"
+  >Here's a draft for Section 1 —</text>
+
+  <!-- Draft headline, being typed (ink, medium weight) -->
+  <text
+    x="36" y="388"
+    font-family="'Geist', system-ui, -apple-system, sans-serif"
+    font-size="13.5"
+    font-weight="500"
+    fill="#1e2228"
+  >The right context for every</text>
+
+  <!-- Typing cursor (green block, after partial text) -->
+  <!-- "The right context for every" ≈ 27 chars × ~7px = 189px + x=36 = 225px -->
+  <rect x="228" y="376" width="2" height="16" rx="0.5" fill="#2a9f73" opacity="0.85"/>
+
+</svg>

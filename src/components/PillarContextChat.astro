@@ -1,0 +1,130 @@
+---
+// Pillar 1 — Context
+// Animated SVG that reads as a real AI chat transcript (no fake chat UI,
+// no bubbles, no speaker labels). One element per line. Mascot icon +
+// action text on a single line for the Octopad MCP tool call.
+//
+// Sequence, left-to-right on the page reading order:
+//   1. User message (plain, right-aligned)
+//   2. build_context tool-call line ([mascot] build_context)
+//   3. Four pulled items cascade in
+//   4. AI reply intro + draft headline + blinking cursor
+---
+
+<div class="pillar-chat" role="img" aria-label="AI chat transcript: user asks to work on the homepage copy. The AI calls build_context on Octopad and pulls Product Overview, Brand Guidelines, Monday's positioning decision and Marketing Website tracker, then starts drafting the reply.">
+  <svg viewBox="0 0 520 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+    <!-- 1. User message — plain text, right-aligned, no bubble -->
+    <text class="user-msg" x="500" y="54" text-anchor="end">Work on the homepage copy.</text>
+
+    <!-- 2. AI action — build_context line -->
+    <image class="action-mascot" href="/assets/mascot.png" x="20" y="116" width="24" height="22"/>
+    <text class="action-name" x="52" y="133">build_context</text>
+
+    <!-- 3. Pulled items, nested list under build_context -->
+    <text class="item item-1" x="52" y="168">Product Overview</text>
+    <text class="item item-2" x="52" y="194">Brand Guidelines</text>
+    <text class="item item-3" x="52" y="220">Monday's positioning decision</text>
+    <text class="item item-4" x="52" y="246">Marketing Website tracker</text>
+
+    <!-- 4. AI reply — intro then draft line with cursor -->
+    <text class="reply-intro" x="20" y="308">Here's a draft for Section 1 —</text>
+    <text class="reply-draft" x="20" y="342">The right context for every task.</text>
+    <rect class="cursor" x="264" y="330" width="2.5" height="16"/>
+  </svg>
+</div>
+
+<style>
+  .pillar-chat { width: 100%; }
+  .pillar-chat svg { display: block; width: 100%; height: auto; }
+
+  .user-msg {
+    font-family: var(--font);
+    font-size: 15px;
+    fill: var(--ink-soft);
+  }
+
+  .action-name {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    font-weight: 500;
+    fill: var(--ink);
+  }
+
+  .item {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    fill: var(--ink-soft);
+  }
+
+  .reply-intro {
+    font-family: var(--font);
+    font-size: 13px;
+    fill: var(--ink-mute);
+  }
+
+  .reply-draft {
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 500;
+    fill: var(--ink);
+  }
+
+  .cursor { fill: var(--green); }
+
+  /* Animation timeline (plays when the pillar scrolls into view,
+     falls back to page-load if the IntersectionObserver doesn't fire) */
+  .user-msg,
+  .action-mascot,
+  .action-name,
+  .item,
+  .reply-intro,
+  .reply-draft,
+  .cursor { opacity: 0; }
+
+  .pillar-chat.animate .user-msg     { animation: fade-in 0.4s ease-out 0.2s forwards; }
+  .pillar-chat.animate .action-mascot{ animation: fade-in 0.4s ease-out 0.8s forwards; }
+  .pillar-chat.animate .action-name  { animation: fade-in 0.4s ease-out 0.9s forwards; }
+  .pillar-chat.animate .item-1       { animation: fade-in 0.4s ease-out 1.3s forwards; }
+  .pillar-chat.animate .item-2       { animation: fade-in 0.4s ease-out 1.5s forwards; }
+  .pillar-chat.animate .item-3       { animation: fade-in 0.4s ease-out 1.7s forwards; }
+  .pillar-chat.animate .item-4       { animation: fade-in 0.4s ease-out 1.9s forwards; }
+  .pillar-chat.animate .reply-intro  { animation: fade-in 0.4s ease-out 2.4s forwards; }
+  .pillar-chat.animate .reply-draft  { animation: fade-in 0.4s ease-out 2.8s forwards; }
+  .pillar-chat.animate .cursor       { animation: cursor-blink 1.1s step-end 3.2s infinite; }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes cursor-blink {
+    0%,   50%    { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+
+  /* Accessibility: show everything immediately, skip motion */
+  @media (prefers-reduced-motion: reduce) {
+    .user-msg, .action-mascot, .action-name, .item, .reply-intro, .reply-draft, .cursor {
+      animation: none !important;
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  // Trigger the animation when the pillar is about to scroll into view.
+  // Uses a scroll listener as a reliable fallback (some environments don't
+  // fire IntersectionObserver consistently).
+  const triggerIfVisible = () => {
+    document.querySelectorAll('.pillar-chat:not(.animate)').forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+      if (inView) el.classList.add('animate');
+    });
+  };
+
+  triggerIfVisible();
+  window.addEventListener('scroll', triggerIfVisible, { passive: true });
+  window.addEventListener('resize', triggerIfVisible, { passive: true });
+</script>
