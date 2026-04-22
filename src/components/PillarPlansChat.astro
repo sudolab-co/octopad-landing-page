@@ -1,0 +1,244 @@
+---
+// Pillar 2 — Plans
+// Animated SVG that reads as a real AI chat transcript inside the same
+// quiet chat-window frame as Pillar 1. Beat:
+//   user asks for a task → AI calls tasks.create → a task-card preview
+//   assembles itself (title → stream + priority + impact → dependency) →
+//   AI reply confirms the task is wired into the workspace.
+//
+// The card fields are things the user did NOT say (stream, priority,
+// impact, dependency) — that's the visible proof the AI is pulling
+// structure from the workspace, not just echoing the prompt.
+//
+// 14s cycle, same trigger + reduced-motion fallback as PillarContextChat.
+---
+
+<div class="pillar-chat" role="img" aria-label="AI chat transcript: Alex asks Claude to add a task to tighten onboarding copy. Claude calls the Octopad tasks.create tool. A task-card preview appears showing Tighten onboarding copy, wired into the Launch Execution work stream at HIGH priority and impact 5, with a dependency on Ship onboarding v2. Claude replies that the task was created and wired into the Launch Execution stream.">
+  <svg viewBox="0 0 520 304" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+    <defs>
+      <!-- Soft drop shadow for the chat-window frame -->
+      <filter id="frame-shadow-2" x="-4%" y="-4%" width="108%" height="110%">
+        <feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="#0a1830" flood-opacity="0.06"/>
+      </filter>
+
+      <!-- Check symbol — same geometry as Pillar 1's ic-check, scoped id -->
+      <symbol id="ic-check-2" viewBox="0 0 14 14">
+        <polyline points="2.5,7.5 5.8,10.5 11.5,3.8"
+                  fill="none" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
+      <!-- Typewriter clip for the user message (right-aligned, reveals L→R) -->
+      <clipPath id="cp-user-2">
+        <rect class="cp-user-rect-2" x="140" y="28" width="0" height="32"/>
+      </clipPath>
+
+      <!-- Typewriter clip for the AI final reply -->
+      <clipPath id="cp-reply-2">
+        <rect class="cp-reply-rect-2" x="32" y="258" width="0" height="30"/>
+      </clipPath>
+    </defs>
+
+    <!-- Chat-window frame -->
+    <rect class="frame" x="4" y="4" width="512" height="296" rx="14" filter="url(#frame-shadow-2)"/>
+
+    <!-- Tiny live-dot in the top-right corner of the frame -->
+    <circle class="frame-dot" cx="494" cy="20" r="3"/>
+
+    <!-- 1 · User message — typed on the right -->
+    <text class="user-msg" x="488" y="44" text-anchor="end" clip-path="url(#cp-user-2)">add a task to tighten onboarding copy</text>
+
+    <!-- 2 · AI tool call: tasks.create -->
+    <g class="step tool-step">
+      <image class="action-mascot" href="/assets/mascot.png" x="32" y="74" width="24" height="22"/>
+      <text class="action-name" x="64" y="92">tasks.create</text>
+    </g>
+
+    <!-- 3 · Task-card preview: container + title + green check -->
+    <g class="step task-card">
+      <rect class="card-bg" x="32" y="108" width="460" height="100" rx="8"/>
+      <use href="#ic-check-2" x="48" y="120" width="14" height="14" class="ic-green"/>
+      <text class="card-title" x="70" y="131">Tighten onboarding copy</text>
+    </g>
+
+    <!-- 4 · Metadata row — inferred from workspace -->
+    <g class="step task-meta">
+      <text class="card-meta" x="48" y="161">#Launch Execution  ·  HIGH  ·  impact 5</text>
+    </g>
+
+    <!-- 5 · Dependency row — pulled from workspace -->
+    <g class="step task-dep">
+      <text class="card-dep" x="48" y="187">depends on #Ship onboarding v2</text>
+    </g>
+
+    <!-- 6 · AI reply — types out with cursor -->
+    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-2)">Task created — wired into #Launch Execution.</text>
+    <rect class="cursor" x="32" y="262" width="2.5" height="18"/>
+  </svg>
+</div>
+
+<style>
+  .pillar-chat { width: 100%; }
+  .pillar-chat svg { display: block; width: 100%; height: auto; }
+
+  /* Frame — the "chat window" containment */
+  .frame {
+    fill: var(--paper-raised);
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .frame-dot {
+    fill: var(--green);
+    opacity: 0.55;
+  }
+
+  /* Typography — identical chat voice to Pillar 1 */
+  .user-msg {
+    font-family: var(--font);
+    font-size: 15px;
+    fill: var(--ink);
+  }
+  .action-name {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    font-weight: 500;
+    fill: var(--ink);
+  }
+  .reply-msg {
+    font-family: var(--font);
+    font-size: 15px;
+    fill: var(--ink);
+  }
+  .cursor { fill: var(--green); }
+  .ic-green { color: var(--green); }
+
+  /* Task-card treatment — a quiet recessed inset so it reads as a
+     structured artefact inside the transcript, not a chrome widget */
+  .card-bg {
+    fill: var(--green-soft);
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .card-title {
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    fill: var(--ink);
+  }
+  .card-meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    fill: var(--ink-mute);
+  }
+  .card-dep {
+    font-family: var(--font);
+    font-size: 12.5px;
+    font-style: italic;
+    fill: var(--ink-mute);
+  }
+
+  /* ---- Animation timeline ---- */
+  /* Master cycle = 14s, looping. Elements stay hidden until activated. */
+
+  .pillar-chat .step,
+  .pillar-chat .cursor { opacity: 0; }
+
+  /* User message typewriter */
+  .pillar-chat.animate .cp-user-rect-2 {
+    animation: type-user-2 14s linear infinite;
+  }
+  @keyframes type-user-2 {
+    0%, 2%   { width: 0; }
+    11%      { width: 360px; }
+    92%      { width: 360px; }
+    96%, 100%{ width: 0; }
+  }
+
+  /* Sequenced reveals — tool, then the card fills itself in */
+  .pillar-chat.animate .tool-step { animation: in-tool-2 14s ease-out infinite; }
+  .pillar-chat.animate .task-card { animation: in-card-2 14s ease-out infinite; }
+  .pillar-chat.animate .task-meta { animation: in-meta-2 14s ease-out infinite; }
+  .pillar-chat.animate .task-dep  { animation: in-dep-2  14s ease-out infinite; }
+
+  @keyframes in-tool-2 { 0%,14% {opacity:0;transform:translateY(4px)} 18%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-card-2 { 0%,22% {opacity:0;transform:translateY(6px)} 27%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-meta-2 { 0%,33% {opacity:0;transform:translateY(4px)} 37%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-dep-2  { 0%,42% {opacity:0;transform:translateY(4px)} 46%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+
+  /* Reply typewriter */
+  .pillar-chat.animate .cp-reply-rect-2 {
+    animation: type-reply-2 14s linear infinite;
+  }
+  @keyframes type-reply-2 {
+    0%, 55%  { width: 0; }
+    68%      { width: 370px; }
+    92%      { width: 370px; }
+    96%, 100%{ width: 0; }
+  }
+
+  /* Cursor tracks reply then blinks */
+  .pillar-chat.animate .cursor {
+    animation:
+      cursor-pos-2 14s linear infinite,
+      cursor-blink-2 14s step-end infinite;
+  }
+  @keyframes cursor-pos-2 {
+    0%, 55%  { transform: translateX(0); }
+    68%, 100%{ transform: translateX(335px); }
+  }
+  @keyframes cursor-blink-2 {
+    0%, 54%  { opacity: 0; }
+    55%      { opacity: 1; }
+    68%      { opacity: 1; }
+    72%      { opacity: 0; }
+    76%      { opacity: 1; }
+    80%      { opacity: 0; }
+    84%      { opacity: 1; }
+    88%      { opacity: 0; }
+    92%      { opacity: 1; }
+    93%, 100%{ opacity: 0; }
+  }
+
+  /* Frame live-dot quiet pulse */
+  .pillar-chat.animate .frame-dot {
+    animation: dot-pulse-2 2.4s ease-in-out infinite;
+  }
+  @keyframes dot-pulse-2 {
+    0%, 100% { opacity: 0.35; }
+    50%      { opacity: 0.85; }
+  }
+
+  /* Reduced-motion: show the full transcript, skip the loop */
+  @media (prefers-reduced-motion: reduce) {
+    .pillar-chat .step,
+    .pillar-chat .cursor { opacity: 1 !important; }
+    .pillar-chat .cp-user-rect-2  { width: 360px !important; }
+    .pillar-chat .cp-reply-rect-2 { width: 370px !important; }
+    .pillar-chat .cursor          { transform: translateX(335px) !important; }
+    .pillar-chat *                { animation: none !important; }
+  }
+</style>
+
+<script>
+  // Same IntersectionObserver pattern as Pillar 1 — idempotent class toggle.
+  const sync = () => {
+    document.querySelectorAll('.pillar-chat').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const inView = r.top < window.innerHeight * 0.9 && r.bottom > 0;
+      el.classList.toggle('animate', inView);
+    });
+  };
+
+  sync();
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => e.target.classList.toggle('animate', e.isIntersecting));
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.pillar-chat').forEach((el) => obs.observe(el));
+  }
+</script>
+

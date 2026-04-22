@@ -1,0 +1,266 @@
+---
+// Pillar 3 — Memory
+// Animated SVG that reads as a real AI chat transcript inside a quiet
+// chat-window frame. Each line appears in sequence:
+//   user types → web_search tool runs (searching status) → knowledge.create
+//   tool runs (page, key fact, risk cascade in with their kind glyphs) →
+//   AI reply.
+//
+// The transcript loops on a 14s cycle so a visitor scrolling to the
+// section catches a full pass even if they arrive mid-cycle.
+//
+// Frame, typography, timing, and trigger mirror PillarContextChat.astro
+// verbatim — only the script and the kind-icon set change. Two new
+// symbols (#ic-keyfact-3, #ic-risk-3) carry the typed-knowledge story.
+---
+
+<div class="pillar-chat memory" role="img" aria-label="AI chat transcript: Alex asks Claude to review Brieflab, a competitor whose name keeps coming up. Claude calls the web_search tool, searching for 'brieflab', then calls the Octopad knowledge.create tool, which files three captures — a page titled Brieflab — competitor review, a key fact that Brieflab is now a top named competitor, and a medium-severity risk that Brieflab's traction with our ICP may crowd our mindshare. Claude then replies: Captured — page, key fact, and risk.">
+  <svg viewBox="0 0 520 304" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+    <defs>
+      <!-- Soft drop shadow for the chat-window frame -->
+      <filter id="frame-shadow-3" x="-4%" y="-4%" width="108%" height="110%">
+        <feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="#0a1830" flood-opacity="0.06"/>
+      </filter>
+
+      <!-- Page-symbol: little document with folded corner (same shape as Pillar 1, scoped id) -->
+      <symbol id="ic-page-3" viewBox="0 0 14 14">
+        <path d="M2.5 1.5 H8.5 L11.5 4.5 V12 a1 1 0 0 1 -1 1 H3.5 a1 1 0 0 1 -1 -1 V2.5 a1 1 0 0 1 1 -1 z"
+              fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+        <path d="M8.5 1.5 V4.5 H11.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+      </symbol>
+
+      <!-- Key-fact symbol: small five-point star outline -->
+      <symbol id="ic-keyfact-3" viewBox="0 0 14 14">
+        <path d="M7 1.4 L8.55 5.1 L12.55 5.45 L9.5 8.1 L10.45 12 L7 9.85 L3.55 12 L4.5 8.1 L1.45 5.45 L5.45 5.1 Z"
+              fill="none" stroke="currentColor" stroke-width="1.1"
+              stroke-linejoin="round" stroke-linecap="round"/>
+      </symbol>
+
+      <!-- Risk symbol: warning triangle with exclamation (line + dot) -->
+      <symbol id="ic-risk-3" viewBox="0 0 14 14">
+        <path d="M7 1.6 L12.7 11.7 L1.3 11.7 Z"
+              fill="none" stroke="currentColor" stroke-width="1.1"
+              stroke-linejoin="round"/>
+        <line x1="7" y1="5.4" x2="7" y2="8.6"
+              stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+        <circle cx="7" cy="10.2" r="0.7" fill="currentColor"/>
+      </symbol>
+
+      <!-- Typewriter clip for the user message (right-aligned, reveals L→R).
+           x is set so the clip starts exactly where the 50-char message starts
+           (text-anchor=end at x=488 minus the ~350 rendered width). -->
+      <clipPath id="cp-user-3">
+        <rect class="cp-user-rect-3" x="138" y="28" width="0" height="32"/>
+      </clipPath>
+
+      <!-- Typewriter clip for the AI final reply -->
+      <clipPath id="cp-reply-3">
+        <rect class="cp-reply-rect-3" x="32" y="258" width="0" height="30"/>
+      </clipPath>
+    </defs>
+
+    <!-- Chat-window frame -->
+    <rect class="frame" x="4" y="4" width="512" height="296" rx="14" filter="url(#frame-shadow-3)"/>
+
+    <!-- Tiny live-dot in the top-right corner of the frame -->
+    <circle class="frame-dot" cx="494" cy="20" r="3"/>
+
+    <!-- 1 · User message — typed on the right -->
+    <text class="user-msg" x="488" y="44" text-anchor="end" clip-path="url(#cp-user-3)">can you review Brieflab? I keep hearing their name</text>
+
+    <!-- 2 · AI tool call: web_search -->
+    <g class="step search-step-3">
+      <image class="action-mascot" href="/assets/mascot.png" x="32" y="74" width="24" height="22"/>
+      <text class="action-name" x="64" y="92">web_search</text>
+    </g>
+
+    <!-- 2b · Search status line -->
+    <g class="step search-status-3">
+      <circle class="dot" cx="68" cy="119" r="2.4"/>
+      <text class="status" x="80" y="123">searching &#8220;brieflab&#8221;</text>
+    </g>
+
+    <!-- 3 · AI tool call: knowledge.create -->
+    <g class="step capture-step-3">
+      <image class="action-mascot" href="/assets/mascot.png" x="32" y="146" width="24" height="22"/>
+      <text class="action-name" x="64" y="164">knowledge.create</text>
+    </g>
+
+    <!-- 4 · Page capture -->
+    <g class="step item-page-3">
+      <use href="#ic-page-3" x="64" y="184" width="12" height="12" class="ic ic-mute"/>
+      <text class="status" x="82" y="194">page · Brieflab — competitor review</text>
+    </g>
+
+    <!-- 5 · Key-fact capture -->
+    <g class="step item-keyfact-3">
+      <use href="#ic-keyfact-3" x="64" y="206" width="12" height="12" class="ic ic-mute"/>
+      <text class="status" x="82" y="216">key fact · Brieflab is now a top named competitor</text>
+    </g>
+
+    <!-- 6 · Risk capture (medium → green glyph) -->
+    <g class="step item-risk-3">
+      <use href="#ic-risk-3" x="64" y="228" width="12" height="12" class="ic ic-green"/>
+      <text class="status" x="82" y="238">risk · medium · Brieflab&#8217;s traction with our ICP may crowd our mindshare</text>
+    </g>
+
+    <!-- 7 · AI reply — types out with cursor -->
+    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-3)">Captured — page, key fact, and risk.</text>
+    <rect class="cursor" x="32" y="262" width="2.5" height="18"/>
+  </svg>
+</div>
+
+<style>
+  .pillar-chat { width: 100%; }
+  .pillar-chat svg { display: block; width: 100%; height: auto; }
+
+  /* Frame — the "chat window" containment */
+  .frame {
+    fill: var(--paper-raised);
+    stroke: var(--line);
+    stroke-width: 1;
+  }
+  .frame-dot {
+    fill: var(--green);
+    opacity: 0.55;
+  }
+
+  /* Typography — identical to Pillar 1 so all chats share one voice */
+  .user-msg {
+    font-family: var(--font);
+    font-size: 15px;
+    fill: var(--ink);
+  }
+  .action-name {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    font-weight: 500;
+    fill: var(--ink);
+  }
+  .status {
+    font-family: var(--font);
+    font-size: 13px;
+    font-style: italic;
+    fill: var(--ink-mute);
+  }
+  .dot { fill: var(--green); }
+  .ic-mute  { color: var(--ink-mute); }
+  .ic-green { color: var(--green); }
+  .reply-msg {
+    font-family: var(--font);
+    font-size: 15px;
+    fill: var(--ink);
+  }
+  .cursor { fill: var(--green); }
+
+  /* ---- Animation timeline ---- */
+  /* Master cycle = 14s, looping. Elements stay hidden until activated. */
+
+  .pillar-chat .step,
+  .pillar-chat .cursor { opacity: 0; }
+
+  /* User message: typewriter via clipPath rect width */
+  .pillar-chat.animate .cp-user-rect-3 {
+    animation: type-user-3 14s linear infinite;
+  }
+  @keyframes type-user-3 {
+    0%, 2%   { width: 0; }
+    13%      { width: 350px; }
+    92%      { width: 350px; }
+    96%, 100%{ width: 0; }
+  }
+
+  /* Sequenced fades: tool 1 → status → tool 2 → page → keyfact → risk */
+  .pillar-chat.animate .search-step-3    { animation: in-search-3    14s ease-out infinite; }
+  .pillar-chat.animate .search-status-3  { animation: in-search-st-3 14s ease-out infinite; }
+  .pillar-chat.animate .capture-step-3   { animation: in-capture-3   14s ease-out infinite; }
+  .pillar-chat.animate .item-page-3      { animation: in-page-3      14s ease-out infinite; }
+  .pillar-chat.animate .item-keyfact-3   { animation: in-keyfact-3   14s ease-out infinite; }
+  .pillar-chat.animate .item-risk-3      { animation: in-risk-3      14s ease-out infinite; }
+
+  @keyframes in-search-3    { 0%,15% {opacity:0;transform:translateY(4px)} 19%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-search-st-3 { 0%,22% {opacity:0;transform:translateY(4px)} 26%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-capture-3   { 0%,31% {opacity:0;transform:translateY(4px)} 35%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-page-3      { 0%,39% {opacity:0;transform:translateY(4px)} 42%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-keyfact-3   { 0%,43% {opacity:0;transform:translateY(4px)} 46%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-risk-3      { 0%,47% {opacity:0;transform:translateY(4px)} 50%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+
+  /* Reply line: typewriter clip width */
+  .pillar-chat.animate .cp-reply-rect-3 {
+    animation: type-reply-3 14s linear infinite;
+  }
+  @keyframes type-reply-3 {
+    0%, 56%  { width: 0; }
+    69%      { width: 300px; }
+    92%      { width: 300px; }
+    96%, 100%{ width: 0; }
+  }
+
+  /* Cursor: tracks the reply typewriter, then blinks until cycle resets */
+  .pillar-chat.animate .cursor {
+    animation:
+      cursor-pos-3   14s linear   infinite,
+      cursor-blink-3 14s step-end infinite;
+  }
+  @keyframes cursor-pos-3 {
+    0%, 56%  { transform: translateX(0); }
+    69%, 100%{ transform: translateX(268px); }
+  }
+  @keyframes cursor-blink-3 {
+    0%, 55%  { opacity: 0; }
+    56%      { opacity: 1; }
+    69%      { opacity: 1; }
+    73%      { opacity: 0; }
+    77%      { opacity: 1; }
+    81%      { opacity: 0; }
+    85%      { opacity: 1; }
+    89%      { opacity: 0; }
+    92%      { opacity: 1; }
+    93%, 100%{ opacity: 0; }
+  }
+
+  /* Frame dot — quiet pulse so the window reads as "live" */
+  .pillar-chat.animate .frame-dot {
+    animation: dot-pulse-3 2.4s ease-in-out infinite;
+  }
+  @keyframes dot-pulse-3 {
+    0%, 100% { opacity: 0.35; }
+    50%      { opacity: 0.85; }
+  }
+
+  /* Reduced-motion: show the full transcript, skip the loop */
+  @media (prefers-reduced-motion: reduce) {
+    .pillar-chat .step,
+    .pillar-chat .cursor { opacity: 1 !important; }
+    .pillar-chat .cp-user-rect-3  { width: 350px !important; }
+    .pillar-chat .cp-reply-rect-3 { width: 300px !important; }
+    .pillar-chat .cursor          { transform: translateX(268px) !important; }
+    .pillar-chat *                { animation: none !important; }
+  }
+</style>
+
+<script>
+  // Trigger the looping animation as soon as the pillar is anywhere
+  // close to the viewport, and re-trigger when it scrolls back in.
+  // (Same observer logic as Pillar 1 & 2 — queries all .pillar-chat nodes,
+  //  so running it more than once is harmless; classList.toggle is idempotent.)
+  const sync = () => {
+    document.querySelectorAll('.pillar-chat').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const inView = r.top < window.innerHeight * 0.9 && r.bottom > 0;
+      el.classList.toggle('animate', inView);
+    });
+  };
+
+  sync();
+  window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => e.target.classList.toggle('animate', e.isIntersecting));
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.pillar-chat').forEach((el) => obs.observe(el));
+  }
+</script>
