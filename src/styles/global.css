@@ -532,3 +532,62 @@ h3.tile-title {
   .quickstart-steps li { padding: 16px 16px; gap: 12px; grid-template-columns: 32px 1fr; }
   .quickstart-steps .step-cta { margin-left: 0; margin-top: 8px; display: inline-flex; }
 }
+
+/* ───────── FAQ (Section 07) ───────── */
+.faq-head,
+.faq-list {
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.faq-head {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.faq-head h2 {
+  margin-top: 14px;
+  max-width: none;
+}
+
+.faq-list {
+  display: flex; flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px;
+  padding: 24px 4px;
+  font-size: 18px; font-weight: 500; color: var(--ink);
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  list-style: none;
+  transition: color .15s;
+}
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q:hover { color: var(--green); }
+.faq-q-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 999px;
+  color: var(--ink-mute);
+  transition: transform .2s ease, color .15s;
+  flex-shrink: 0;
+}
+.faq-item[open] > .faq-q { color: var(--green); }
+.faq-item[open] .faq-q-icon { transform: rotate(180deg); color: var(--green); }
+.faq-a {
+  padding: 0 4px 26px;
+  max-width: 68ch;
+}
+.faq-a p {
+  margin: 0;
+  font-size: 15.5px; line-height: 1.65;
+  color: var(--ink-soft);
+}
+@media (prefers-reduced-motion: reduce) {
+  .faq-q-icon { transition: none; }
+}
+@media (max-width: 720px) {
+  .faq-head { margin-bottom: 40px; text-align: left; }
+  .faq-q { font-size: 16.5px; padding: 20px 2px; }
+}

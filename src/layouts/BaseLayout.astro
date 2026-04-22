@@ -26,6 +26,7 @@ const { title, description, page } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <slot name="head" />
   </head>
   <body>
     <Nav page={page} />

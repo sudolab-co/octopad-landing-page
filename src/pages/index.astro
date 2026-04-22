@@ -5,6 +5,8 @@ import Pillar from '../components/Pillar.astro';
 import Card from '../components/Card.astro';
 import Tile from '../components/Tile.astro';
 import CTABand from '../components/CTABand.astro';
+import FAQ from '../components/FAQ.astro';
+import { buildFAQSchema } from '../data/faq';
 
 const captureRows = [
   { n: '01', t: 'Ship v0.4 Friday — plan', m: 'Agreed w/ eng · Mar 21', done: true },
@@ -12,6 +14,8 @@ const captureRows = [
   { n: '03', t: 'Design review — notes', m: '7 annotations on flow B', done: true },
   { n: '04', t: 'Launch email draft — running', m: 'Pulled 3 docs · brand voice', done: false },
 ];
+
+const faqSchema = buildFAQSchema();
 ---
 
 <BaseLayout
@@ -19,6 +23,9 @@ const captureRows = [
   description="A shared workspace where any AI your team uses — Claude, ChatGPT, Cursor — can make plans, run tasks, and capture what matters on one shared brain."
   page="product"
 >
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  </Fragment>
   <Hero
     heading="Your AI's<br/>back-office."
     lede="Make plans, run tasks, and capture what matters, all in your AI, all on one shared brain."
@@ -233,6 +240,9 @@ const captureRows = [
       </Pillar>
     </div>
   </section>
+
+  <!-- Section 07 — FAQ (accordion + FAQPage JSON-LD via head slot) -->
+  <FAQ />
 
   <CTABand
     heading="Give your AI the back-office it's been missing."
