@@ -1,16 +1,16 @@
 ---
 // Pillar 1 — Context
 // Animated SVG that reads as a real AI chat transcript inside a quiet
-// chat-window frame. Each line appears in sequence (user types →
-// AI calls build_context → "reading…" status lines stream in →
-// AI begins drafting Section 1 with a typewriter cursor).
+// chat-window frame. Each line appears in sequence:
+//   user types → task tool runs → build_context tool runs (page items
+//   stream in with page icons, decision item with a check) → AI reply.
 //
-// The whole transcript loops on a 12s cycle so a visitor scrolling
-// to the section will catch a full pass even if they arrive mid-cycle.
+// The transcript loops on a 14s cycle so a visitor scrolling to the
+// section catches a full pass even if they arrive mid-cycle.
 ---
 
-<div class="pillar-chat" role="img" aria-label="AI chat transcript: Alex asks Claude to work on the homepage copy. Claude calls build_context on Octopad, reads the Product Overview page, the Brand Guidelines page, and fetches Monday's positioning decision, then begins drafting Section 1.">
-  <svg viewBox="0 0 520 440" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+<div class="pillar-chat" role="img" aria-label="AI chat transcript: Alex asks Claude to resume working on the homepage copy. Claude calls the Octopad task tool to resume the homepage copy work, then calls build_context, which reads the Product Overview and Brand Guidelines pages and fetches Monday's positioning decision. Claude then says it created a page with homepage copy V1.">
+  <svg viewBox="0 0 520 304" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
     <defs>
       <!-- Soft drop shadow for the chat-window frame -->
@@ -18,54 +18,77 @@
         <feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="#0a1830" flood-opacity="0.06"/>
       </filter>
 
+      <!-- Page-symbol: little document with folded corner -->
+      <symbol id="ic-page" viewBox="0 0 14 14">
+        <path d="M2.5 1.5 H8.5 L11.5 4.5 V12 a1 1 0 0 1 -1 1 H3.5 a1 1 0 0 1 -1 -1 V2.5 a1 1 0 0 1 1 -1 z"
+              fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+        <path d="M8.5 1.5 V4.5 H11.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+      </symbol>
+
+      <!-- Decision-symbol: clean check -->
+      <symbol id="ic-check" viewBox="0 0 14 14">
+        <polyline points="2.5,7.5 5.8,10.5 11.5,3.8"
+                  fill="none" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
       <!-- Typewriter clip for the user message (right-aligned, reveals L→R) -->
       <clipPath id="cp-user">
-        <rect class="cp-user-rect" x="208" y="40" width="0" height="36"/>
+        <rect class="cp-user-rect" x="180" y="28" width="0" height="32"/>
       </clipPath>
 
-      <!-- Typewriter clip for the AI draft line -->
-      <clipPath id="cp-draft">
-        <rect class="cp-draft-rect" x="32" y="282" width="0" height="32"/>
+      <!-- Typewriter clip for the AI final reply -->
+      <clipPath id="cp-reply">
+        <rect class="cp-reply-rect" x="32" y="244" width="0" height="32"/>
       </clipPath>
     </defs>
 
     <!-- Chat-window frame -->
-    <rect class="frame" x="4" y="4" width="512" height="432" rx="14" filter="url(#frame-shadow)"/>
+    <rect class="frame" x="4" y="4" width="512" height="296" rx="14" filter="url(#frame-shadow)"/>
 
     <!-- Tiny live-dot in the top-right corner of the frame -->
     <circle class="frame-dot" cx="494" cy="20" r="3"/>
 
     <!-- 1 · User message — typed on the right -->
-    <text class="user-msg" x="488" y="64" text-anchor="end" clip-path="url(#cp-user)">Work on the homepage copy.</text>
+    <text class="user-msg" x="488" y="44" text-anchor="end" clip-path="url(#cp-user)">resume working on homepage copy</text>
 
-    <!-- 2 · AI tool call: build_context -->
-    <g class="step action-step">
-      <image class="action-mascot" href="/assets/mascot.png" x="32" y="99" width="24" height="22"/>
-      <text class="action-name" x="64" y="117">build_context</text>
-    </g>
-
-    <!-- 3 · Status lines (indented under build_context) -->
-    <g class="step status-1">
-      <circle class="dot" cx="68" cy="148" r="2.4"/>
-      <text class="status" x="80" y="152">reading Product Overview page</text>
-    </g>
-    <g class="step status-2">
-      <circle class="dot" cx="68" cy="176" r="2.4"/>
-      <text class="status" x="80" y="180">reading Brand Guidelines page</text>
-    </g>
-    <g class="step status-3">
-      <circle class="dot" cx="68" cy="204" r="2.4"/>
-      <text class="status" x="80" y="208">fetching Monday's positioning decision</text>
+    <!-- 2 · AI tool call: task -->
+    <g class="step task-step">
+      <image class="action-mascot" href="/assets/mascot.png" x="32" y="74" width="24" height="22"/>
+      <text class="action-name" x="64" y="92">task</text>
     </g>
 
-    <!-- 4 · AI reply -->
-    <g class="step reply-step">
-      <text class="reply-intro" x="32" y="262">Here's a draft for Section 1 —</text>
+    <!-- 2b · Task status line -->
+    <g class="step task-status">
+      <circle class="dot" cx="68" cy="119" r="2.4"/>
+      <text class="status" x="80" y="123">resuming homepage copy</text>
     </g>
 
-    <!-- 5 · Draft headline + tracking cursor -->
-    <text class="reply-draft" x="32" y="304" clip-path="url(#cp-draft)">The right context for every task.</text>
-    <rect class="cursor" x="32" y="288" width="2.5" height="18"/>
+    <!-- 3 · AI tool call: build_context -->
+    <g class="step ctx-step">
+      <image class="action-mascot" href="/assets/mascot.png" x="32" y="146" width="24" height="22"/>
+      <text class="action-name" x="64" y="164">build_context</text>
+    </g>
+
+    <!-- 4 · Page items — page icon + text -->
+    <g class="step item-page-1">
+      <use href="#ic-page" x="64" y="184" width="12" height="12" class="ic ic-mute"/>
+      <text class="status" x="82" y="194">reading Product Overview page</text>
+    </g>
+    <g class="step item-page-2">
+      <use href="#ic-page" x="64" y="206" width="12" height="12" class="ic ic-mute"/>
+      <text class="status" x="82" y="216">reading Brand Guidelines page</text>
+    </g>
+
+    <!-- 5 · Decision item — check icon + text -->
+    <g class="step item-decision">
+      <use href="#ic-check" x="64" y="228" width="12" height="12" class="ic ic-green"/>
+      <text class="status" x="82" y="238">fetching Monday's positioning decision</text>
+    </g>
+
+    <!-- 6 · AI reply — types out with cursor -->
+    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply)">I created a page with homepage copy V1.</text>
+    <rect class="cursor" x="32" y="262" width="2.5" height="18"/>
   </svg>
 </div>
 
@@ -73,7 +96,7 @@
   .pillar-chat { width: 100%; }
   .pillar-chat svg { display: block; width: 100%; height: auto; }
 
-  /* Frame — the "chat window" containment Alex asked for */
+  /* Frame — the "chat window" containment */
   .frame {
     fill: var(--paper-raised);
     stroke: var(--line);
@@ -102,119 +125,82 @@
     font-style: italic;
     fill: var(--ink-mute);
   }
-  .dot {
-    fill: var(--green);
-  }
-  .reply-intro {
+  .dot { fill: var(--green); }
+  .ic-mute  { color: var(--ink-mute); }
+  .ic-green { color: var(--green); }
+  .reply-msg {
     font-family: var(--font);
-    font-size: 13.5px;
-    fill: var(--ink-mute);
-  }
-  .reply-draft {
-    font-family: var(--font);
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 500;
     fill: var(--ink);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
   }
-  .cursor {
-    fill: var(--green);
-  }
+  .cursor { fill: var(--green); }
 
   /* ---- Animation timeline ---- */
-  /* Master cycle = 12s, looping. Elements stay hidden until activated. */
+  /* Master cycle = 14s, looping. Elements stay hidden until activated. */
 
   .step,
   .cursor { opacity: 0; }
 
   /* User message: typewriter via clipPath rect width */
   .pillar-chat.animate .cp-user-rect {
-    animation: type-user 12s linear infinite;
+    animation: type-user 14s linear infinite;
   }
   @keyframes type-user {
-    0%, 3%   { width: 0; }
-    13%      { width: 280px; }
-    91%      { width: 280px; }
+    0%, 2%   { width: 0; }
+    11%      { width: 308px; }
+    92%      { width: 308px; }
     96%, 100%{ width: 0; }
   }
 
-  /* AI tool call appears */
-  .pillar-chat.animate .action-step {
-    animation: step-life 12s ease-out infinite;
-    animation-delay: 0s;
-    --start: 16%;
-    --in: 19%;
-  }
-  /* Status lines cascade in */
-  .pillar-chat.animate .status-1 { animation: step-life-1 12s ease-out infinite; }
-  .pillar-chat.animate .status-2 { animation: step-life-2 12s ease-out infinite; }
-  .pillar-chat.animate .status-3 { animation: step-life-3 12s ease-out infinite; }
-  /* Reply intro */
-  .pillar-chat.animate .reply-step { animation: step-life-r 12s ease-out infinite; }
+  /* Sequenced fades: each step gets its own keyframe with shifted in-time */
+  .pillar-chat.animate .task-step    { animation: in-task 14s ease-out infinite; }
+  .pillar-chat.animate .task-status  { animation: in-task-st 14s ease-out infinite; }
+  .pillar-chat.animate .ctx-step     { animation: in-ctx 14s ease-out infinite; }
+  .pillar-chat.animate .item-page-1  { animation: in-p1 14s ease-out infinite; }
+  .pillar-chat.animate .item-page-2  { animation: in-p2 14s ease-out infinite; }
+  .pillar-chat.animate .item-decision{ animation: in-dec 14s ease-out infinite; }
 
-  @keyframes step-life {
-    0%, 16%  { opacity: 0; transform: translateY(4px); }
-    20%      { opacity: 1; transform: translateY(0); }
-    91%      { opacity: 1; transform: translateY(0); }
-    96%, 100%{ opacity: 0; transform: translateY(0); }
-  }
-  @keyframes step-life-1 {
-    0%, 24%  { opacity: 0; transform: translateY(4px); }
-    28%      { opacity: 1; transform: translateY(0); }
-    91%      { opacity: 1; transform: translateY(0); }
-    96%, 100%{ opacity: 0; transform: translateY(0); }
-  }
-  @keyframes step-life-2 {
-    0%, 30%  { opacity: 0; transform: translateY(4px); }
-    34%      { opacity: 1; transform: translateY(0); }
-    91%      { opacity: 1; transform: translateY(0); }
-    96%, 100%{ opacity: 0; transform: translateY(0); }
-  }
-  @keyframes step-life-3 {
-    0%, 36%  { opacity: 0; transform: translateY(4px); }
-    40%      { opacity: 1; transform: translateY(0); }
-    91%      { opacity: 1; transform: translateY(0); }
-    96%, 100%{ opacity: 0; transform: translateY(0); }
-  }
-  @keyframes step-life-r {
-    0%, 47%  { opacity: 0; transform: translateY(4px); }
-    50%      { opacity: 1; transform: translateY(0); }
-    91%      { opacity: 1; transform: translateY(0); }
-    96%, 100%{ opacity: 0; transform: translateY(0); }
-  }
+  @keyframes in-task    { 0%,14% {opacity:0;transform:translateY(4px)} 18%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-task-st { 0%,21% {opacity:0;transform:translateY(4px)} 25%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-ctx     { 0%,30% {opacity:0;transform:translateY(4px)} 34%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-p1      { 0%,38% {opacity:0;transform:translateY(4px)} 41%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-p2      { 0%,42% {opacity:0;transform:translateY(4px)} 45%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-dec     { 0%,46% {opacity:0;transform:translateY(4px)} 49%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
 
-  /* Draft line: typewriter clip width */
-  .pillar-chat.animate .cp-draft-rect {
-    animation: type-draft 12s linear infinite;
+  /* Reply line: typewriter clip width */
+  .pillar-chat.animate .cp-reply-rect {
+    animation: type-reply 14s linear infinite;
   }
-  @keyframes type-draft {
-    0%, 53%  { width: 0; }
-    66%      { width: 320px; }
-    91%      { width: 320px; }
+  @keyframes type-reply {
+    0%, 55%  { width: 0; }
+    68%      { width: 320px; }
+    92%      { width: 320px; }
     96%, 100%{ width: 0; }
   }
 
-  /* Cursor: tracks the typewriter position, then blinks until cycle resets */
+  /* Cursor: tracks the reply typewriter, then blinks until cycle resets */
   .pillar-chat.animate .cursor {
     animation:
-      cursor-pos 12s linear infinite,
-      cursor-blink 12s step-end infinite;
+      cursor-pos 14s linear infinite,
+      cursor-blink 14s step-end infinite;
   }
   @keyframes cursor-pos {
-    0%, 53%  { transform: translateX(0); }
-    66%, 100%{ transform: translateX(285px); }
+    0%, 55%  { transform: translateX(0); }
+    68%, 100%{ transform: translateX(290px); }
   }
   @keyframes cursor-blink {
-    0%, 52%  { opacity: 0; }
-    53%      { opacity: 1; }
-    66%      { opacity: 1; }
-    70%      { opacity: 0; }
-    74%      { opacity: 1; }
-    78%      { opacity: 0; }
-    82%      { opacity: 1; }
-    86%      { opacity: 0; }
-    90%      { opacity: 1; }
-    91%, 100%{ opacity: 0; }
+    0%, 54%  { opacity: 0; }
+    55%      { opacity: 1; }
+    68%      { opacity: 1; }
+    72%      { opacity: 0; }
+    76%      { opacity: 1; }
+    80%      { opacity: 0; }
+    84%      { opacity: 1; }
+    88%      { opacity: 0; }
+    92%      { opacity: 1; }
+    93%, 100%{ opacity: 0; }
   }
 
   /* Frame dot — quiet pulse so the window reads as "live" */
@@ -230,9 +216,9 @@
   @media (prefers-reduced-motion: reduce) {
     .pillar-chat .step,
     .pillar-chat .cursor { opacity: 1 !important; }
-    .pillar-chat .cp-user-rect  { width: 280px !important; }
-    .pillar-chat .cp-draft-rect { width: 320px !important; }
-    .pillar-chat .cursor        { transform: translateX(285px) !important; }
+    .pillar-chat .cp-user-rect  { width: 308px !important; }
+    .pillar-chat .cp-reply-rect { width: 320px !important; }
+    .pillar-chat .cursor        { transform: translateX(290px) !important; }
     .pillar-chat *              { animation: none !important; }
   }
 </style>
@@ -240,9 +226,6 @@
 <script>
   // Trigger the looping animation as soon as the pillar is anywhere
   // close to the viewport, and re-trigger when it scrolls back in.
-  // Uses a scroll listener as a reliable cross-browser baseline plus
-  // an IntersectionObserver where it fires (skipped by some headless
-  // / embedded browsers).
   const sync = () => {
     document.querySelectorAll('.pillar-chat').forEach((el) => {
       const r = el.getBoundingClientRect();
