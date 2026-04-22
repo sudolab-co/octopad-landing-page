@@ -3,66 +3,38 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 import Pillar from '../components/Pillar.astro';
 import CTABand from '../components/CTABand.astro';
-
-const team = [
-  { initials: 'MK', name: 'Mira Karlsson', role: 'CEO · prev. Linear' },
-  { initials: 'JL', name: 'Jon Leclerc', role: 'Design · prev. Figma' },
-  { initials: 'AS', name: 'Anya Shah', role: 'Engineering · prev. Stripe' },
-  { initials: 'TO', name: 'Tomás Oviedo', role: 'Product · prev. Anthropic' },
-  { initials: 'RN', name: 'Ren Nakamura', role: 'Infra' },
-  { initials: 'EB', name: 'Elena Borges', role: 'Engineering' },
-  { initials: 'DP', name: 'Devon Park', role: 'GTM' },
-  { initials: 'HR', name: 'Hana Reyes', role: 'Engineering' },
-];
-
-const values = [
-  {
-    num: '01',
-    title: 'Bring your own AI.',
-    body: 'The best model changes every month. Octopad is model-agnostic on purpose — pick whichever is winning this week.',
-  },
-  {
-    num: '02',
-    title: 'Your data stays yours.',
-    body: 'We never see your inference payloads. Workspaces export in one click. Self-host whenever you\'re ready.',
-  },
-  {
-    num: '03',
-    title: 'Boring beats clever.',
-    body: 'AI apps should feel as calm as a well-kept notebook. If it surprises you in a bad way, we got it wrong.',
-  },
-];
 ---
 
-<BaseLayout title="Octopad — About" page="about">
+<BaseLayout
+  title="About Octopad | Human-AI symbiosis for small teams"
+  description="Why we built Octopad: the shared backoffice where humans set direction and AI handles the structured work. Strategy, tasks, and team knowledge in one brain every AI your team uses can read and update."
+  page="about"
+>
   <PageHead
     kicker="About"
-    heading="We build for<br/>teams who ship."
-    lede="Octopad started because every team we knew was running AI on an island — great tools, no shared memory. We're building the back-office those teams wish they had."
+    heading="The backoffice<br/>your AI has been missing."
+    lede="Octopad is where your strategy, tasks, and team knowledge live together. One structured environment every AI your team uses (Claude, ChatGPT, Cursor) can read, update, and run the work from."
   />
 
   <section class="section">
     <div class="wrap">
       <Pillar>
         <Fragment slot="copy">
-          <span class="eyebrow eyebrow-green">Our story</span>
-          <h2 class="section-title">From scattered to shared.</h2>
+          <span class="eyebrow eyebrow-green">Our vision</span>
+          <h2 class="section-title">A future where humans and AI work together, naturally.</h2>
         </Fragment>
         <div>
           <p class="copy">
-            In early 2025, four of us were working on the same product from
-            different timezones — and running three different AIs between us.
-            Each session started from scratch. Every decision got rediscovered.
+            The next decade of work is not about replacing humans with agents. It's about humans and AI sharing the same workspace, the same context, and the same source of truth, so each does what it does best.
           </p>
           <p class="copy" style="margin-top: 16px;">
-            We built the first version of Octopad for ourselves: a place where
-            any AI could read the same notes, run the same plans, and hand off
-            cleanly between sessions. By the end of the month, our team shipped
-            twice as much. Friends asked for access.
+            The honest truth is that AI today is not strong enough to do impactful work on its own. Teams betting on full autonomy keep getting burned. What actually works is symbiosis.
           </p>
           <p class="copy" style="margin-top: 16px;">
-            That's what we're building now — not another AI, but the
-            connective tissue between the ones you already use.
+            You set direction and make the calls. Your AI handles the structured work: pulling context, drafting plans, capturing decisions, keeping state current. Both of you contribute to the same shared brain.
+          </p>
+          <p class="copy" style="margin-top: 16px;">
+            That is the future we're building toward. Agent delegation, when it matures, will extend this foundation, not replace the humans at the center of it.
           </p>
         </div>
       </Pillar>
@@ -71,47 +43,46 @@ const values = [
 
   <section class="section">
     <div class="wrap">
-      <span class="eyebrow eyebrow-green">What we believe</span>
-      <h2 class="section-title" style="margin-top: 14px; max-width: 14ch;">
-        Three things we keep coming back to.
-      </h2>
-      <div class="values">
-        {values.map((v) => (
-          <div class="value">
-            <div class="num">{v.num}</div>
-            <h3>{v.title}</h3>
-            <p>{v.body}</p>
-          </div>
-        ))}
-      </div>
+      <Pillar reverse>
+        <Fragment slot="copy">
+          <span class="eyebrow eyebrow-green">Our mission</span>
+          <h2 class="section-title">Build the backoffice where humans and AI work together as partners.</h2>
+        </Fragment>
+        <div>
+          <p class="copy">
+            We connect strategy, tasks, and team knowledge into one structured environment every AI your team uses can read and update. You set direction. Your AI handles the structured work. Both contribute to the same source of truth.
+          </p>
+        </div>
+      </Pillar>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <span class="eyebrow eyebrow-green">Team</span>
-      <h2 class="section-title" style="margin-top: 14px;">Small, senior, remote.</h2>
-      <p class="copy" style="margin-top: 18px;">
-        Eight people across four timezones. Previously Linear, Stripe, Figma, Anthropic.
-      </p>
-      <div class="team">
-        {team.map((m) => (
-          <div class="member">
-            <div class="avatar">{m.initials}</div>
-            <h4>{m.name}</h4>
-            <p>{m.role}</p>
-          </div>
-        ))}
-      </div>
+      <Pillar>
+        <Fragment slot="copy">
+          <span class="eyebrow eyebrow-green">Where we're going</span>
+          <h2 class="section-title">Where we're going.</h2>
+        </Fragment>
+        <div>
+          <p class="copy">
+            Right now, our focus is nailing the fundamentals of the AI back office. Context that flows, plans that hold across sessions, a shared brain that stays current as work happens. Get those three right, and everything else gets easier.
+          </p>
+          <p class="copy" style="margin-top: 16px;">
+            Next, we're integrating autonomous agents into the middle of the system, so the back office gets smarter and more proactive on its own. Noticing slipping deadlines, flagging stale decisions, keeping plans current without a human pushing every button.
+          </p>
+          <p class="copy" style="margin-top: 16px;">
+            We're also experimenting with agent delegation. The idea is simple: you brainstorm a full plan with an AI (code or business, either works), then hand the individual steps off to specialized agents. Each one picks up with the back office context already loaded, runs its part at the highest degree of efficiency, and reports back into the same shared brain. You keep the strategy and the final call. Agents run the structured work underneath. You gain real time back, and you ship with a high degree of confidence in what lands.
+          </p>
+        </div>
+      </Pillar>
     </div>
   </section>
 
   <CTABand
-    eyebrow="Hiring"
-    heading="Come build with us."
-    description="We're hiring two engineers and a designer. Small team, real responsibility, calm pace."
+    heading="Try the backoffice your AI has been missing."
+    description="Free to start. No credit card. Connect your AI in minutes."
   >
-    <a href="#" class="btn btn-primary btn-lg">See open roles</a>
-    <a href="#" class="btn btn-ghost">Read our handbook</a>
+    <a href="#" class="btn btn-primary btn-lg">Create your workspace</a>
   </CTABand>
 </BaseLayout>

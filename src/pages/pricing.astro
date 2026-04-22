@@ -1,76 +1,45 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
-import Pillar from '../components/Pillar.astro';
 import CTABand from '../components/CTABand.astro';
 
-const starterFeatures = [
-  'Up to 3 seats',
-  '200 AI tasks / month',
-  'Bring your own model keys',
-  'Claude, ChatGPT, Cursor',
-  '30-day shared brain',
+const freeFeatures = [
+  '1 workspace',
+  'Unlimited members, tasks, goals, and work streams',
+  '100 pages',
+  '10 file uploads, up to 5 MB each',
+  '1 week of AI session memory',
+  'Essential octobots',
+  'Slack, Telegram, and GitHub integrations',
+  'Notion import',
 ];
 
-const teamFeatures = [
-  'Unlimited seats',
-  'Unlimited AI tasks',
-  'Shared plans & checkpoints',
-  'Linear, GitHub, Slack sync',
-  'Permanent shared brain',
-  'SSO · audit log',
-];
-
-const enterpriseFeatures = [
-  'Self-hosted or dedicated',
-  'SOC 2 Type II · HIPAA BAA',
-  'Custom model routing',
-  'Role-based permissions',
-  'Dedicated CSM',
-];
-
-const faqs = [
-  {
-    q: 'Do you charge per AI call?',
-    a: 'No. You bring your own model keys (Anthropic, OpenAI, etc.) and pay them directly for inference. Octopad charges per seat.',
-    open: true,
-  },
-  {
-    q: 'Which AIs does Octopad work with?',
-    a: 'Claude, ChatGPT, Cursor, and most open models via API. Integrations run locally through your own keys — we never see the payload.',
-  },
-  {
-    q: 'Can I self-host?',
-    a: 'Yes, on the Enterprise plan. Octopad ships as a single container plus Postgres. You keep everything on your infra.',
-  },
-  {
-    q: 'What happens to the shared brain if we cancel?',
-    a: 'Export it at any time as Markdown or JSON. Starter and Team plans can export with one click; Enterprise gets scheduled exports.',
-  },
-  {
-    q: 'Is there a free trial on the Team plan?',
-    a: '14 days, no card required. After that it\'s $18 per seat, per month, billed monthly or annually.',
-  },
+const proFeatures = [
+  'Unlimited workspaces',
+  'Unlimited pages and files (up to 20 MB each)',
+  'Unlimited AI session memory',
+  'All octobots',
+  'Email support',
 ];
 ---
 
 <BaseLayout title="Octopad — Pricing" page="pricing">
   <PageHead
     kicker="Pricing"
-    heading="Pay for<br/>what you run."
-    lede="Octopad is free for small teams. When you're ready, upgrade for more seats, more tasks, and tighter controls — not a different product."
+    heading="Simple pricing."
+    lede="Free forever, with one month of Pro on the house."
   />
 
   <section class="wrap" style="padding-bottom: 80px;">
     <div class="plans">
       <div class="plan">
-        <div class="name"><h3>Starter</h3></div>
-        <div class="price">$0<small> / forever</small></div>
-        <p class="small">For small teams trying Octopad out.</p>
-        <a href="#" class="btn btn-secondary btn-lg" style="justify-content: center;">Get started</a>
+        <div class="name"><h3>Free</h3></div>
+        <div class="price">$0<small> forever</small></div>
+        <p class="small">For a founder or small team trying Octopad with their AI.</p>
+        <a href="#" class="btn btn-secondary btn-lg" style="justify-content: center;">Start free</a>
         <hr class="rule" />
         <ul>
-          {starterFeatures.map((f) => (
+          {freeFeatures.map((f) => (
             <li>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" /></svg>
               {f}
@@ -81,15 +50,17 @@ const faqs = [
 
       <div class="plan featured">
         <div class="name">
-          <h3>Team</h3>
-          <span class="badge">Most teams</span>
+          <h3>Pro</h3>
+          <span class="badge">First month free</span>
         </div>
-        <div class="price">$18<small> / seat / month</small></div>
-        <p class="small">For teams shipping with AI every day.</p>
-        <a href="#" class="btn btn-primary btn-lg" style="justify-content: center;">Start 14-day trial</a>
+        <div class="price">$9<small> per seat / month</small></div>
+        <p class="small-price">Or $7 per seat per month billed annually.</p>
+        <p class="small">For teams running real work through their AI every day.</p>
+        <a href="#" class="btn btn-primary btn-lg" style="justify-content: center;">Start free</a>
         <hr class="rule" />
+        <p class="plan-prelude">Everything in Free, plus:</p>
         <ul>
-          {teamFeatures.map((f) => (
+          {proFeatures.map((f) => (
             <li>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" /></svg>
               {f}
@@ -97,42 +68,6 @@ const faqs = [
           ))}
         </ul>
       </div>
-
-      <div class="plan">
-        <div class="name"><h3>Enterprise</h3></div>
-        <div class="price" style="font-size: 32px;">Let's talk</div>
-        <p class="small">For teams with security, compliance, or self-hosting needs.</p>
-        <a href="#" class="btn btn-secondary btn-lg" style="justify-content: center;">Contact sales</a>
-        <hr class="rule" />
-        <ul>
-          {enterpriseFeatures.map((f) => (
-            <li>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" /></svg>
-              {f}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="section">
-    <div class="wrap">
-      <Pillar>
-        <Fragment slot="copy">
-          <span class="eyebrow eyebrow-green">FAQ</span>
-          <h2 class="section-title">The common ones.</h2>
-        </Fragment>
-        <div style="display: flex; flex-direction: column;">
-          {faqs.map((faq) => (
-            <details class="faq" open={faq.open}>
-              <summary>{faq.q}</summary>
-              <p>{faq.a}</p>
-            </details>
-          ))}
-        </div>
-      </Pillar>
     </div>
   </section>
 
@@ -141,46 +76,22 @@ const faqs = [
     heading="Try it on a real project."
     description="The free tier is more than enough to decide. Invite two teammates and run one plan — you'll know within a day."
   >
-    <a href="#" class="btn btn-primary btn-lg">Get started</a>
-    <a href="/quick-start" class="btn btn-ghost">Quick start</a>
+    <a href="#" class="btn btn-primary btn-lg">Start free</a>
+    <a href="/getting-started" class="btn btn-ghost">Quick Start</a>
   </CTABand>
 </BaseLayout>
 
 <style>
-  .faq {
-    border-top: 1px solid var(--line);
-    padding: 20px 0;
-  }
-  .faq:last-child {
-    border-bottom: 1px solid var(--line);
-  }
-  .faq summary {
-    font-size: 17px;
-    font-weight: 500;
-    color: var(--ink);
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-right: 4px;
-  }
-  .faq summary::after {
-    content: '+';
-    font-size: 22px;
+  .small-price {
     color: var(--ink-mute);
-    font-weight: 400;
-    transition: transform 0.2s;
+    font-size: 14px;
+    margin-top: -6px;
+    margin-bottom: 10px;
   }
-  .faq[open] summary::after {
-    transform: rotate(45deg);
-    color: var(--green);
-  }
-  .faq p {
-    margin: 12px 0 0;
+  .plan-prelude {
     color: var(--ink-soft);
-    font-size: 15px;
-    line-height: 1.6;
-    max-width: 60ch;
+    font-size: 14px;
+    margin: 0 0 10px;
+    font-weight: 500;
   }
 </style>
