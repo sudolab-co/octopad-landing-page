@@ -1,0 +1,34 @@
+---
+interface Props {
+  tagLabel: string;
+  tagColor?: 'green' | 'ink-mute';
+  title: string;
+  body: string;
+  dark?: boolean;
+  span2?: boolean;
+  pulse?: boolean;
+}
+
+const {
+  tagLabel,
+  tagColor = 'ink-mute',
+  title,
+  body,
+  dark = false,
+  span2 = false,
+  pulse = false,
+} = Astro.props;
+---
+
+<div class:list={['tile', dark && 'dark', span2 && 'span-2']}>
+  <span class="tag">
+    {pulse ? (
+      <span class="pulse"></span>
+    ) : (
+      <span class="sq" style={`background: var(--${tagColor});`}></span>
+    )}
+    {tagLabel}
+  </span>
+  <h3>{title}</h3>
+  <p>{body}</p>
+</div>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  flush?: boolean;
+  ariaHidden?: boolean;
+}
+
+const { flush = false, ariaHidden = false } = Astro.props;
+---
+
+<div
+  class="card"
+  aria-hidden={ariaHidden ? 'true' : undefined}
+  style={flush ? 'padding: 0;' : undefined}
+>
+  <slot />
+</div>

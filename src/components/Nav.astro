@@ -1,0 +1,38 @@
+---
+interface Props {
+  page?: 'product' | 'pricing' | 'quickstart' | 'about' | 'blog';
+}
+
+const { page } = Astro.props;
+
+const links = [
+  { id: 'product', label: 'Product', href: '/' },
+  { id: 'pricing', label: 'Pricing', href: '/pricing' },
+  { id: 'quickstart', label: 'Quick start', href: '/quick-start' },
+  { id: 'about', label: 'About', href: '/about' },
+  { id: 'blog', label: 'Blog', href: '/blog' },
+] as const;
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="brand">
+      <img src="/assets/mascot.png" alt="" />
+      <span>Octopad</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          aria-current={link.id === page ? 'page' : undefined}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+    <div class="actions">
+      <a href="#" class="signin">Sign in</a>
+      <a href="#" class="btn btn-primary">Get started</a>
+    </div>
+  </div>
+</header>

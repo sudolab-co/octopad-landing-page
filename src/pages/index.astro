@@ -1,0 +1,204 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Pillar from '../components/Pillar.astro';
+import Card from '../components/Card.astro';
+import Tile from '../components/Tile.astro';
+import CTABand from '../components/CTABand.astro';
+
+const captureRows = [
+  { n: '01', t: 'Ship v0.4 Friday — plan', m: 'Agreed w/ eng · Mar 21', done: true },
+  { n: '02', t: 'Pricing: keep the free tier', m: 'Decision · Mar 18', done: true },
+  { n: '03', t: 'Design review — notes', m: '7 annotations on flow B', done: true },
+  { n: '04', t: 'Launch email draft — running', m: 'Pulled 3 docs · brand voice', done: false },
+];
+---
+
+<BaseLayout
+  title="Octopad — Your AI's back-office"
+  description="A shared workspace where any AI your team uses — Claude, ChatGPT, Cursor — can make plans, run tasks, and capture what matters on one shared brain."
+  page="product"
+>
+  <Hero
+    eyebrow="The back-office for AI teams"
+    heading="Your AI's<br/>back-office."
+    lede="A shared workspace where any AI your team uses — Claude, ChatGPT, Cursor — can make plans, run tasks, and capture what matters on one shared brain."
+    primaryCta={{ label: 'Get started', href: '#' }}
+    secondaryCta={{ label: 'Read the quick start', href: '/quick-start' }}
+  />
+
+  <hr class="rule" />
+
+  <!-- Trust strip -->
+  <section class="wrap">
+    <div class="trust">
+      <span class="eyebrow label">Works with the tools you already use</span>
+      <div class="logos">
+        <b>Claude</b><span class="dot"></span>
+        <b>ChatGPT</b><span class="dot"></span>
+        <b>Cursor</b><span class="dot"></span>
+        <b>Linear</b><span class="dot"></span>
+        <b>GitHub</b><span class="dot"></span>
+        <b>Slack</b>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillar 01 — Context -->
+  <section class="section">
+    <div class="wrap">
+      <Pillar>
+        <Fragment slot="copy">
+          <span class="eyebrow eyebrow-green">01 — Context</span>
+          <h2 class="section-title">The right context for every task.</h2>
+          <p class="copy">
+            Give your AI the documents, links, and decisions it needs — once.
+            It pulls the right pieces for every new task, automatically.
+          </p>
+        </Fragment>
+        <div class="tiles">
+          <Tile
+            tagLabel="Plan"
+            tagColor="green"
+            title="Launch v0.4"
+            body="Brand voice, eng handoff, timeline"
+          />
+          <Tile
+            tagLabel="Doc"
+            title="Pricing memo"
+            body="Source of truth for tier names and limits"
+          />
+          <Tile
+            tagLabel="Link"
+            title="Design review"
+            body="Latest Figma, annotations, decisions"
+          />
+          <Tile
+            tagLabel="Task · running"
+            title="Draft the launch email"
+            body="Pulled 3 docs · reviewed brand voice · ready for edit"
+            dark
+            span2
+            pulse
+          />
+          <Tile
+            tagLabel="Decision"
+            title="Ship Friday"
+            body="Agreed with eng, Mar 21"
+          />
+        </div>
+      </Pillar>
+    </div>
+  </section>
+
+  <!-- Pillar 02 — Plans -->
+  <section class="section">
+    <div class="wrap">
+      <Pillar reverse>
+        <Fragment slot="copy">
+          <span class="eyebrow eyebrow-green">02 — Plans</span>
+          <h2 class="section-title">From idea to plan, without the ceremony.</h2>
+          <p class="copy">
+            Describe an outcome. Octopad breaks it into steps your AI can run,
+            with checkpoints where you want to weigh in — no project manager
+            required.
+          </p>
+        </Fragment>
+        <Card ariaHidden>
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+            <span class="pulse"></span>
+            <span class="small" style="font-weight: 500; color: var(--ink);">Plan: Ship v0.4 onboarding</span>
+            <span class="small" style="margin-left: auto;">4 of 7</span>
+          </div>
+          <ol style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+            <li style="display: flex; gap: 12px; align-items: center; padding: 10px 12px; background: var(--green-soft); border-radius: 7px;">
+              <span class="check-bullet">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5L4 7.5L8.5 2.5"/></svg>
+              </span>
+              <span style="font-size: 14px; color: var(--ink);">Audit current onboarding drop-off</span>
+              <span class="small" style="margin-left: auto;">Claude · 2m</span>
+            </li>
+            <li style="display: flex; gap: 12px; align-items: center; padding: 10px 12px; background: var(--green-soft); border-radius: 7px;">
+              <span class="check-bullet">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5L4 7.5L8.5 2.5"/></svg>
+              </span>
+              <span style="font-size: 14px; color: var(--ink);">Draft 3 flow variations</span>
+              <span class="small" style="margin-left: auto;">Cursor · 11m</span>
+            </li>
+            <li style="display: flex; gap: 12px; align-items: center; padding: 10px 12px; border: 1px dashed var(--line); border-radius: 7px;">
+              <span class="pulse" style="margin-left: 4px;"></span>
+              <span style="font-size: 14px; color: var(--ink); font-weight: 500;">Copywriting pass</span>
+              <span class="small" style="margin-left: auto;">ChatGPT · running</span>
+            </li>
+            <li style="display: flex; gap: 12px; align-items: center; padding: 10px 12px;">
+              <span style="width: 16px; height: 16px; border: 1.5px solid var(--line); border-radius: 999px; flex-shrink: 0;"></span>
+              <span style="font-size: 14px; color: var(--ink-soft);">Your review — mockups + copy</span>
+              <span class="small" style="margin-left: auto; color: var(--green); font-weight: 500;">Checkpoint</span>
+            </li>
+            <li style="display: flex; gap: 12px; align-items: center; padding: 10px 12px;">
+              <span style="width: 16px; height: 16px; border: 1.5px solid var(--line); border-radius: 999px; flex-shrink: 0;"></span>
+              <span style="font-size: 14px; color: var(--ink-soft);">Ship to staging</span>
+            </li>
+          </ol>
+        </Card>
+      </Pillar>
+    </div>
+  </section>
+
+  <!-- Pillar 03 — Capture -->
+  <section class="section">
+    <div class="wrap">
+      <Pillar>
+        <Fragment slot="copy">
+          <span class="eyebrow eyebrow-green">03 — Capture</span>
+          <h2 class="section-title">What gets decided, gets remembered.</h2>
+          <p class="copy">
+            Decisions, caveats, and open threads live in Octopad — not
+            scattered across Slack and DMs. The next session picks up where
+            the last one left off.
+          </p>
+        </Fragment>
+        <Card flush ariaHidden>
+          <div style="padding: 16px 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px;">
+            <span class="small" style="letter-spacing: 0.6px; text-transform: uppercase; font-weight: 500;">
+              Shared brain · this week
+            </span>
+            <span style="flex: 1;"></span>
+            <span class="small">12 items</span>
+          </div>
+          <div style="padding: 4px 24px 16px;">
+            {captureRows.map((row, i) => (
+              <div
+                style={`display: grid; grid-template-columns: 32px 1fr auto; gap: 14px; padding: 14px 0; align-items: center;${
+                  i ? ' border-top: 1px solid var(--line-soft);' : ''
+                }`}
+              >
+                <span class="small" style="font-variant-numeric: tabular-nums; font-weight: 500;">{row.n}</span>
+                <div>
+                  <div style="font-size: 15px; color: var(--ink); font-weight: 500;">{row.t}</div>
+                  <div class="small" style="margin-top: 2px;">{row.m}</div>
+                </div>
+                {row.done ? (
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 8.5l3.5 3.5L13 4.5" />
+                  </svg>
+                ) : (
+                  <span class="pulse"></span>
+                )}
+              </div>
+            ))}
+          </div>
+        </Card>
+      </Pillar>
+    </div>
+  </section>
+
+  <CTABand
+    eyebrow="Ready when you are"
+    heading="Give your AI a place to think."
+    description="Free for small teams. Bring your own models — Octopad doesn't touch your data, and you can self-host when you're ready."
+  >
+    <a href="#" class="btn btn-primary btn-lg">Get started</a>
+    <a href="/pricing" class="btn btn-ghost">See pricing</a>
+  </CTABand>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  page?: 'product' | 'pricing' | 'quickstart' | 'about' | 'blog';
+}
+
+const { title, description, page } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" type="image/png" href="/assets/mascot.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400;450;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <Nav page={page} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <script is:inline src="/scripts/tweaks.js"></script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+---
+interface Props {
+  reverse?: boolean;
+}
+
+const { reverse = false } = Astro.props;
+---
+
+<div class:list={['pillar', reverse && 'reverse']}>
+  <div class="pillar-copy">
+    <slot name="copy" />
+  </div>
+  <slot />
+</div>

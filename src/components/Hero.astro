@@ -1,0 +1,43 @@
+---
+interface Props {
+  eyebrow: string;
+  heading: string;
+  lede: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta: { label: string; href: string };
+}
+
+const { eyebrow, heading, lede, primaryCta, secondaryCta } = Astro.props;
+---
+
+<section class="wrap">
+  <div class="hero">
+    <div class="hero-copy">
+      <span class="eyebrow">{eyebrow}</span>
+      <h1 class="display" set:html={heading} />
+      <p class="lede">{lede}</p>
+      <div class="hero-ctas">
+        <a href={primaryCta.href} class="btn btn-primary btn-lg">
+          {primaryCta.label}
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+          >
+            <path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" />
+          </svg>
+        </a>
+        <a href={secondaryCta.href} class="btn btn-ghost">{secondaryCta.label}</a>
+      </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="glow"></div>
+      <img src="/assets/mascot.png" alt="Octopad mascot" />
+      <span class="fig">Fig. 01 — Octopad</span>
+    </div>
+  </div>
+</section>
