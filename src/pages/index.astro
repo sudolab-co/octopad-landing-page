@@ -28,25 +28,19 @@ const faqSchema = buildFAQSchema();
     primaryCta={{ label: 'Start free', href: 'https://www.octopad.app/signup' }}
     secondaryCta={{ label: 'See how it works', href: '#' }}
     trustLine="Free to start. First month of Pro included. $9 per seat after."
-  />
+  >
+    <p slot="trust-row" class="hero-trust">
+      <b>Claude</b><span class="sep">·</span>
+      <b>ChatGPT</b><span class="sep">·</span>
+      <b>Cursor</b>
+      <span class="mcp-pill">+ any MCP-compatible AI</span>
+    </p>
+  </Hero>
 
   <hr class="rule" />
 
-  <!-- Social proof strip -->
-  <section class="wrap">
-    <div class="trust">
-      <span class="eyebrow label">Works with Claude, ChatGPT, Cursor, and any MCP-compatible AI.</span>
-      <div class="logos">
-        <b>Claude</b><span class="dot"></span>
-        <b>ChatGPT</b><span class="dot"></span>
-        <b>Cursor</b><span class="dot"></span>
-        <span class="mcp-pill">+ any MCP-compatible AI</span>
-      </div>
-    </div>
-  </section>
-
   <!-- Pillar 01 — Context -->
-  <section class="section">
+  <section class="section section-pillar">
     <div class="wrap">
       <Pillar>
         <Fragment slot="copy">
@@ -60,7 +54,7 @@ const faqSchema = buildFAQSchema();
   </section>
 
   <!-- Pillar 02 — Plans -->
-  <section class="section">
+  <section class="section section-pillar">
     <div class="wrap">
       <Pillar reverse>
         <Fragment slot="copy">
@@ -74,7 +68,7 @@ const faqSchema = buildFAQSchema();
   </section>
 
   <!-- Pillar 03 — Memory -->
-  <section class="section">
+  <section class="section section-pillar">
     <div class="wrap">
       <Pillar>
         <Fragment slot="copy">
@@ -137,7 +131,7 @@ const faqSchema = buildFAQSchema();
 
   <CTABand
     heading="Give your AI the back-office it's been missing"
-    description="Free to start. One month of Pro included. Works with any MCP-compatible model. Pro from $9 per seat when you're ready for more."
+    description="Free to start. First month of Pro included."
   >
     <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg">Start free</a>
     <a href="/pricing" class="btn btn-ghost">See pricing</a>

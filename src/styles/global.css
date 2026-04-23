@@ -39,7 +39,8 @@ img { max-width: 100%; display: block; }
 /* ───────── Layout helpers ───────── */
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
 .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
-.section { padding: 80px 0; }
+.section { padding: 64px 0; }
+.section.section-pillar { padding: 48px 0; }
 .section + .section { border-top: 1px solid var(--line); }
 
 /* ───────── Header ───────── */
@@ -171,16 +172,18 @@ h3.tile-title {
   .hero-art { order: -1; max-width: 200px; margin: 0 auto; }
 }
 
-/* ───────── Trust strip ───────── */
-.trust {
-  display: flex; align-items: center; gap: 40px;
-  padding: 28px 0; flex-wrap: wrap;
-}
-.trust .label { flex-shrink: 0; }
-.trust .logos { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; color: var(--ink-soft); }
-.trust .logos b { font-weight: 500; letter-spacing: -0.2px; font-size: 15px; }
-.trust .dot { width: 3px; height: 3px; border-radius: 2px; background: currentColor; opacity: .35; }
+/* ───────── Inline trust row inside the hero ───────── */
 .mcp-pill { font-size: 13px; font-weight: 500; color: var(--ink-soft); background: var(--line-soft); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
+
+.hero-trust {
+  margin-top: 12px;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 10px;
+  font-size: 13px; color: var(--ink-mute);
+  line-height: 1.5;
+}
+.hero-trust b { font-weight: 500; color: var(--ink-soft); letter-spacing: -0.1px; }
+.hero-trust .sep { color: var(--ink-mute); opacity: .4; }
 
 /* ───────── Pillars / feature rows ───────── */
 .pillar {
@@ -263,17 +266,15 @@ h3.tile-title {
 
 /* ───────── CTA band ───────── */
 .cta-band {
-  background: var(--ink); color: var(--paper);
+  background: var(--paper-raised); color: var(--ink);
+  border: 1px solid var(--line);
   border-radius: 16px; padding: 56px;
   display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 48px;
   align-items: end;
 }
-.cta-band h2 { color: var(--paper); font-size: 44px; letter-spacing: -0.02em; line-height: 1.05; }
-.cta-band p { color: rgba(255,255,255,0.7); margin-top: 14px; max-width: 46ch; }
+.cta-band h2 { color: var(--ink); font-size: 44px; letter-spacing: -0.02em; line-height: 1.05; }
+.cta-band p { color: var(--ink-soft); margin-top: 14px; max-width: 46ch; }
 .cta-band .ctas { display: flex; gap: 12px; justify-self: end; align-items: center; flex-wrap: wrap; }
-.cta-band .btn-primary { background: var(--paper); color: var(--ink); }
-.cta-band .btn-primary:hover { background: #fff; }
-.cta-band .btn-ghost { color: var(--paper); border-bottom-color: var(--green); }
 @media (max-width: 860px) {
   .cta-band { grid-template-columns: 1fr; padding: 36px; }
   .cta-band .ctas { justify-self: start; }
