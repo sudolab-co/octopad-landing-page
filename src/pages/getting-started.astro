@@ -7,29 +7,88 @@ import PageHead from '../components/PageHead.astro';
   <PageHead
     kicker="Quick Start"
     heading="Getting Started<br/>with Octopad."
-    lede="This guide walks you through how Octopad works, from setup to your daily rhythm. No prior knowledge assumed."
+    lede="A short read to show you how Octopad works, from setup to your first goal. The full walkthrough lives inside the product once you sign up."
   />
 
   <section class="wrap">
     <div class="docs">
-      <nav class="toc" aria-label="On this page">
-        <a href="#overview" class="active">1 — What Octopad is in 60 seconds</a>
-        <a href="#setup">2 — Set up</a>
-        <a href="#context">3 — How your AI finds the right context</a>
-        <a href="#work">4 — How work is organized</a>
-        <a href="#handshake">5 — The "use octopad" handshake</a>
-        <a href="#day">6 — Running your day</a>
-        <a href="#octobots">7 — Our little helpers in the background</a>
-        <a href="#chain">8 — Chain with your other tools</a>
-        <a href="#mindset">9 — The right mindset, and what's next</a>
+      <nav class="toc" aria-label="Quick Start progress">
+        <p class="toc-kicker">Your progress</p>
+        <ol class="progress">
+          <li class="progress-item" data-state="current">
+            <a href="#overview">
+              <span class="progress-num">01</span>
+              <span class="progress-body">
+                <span class="progress-status" data-state="current">
+                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
+                  <span class="progress-label">In progress</span>
+                </span>
+                <span class="progress-title">What Octopad is in 60 seconds</span>
+              </span>
+            </a>
+          </li>
+          <li class="progress-item" data-state="todo">
+            <a href="#setup">
+              <span class="progress-num">02</span>
+              <span class="progress-body">
+                <span class="progress-status" data-state="todo">
+                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
+                  <span class="progress-label">To do</span>
+                </span>
+                <span class="progress-title">Set up in minutes</span>
+              </span>
+            </a>
+          </li>
+          <li class="progress-item" data-state="todo">
+            <a href="#context">
+              <span class="progress-num">03</span>
+              <span class="progress-body">
+                <span class="progress-status" data-state="todo">
+                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
+                  <span class="progress-label">To do</span>
+                </span>
+                <span class="progress-title">The three systems your AI leans on</span>
+              </span>
+            </a>
+          </li>
+          <li class="progress-item" data-state="todo">
+            <a href="#work">
+              <span class="progress-num">04</span>
+              <span class="progress-body">
+                <span class="progress-status" data-state="todo">
+                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
+                  <span class="progress-label">To do</span>
+                </span>
+                <span class="progress-title">How work is organized</span>
+              </span>
+            </a>
+          </li>
+          <li class="progress-item" data-state="todo">
+            <a href="#next">
+              <span class="progress-num">05</span>
+              <span class="progress-body">
+                <span class="progress-status" data-state="todo">
+                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
+                  <span class="progress-label">To do</span>
+                </span>
+                <span class="progress-title">What to do next</span>
+              </span>
+            </a>
+          </li>
+        </ol>
       </nav>
 
       <article>
         <blockquote>
           <strong>Shortcut worth knowing:</strong> once your AI is connected,
-          you can ask it anything you read here. "What is a work stream?"
-          "How do I capture a decision?" Your AI already knows. This guide is
-          the printed backup. Your AI is the live tutor.
+          you can ask it anything in this guide. "What is a work stream?"
+          "How does the tracker page work?" Your AI already knows. This page
+          is the printed backup. Your AI is the live tutor.
         </blockquote>
 
         <h2 id="overview">1 — What Octopad is in 60 seconds</h2>
@@ -39,23 +98,23 @@ import PageHead from '../components/PageHead.astro';
           brain your AI can read, write, and work from.
         </p>
         <p>
-          You work mostly by talking to your AI. The AI creates tasks, wires
-          dependencies, captures decisions, writes pages, ties work to
-          strategy. The Octopad interface is a control panel where you see
-          what your AI does and steer when needed. You can click around and
-          build things by hand, but the AI is the faster path and produces
-          richer output for the same effort.
+          You work mostly by talking to your AI. It creates tasks, captures
+          decisions, writes pages, ties work to strategy. The Octopad
+          interface is a control panel where you see what your AI does and
+          steer when needed. You can click around and build things by hand,
+          but the AI is the faster path and produces richer output for the
+          same effort.
         </p>
         <p>
           Why this matters. A normal AI chat has no back-office. Every new
-          conversation starts cold. Octopad gives every session a shared brain
-          with everything your team has captured, and a structured place to
-          capture what comes next. Nothing gets re-explained. Nothing gets
-          lost.
+          conversation starts cold. Octopad gives every session a shared
+          brain with everything your team has captured, and a structured
+          place to capture what comes next. Nothing gets re-explained.
+          Nothing gets lost.
         </p>
 
-        <h2 id="setup">2 — Set up</h2>
-        <p>Seven small moves. About five minutes.</p>
+        <h2 id="setup">2 — Set up in minutes</h2>
+        <p>Four moves. Roughly five minutes.</p>
         <p>
           <strong>Sign up.</strong> Free, no credit card. Head to
           <code>octopad.app</code>.
@@ -66,104 +125,61 @@ import PageHead from '../components/PageHead.astro';
           when it's done.
         </p>
         <p>
-          <strong>Open your first chat and say "use octopad."</strong> Start a
-          new conversation with your AI and type it exactly:
-          <strong>"use octopad."</strong> Your AI connects to your workspace
-          and is ready to work inside Octopad. Your workspace is still mostly
-          empty; you're about to fill it.
+          <strong>Open a fresh chat with your AI and say "use octopad."</strong>
+          Type it exactly. Your AI loads a briefing from your workspace
+          (your core pages, your active goals and streams, a recap of
+          recent sessions, and the Octopad playbook) and is ready to work
+          with context already in hand. Say it at the start of every fresh
+          chat. If you forget, your AI will still try, but the quality
+          drops because it's flying blind.
         </p>
         <p>
-          <strong>Give your AI information about your company and your
-          product.</strong> In that same chat, share the basics. Your AI turns
-          what you share into pages inside Octopad, typically a Product
-          Overview and a Company Overview. These become your first reference
-          documents.
+          <strong>Tell your AI about your company, your product, and where
+          you're headed.</strong> In that same chat, share the basics: what
+          you're building, who it's for, where you are right now, and what
+          you want to do next. Your AI turns what you share into pages
+          inside Octopad (typically a Product Overview and a Company
+          Overview) and sets up a first goal with a work stream under it.
+          For example, a goal like "Launch our beta by June 30" with a
+          "Marketing Website" stream underneath.
         </p>
         <p>
-          <strong>Turn on "add to workspace context" for those pages.</strong>
-          As a workspace admin, flip the toggle on your Product Overview and
-          Company Overview. Every teammate's AI will now load those summaries
-          at the start of every session, so no one on the team has to
-          re-explain the basics. (There's a per-user version of the toggle
-          too, for pages you only want in your own context.)
-        </p>
-        <p>
-          <strong>Verify it loads.</strong> Close that chat and open a fresh
-          one. Say "use octopad" and ask a question about what you just
-          shared: "what does our product do?" or "who are we building for?"
-          Your AI should read it back.
-        </p>
-        <p>
-          <strong>Set your first strategy.</strong> Ask your AI to create at
-          least one goal and one work stream. For example: a goal like "Launch
-          our beta by June 30" and a work stream under it called "Marketing
-          Website." Goals and streams are how your AI understands where any
-          task fits. A task on its own is just a line item. A task inside a
-          stream, under a goal, has purpose.
+          That's enough to have a real workspace. From this point on, any
+          chat that starts with "use octopad" picks up with all of this
+          already loaded.
         </p>
 
-        <h2 id="context">3 — How your AI finds the right context</h2>
+        <h2 id="context">3 — The three systems your AI leans on</h2>
         <p>
           Your AI's context in Octopad sits in three systems, working
           together. Your AI handles them for you. Knowing what's under the
           hood helps you get more out of the product.
         </p>
         <p>
-          <strong>Pages.</strong> Long-form documents. This is where your core
-          reference content lives: Product Overview, Company Overview, Brand
-          Guidelines, strategy notes, research, meeting notes, anything your
-          AI should be able to pull from later. Every page gets an
-          auto-generated summary, so your AI can skim the index before opening
-          any page in full.
+          <strong>Pages.</strong> Long-form documents. Product Overview,
+          Company Overview, Brand Guidelines, strategy notes, research,
+          meeting notes, anything your AI should be able to pull from
+          later. Every page gets an auto-generated summary, so your AI can
+          skim the index before opening any page in full.
         </p>
         <p>
-          <strong>Key Information.</strong> Short, atomic items. Four kinds: a
-          fact ("we ship on Fridays"), a decision ("we chose Stripe over
+          <strong>Key Information.</strong> Short, atomic items. Four kinds:
+          a fact ("we ship on Fridays"), a decision ("we chose Stripe over
           Paddle for native payouts"), an open question ("do we need SOC 2
           before Q4?"), and a risk ("our top competitor just raised"). Your
-          AI captures these automatically as they come up in conversation, and
-          pulls the relevant ones back when it picks up a task later.
+          AI captures these as they come up and pulls the relevant ones
+          back when it picks up a task later.
         </p>
         <p>
-          <strong>Build Context.</strong> The engine that assembles the right
-          material for each job. When you ask your AI to work on a task, it
-          calls build context. That pulls the task description, its
-          dependencies, its linked pages, related key information, the tracker
-          page for its work stream (more on trackers in the next section), and
-          additional page chunks that match the task semantically, even if
-          they were never linked directly. Your AI shows up already briefed.
-        </p>
-        <p>
-          An example. You ask your AI to start working on the "Create the
-          pricing page" task. Build context loads the task, your Brand
-          Guidelines page, last week's Value Propositions page, the decision
-          about positioning you captured on Monday, and a few relevant chunks
-          from other pages in your workspace. Your AI starts writing already
-          knowing everything you know.
+          <strong>Build Context.</strong> The engine that assembles the
+          right material for each job. When you ask your AI to work on a
+          task, build context loads the task, its dependencies, its linked
+          pages, related key information, and the tracker page for its
+          work stream. Your AI shows up already briefed.
         </p>
 
         <h2 id="work">4 — How work is organized</h2>
-        <p>Four concepts, stacked from biggest to smallest.</p>
-        <p>
-          <strong>Organizations and Workspaces.</strong> An organization is
-          your company. Workspaces live inside it. You invite people at the
-          org level, then grant them access to specific workspaces.
-        </p>
-        <p>
-          <strong>We suggest starting with one workspace.</strong> Context
-          isn't shared across workspaces yet, so one workspace keeps
-          everything in one brain. You can always split later.
-        </p>
-        <p>
-          Roles are simple. At the org level: <strong>Owner</strong> (full
-          control, including deleting the org), <strong>Admin</strong>
-          (invites members, creates workspaces, manages settings),
-          <strong>Member</strong> (access only to workspaces they're
-          explicitly invited to). Inside each workspace:
-          <strong>Admin</strong> (manages members and integrations) and
-          <strong>Contributor</strong> (creates and edits everything: tasks,
-          pages, knowledge).
-        </p>
+        <p>Three layers, stacked from biggest to smallest.</p>
         <p>
           <strong>Goals.</strong> What you're trying to achieve and why.
           Quarterly or yearly. For example: "Launch our beta by June 30."
@@ -174,8 +190,8 @@ import PageHead from '../components/PageHead.astro';
         </p>
         <ul>
           <li>
-            <strong>Ongoing streams</strong> never close. They cover permanent
-            areas like "Customer Support" or "Content."
+            <strong>Ongoing streams</strong> never close. They cover
+            permanent areas like "Customer Support" or "Content."
           </li>
           <li>
             <strong>Time-bound streams</strong> have a target date and a
@@ -184,192 +200,280 @@ import PageHead from '../components/PageHead.astro';
           </li>
         </ul>
         <p>
-          Every stream gets an auto-generated <strong>tracker page</strong>
-          that logs activity and progress summaries on its own. You don't
-          update it by hand.
+          Every stream gets an auto-generated <strong>tracker page</strong>.
+          One of our octobots logs activity as work lands and compresses
+          the day's progress into a clean report overnight, so you can
+          open the tracker any time and see exactly what moved in the
+          stream this week. You never update it by hand.
         </p>
         <p>
-          <strong>Tasks.</strong> The unit of work. Each task has a Why (the
-          problem), a What (the scope), and a How (the approach, when it's
-          non-obvious). Your AI also adds a "Done when" line so you know when
-          it's really finished. Tasks have priority, impact, can have
-          subtasks, and can depend on other tasks with a one-line rationale so
-          the order is never mysterious.
+          <strong>Tasks.</strong> The unit of work. Each task has a Why
+          (the problem), a What (the scope), and a How (the approach, when
+          it's non-obvious). Your AI adds a "Done when" line so you know
+          when the task is really finished. Tasks have priority, impact,
+          can have subtasks, and can depend on other tasks with a one-line
+          rationale so the order is never mysterious.
         </p>
         <p>
-          <strong>A note on task standards.</strong> Your AI follows a
-          template when it creates tasks, which is why they're richer than
-          what you'd type by hand in a hurry. The template isn't
-          user-customizable yet. We're always looking to make Octopad better,
-          so if you want to change what the template includes, tell us.
-        </p>
-        <p>
-          <strong>AI score.</strong> Every task gets a score. It combines
-          priority, impact, deadline pressure, and where the task sits in the
-          dependency chain. It surfaces what's most important to work on next,
-          so you don't have to scan the whole backlog. Read it as a useful
-          recommendation.
-        </p>
-        <p>
-          <strong>Automatic rituals.</strong> When a task closes, your AI
-          writes a completion comment: what shipped, why that approach, any
-          follow-up. When a time-bound stream finishes, your AI writes a
-          closing report. These compound. A month in, your workspace is a
-          real record of what got done and why.
-        </p>
-        <p>
-          A full example. You're launching the beta of your product. Goal:
-          "Launch our beta by June 30." Work stream under it: "Marketing
-          Website." Tasks inside: "Write the homepage copy," "Set up email
-          capture," "Record the demo video," "Publish the site." Subtasks
-          break the bigger ones down. Dependencies wire the order ("Write the
-          homepage copy" before "Record the demo video," since the video
-          echoes the copy). Your AI picks what to work on next based on the
-          score. You can always override.
+          A full example. Goal: "Launch our beta by June 30." Work stream:
+          "Marketing Website." Tasks inside: "Write the homepage copy,"
+          "Set up email capture," "Record the demo video," "Publish the
+          site." Dependencies wire the order ("Write the homepage copy"
+          before "Record the demo video," since the video echoes the copy).
+          Your AI picks what to work on next and you can always override.
         </p>
 
-        <h2 id="handshake">5 — The "use octopad" handshake</h2>
+        <h2 id="next">5 — What to do next</h2>
         <p>
-          Every new chat with your AI starts cold unless you tell it
-          otherwise. Say <strong>"use octopad"</strong> at the start of any
-          fresh conversation and your AI loads a package from your workspace
-          before doing any real work.
-        </p>
-        <p>What's in the package:</p>
-        <ul>
-          <li>Your core pages (the ones you toggled into workspace context).</li>
-          <li>A quick strategy briefing: your active goals and your open work streams.</li>
-          <li>A short recap of your last three sessions, so your AI knows what you were doing recently.</li>
-          <li>The Octopad playbook: how to capture decisions, how to create good tasks, when to update a tracker, how to close things out. This is what keeps your AI consistent across conversations.</li>
-        </ul>
-        <p>
-          When to say it. Every time you start a new chat with your AI, before
-          you ask for any real work. If you forget, your AI will still try,
-          but the quality drops because it's flying without the briefing.
-        </p>
-
-        <h2 id="day">6 — Running your day</h2>
-        <p>
-          <strong>Your to-do list.</strong> Your personal, ordered queue of
-          what you're working on now. Two ways to fill it. Ask your AI to
-          generate it ("what should I work on today?") and it picks up to
-          five tasks based on priority, dependencies, and deadlines. Or pin
-          specific tasks yourself ("add the homepage copy task to my to-do
-          list").
+          Sign up at <code>octopad.app</code>, say "use octopad" in your
+          next chat, and give your AI the basics about your company and a
+          first goal. That's the entire opening move.
         </p>
         <p>
-          <strong>Resume one thing.</strong> Say
-          <strong>"resume working on my to-do list"</strong> and your AI runs
-          you through the queue in order. Say
-          <strong>"resume working on the homepage copy"</strong> to jump
-          straight to one task. If that task has subtasks, your AI
-          automatically picks the right next one. You don't need to specify.
+          <code>octopad.ai</code> is the marketing site. <code>octopad.app</code>
+          is where the product lives, and where the full in-product guide
+          will walk you through everything else once you're in.
         </p>
-
-        <h2 id="octobots">7 — Our little helpers in the background</h2>
-        <p>
-          Octopad has a small fleet of always-on AI agents we call
-          <strong>octobots</strong>. They run in the background and keep your
-          workspace tidy without anyone triggering them. A few examples:
-        </p>
-        <ul>
-          <li>
-            <strong>Session Scribe</strong> writes a short summary of what
-            happened every time a session ends, so the next one picks up
-            cleanly.
-          </li>
-          <li>
-            <strong>Page Summarizer</strong> keeps every page's summary fresh
-            as you edit, so your AI can skim before diving in.
-          </li>
-          <li>
-            <strong>Stream Activity Logger</strong> writes one entry per work
-            stream every time something changes, so your tracker pages stay
-            current.
-          </li>
-          <li>
-            <strong>Work Stream Reconciler</strong> runs nightly and
-            compresses the day's activity into a clean progress report on each
-            active stream.
-          </li>
-        </ul>
-        <p>
-          You don't interact with them. They just do their job. We're
-          actively building more to take even more routine work off your plate
-          and make the system smarter over time.
-        </p>
-
-        <h2 id="chain">8 — Chain with your other tools</h2>
-        <p>
-          Octopad is one connector in a bigger picture. Your AI can talk to
-          many other apps the same way: Slack, Gmail, GitHub, Tiny Fish, your
-          calendar, and more. When you connect more than one, your AI can
-          work across all of them in a single conversation.
-        </p>
-        <p>Three examples you can say out loud to your AI today:</p>
-        <ul>
-          <li>
-            <em>"Scan our #product channel in Slack for anything that should
-            become a task in Octopad."</em> Your AI reads the last week of
-            messages, picks what's actionable, creates tasks in the right
-            stream, and links back to the original messages.
-          </li>
-          <li>
-            <em>"Create a task for John to review the pricing page, then send
-            him a Slack message explaining why I'm assigning it."</em> Your AI
-            creates the task in Octopad, then sends John a short message in
-            Slack with the context, so he knows the what and why before he
-            even opens Octopad.
-          </li>
-          <li>
-            <em>"Ask Tiny Fish to run a competitor analysis and log the
-            findings to a page in Octopad."</em> Tiny Fish runs the research;
-            your AI takes the results and writes them up as a page in the
-            right stream, with sources attached.
-          </li>
-        </ul>
-        <p>
-          Each of these is one sentence. No copy-paste between tabs, no
-          "where did I save that." Your AI becomes the connective tissue
-          between your tools, and Octopad is where the durable context lives
-          so nothing falls through the cracks.
-        </p>
-
-        <h2 id="mindset">9 — The right mindset, and what's next</h2>
-        <p>
-          <strong>AI-first.</strong> Octopad is designed so you talk to your
-          AI, and the interface catches what the AI does. You can absolutely
-          click around and build things by hand, but when you ask your AI to
-          do it, you get richer descriptions, better-linked pages, cleaner
-          dependencies, and captured decisions, all for the same amount of
-          effort on your part. Treat the interface as a control panel: a
-          place to see, steer, and occasionally click.
-        </p>
-        <p>
-          <strong>Your AI is the tutor.</strong> Anything in this guide, your
-          AI can explain on demand. Ask: "what is a work stream?" or "how
-          does build context work?" or "how do I archive a task?" If
-          something feels confusing, the answer is one sentence away.
-        </p>
-        <p>
-          <strong>Tell us what's missing.</strong> If something doesn't make
-          sense, if you wish Octopad worked differently, or if your AI is
-          missing a capability, tell us. There's a feedback button in every
-          workspace.
+        <p class="cta-row">
+          <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg">Start free</a>
+          <a href="/pricing" class="btn btn-ghost">See pricing</a>
         </p>
       </article>
     </div>
   </section>
 </BaseLayout>
 
+<style>
+  .cta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+
+  /* ───── Progress TOC ───── */
+  .docs nav.toc {
+    position: sticky;
+    top: 88px;
+    align-self: start;
+    display: block;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .toc-kicker {
+    font-family: var(--mono, 'Geist Mono', monospace);
+    font-size: 10.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--ink-mute);
+    margin: 0 0 14px 8px;
+  }
+  .progress {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    position: relative;
+  }
+  .progress::before {
+    content: '';
+    position: absolute;
+    left: 21px;
+    top: 26px;
+    bottom: 26px;
+    width: 1px;
+    background: var(--line);
+    z-index: 0;
+  }
+  .progress-item {
+    position: relative;
+    z-index: 1;
+  }
+  .progress-item a {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 10px 8px;
+    border-radius: 8px;
+    transition: background 0.18s ease;
+    text-decoration: none;
+  }
+  .progress-item a:hover {
+    background: var(--line-soft);
+  }
+  .progress-num {
+    font-family: var(--mono, 'Geist Mono', monospace);
+    font-size: 10.5px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.6px;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    display: inline-grid;
+    place-items: center;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    color: var(--ink-mute);
+    transition: all 0.2s ease;
+  }
+  .progress-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    padding-top: 2px;
+  }
+  .progress-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono, 'Geist Mono', monospace);
+    font-size: 9.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--ink-mute);
+    line-height: 1;
+  }
+  .progress-mark {
+    display: none;
+    flex-shrink: 0;
+  }
+  .progress-mark-check {
+    width: 10px;
+    height: 10px;
+    color: var(--green);
+  }
+  .progress-mark-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: progressPulse 1.8s ease-out infinite;
+  }
+  .progress-status[data-state="current"] .progress-mark-dot {
+    display: inline-block;
+  }
+  .progress-status[data-state="done"] .progress-mark-check {
+    display: inline-block;
+  }
+  .progress-title {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.35;
+    font-weight: 450;
+  }
+
+  /* Done */
+  .progress-item[data-state="done"] .progress-num {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .progress-item[data-state="done"] .progress-status {
+    color: var(--ink);
+  }
+  .progress-item[data-state="done"] .progress-title {
+    color: var(--ink-soft);
+  }
+
+  /* In progress / current */
+  .progress-item[data-state="current"] > a {
+    background: var(--green-soft);
+  }
+  .progress-item[data-state="current"] .progress-num {
+    background: var(--green);
+    color: var(--ink);
+    border-color: var(--green);
+  }
+  .progress-item[data-state="current"] .progress-status {
+    color: var(--ink);
+  }
+  .progress-item[data-state="current"] .progress-title {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  @keyframes progressPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(18, 32, 46, 0.25); }
+    70%  { box-shadow: 0 0 0 6px rgba(18, 32, 46, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(18, 32, 46, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-mark-dot { animation: none; }
+  }
+
+  /* Mobile — horizontal snap strip */
+  @media (max-width: 860px) {
+    .docs {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .docs nav.toc {
+      position: static;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--line);
+    }
+    .toc-kicker { margin-left: 2px; }
+    .progress {
+      flex-direction: row;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 2px 2px 16px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .progress::before { display: none; }
+    .progress-item {
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+    }
+    .progress-item a {
+      grid-template-columns: auto 1fr;
+      min-width: 210px;
+      max-width: 240px;
+      border: 1px solid var(--line);
+      background: var(--paper-raised);
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .progress-item[data-state="current"] > a {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green);
+    }
+  }
+</style>
+
 <script>
-  const links = document.querySelectorAll<HTMLAnchorElement>('.docs nav.toc a');
-  const heads = Array.from(links).map((a) => {
-    const href = a.getAttribute('href');
+  const items = document.querySelectorAll<HTMLLIElement>('.progress-item');
+  const heads = Array.from(items).map((li) => {
+    const href = li.querySelector('a')?.getAttribute('href');
     return href ? document.querySelector(href) : null;
   });
-  const setActive = (i: number) =>
-    links.forEach((l, k) => l.classList.toggle('active', k === i));
+
+  const labelFor = (state: 'done' | 'current' | 'todo') =>
+    state === 'done' ? 'Done' : state === 'current' ? 'In progress' : 'To do';
+
+  const setActive = (activeIdx: number) => {
+    items.forEach((li, k) => {
+      const state: 'done' | 'current' | 'todo' =
+        k < activeIdx ? 'done' : k === activeIdx ? 'current' : 'todo';
+      li.setAttribute('data-state', state);
+      const status = li.querySelector<HTMLElement>('.progress-status');
+      if (status) {
+        status.setAttribute('data-state', state);
+        const label = status.querySelector<HTMLElement>('.progress-label');
+        if (label) label.textContent = labelFor(state);
+      }
+    });
+  };
+
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
