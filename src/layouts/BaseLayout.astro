@@ -23,7 +23,7 @@ const {
 
 const siteUrl = 'https://octopad.ai';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
-const socialImage = new URL(ogImage ?? '/assets/mascot.png', siteUrl).toString();
+const socialImage = new URL(ogImage ?? '/og-image.png', siteUrl).toString();
 
 const defaultDescription =
   "Octopad is your AI's back-office: a shared workspace where any AI your team uses (Claude, ChatGPT, Cursor) can make plans, run tasks, and capture what matters on one shared brain.";
@@ -72,6 +72,8 @@ const websiteSchema = {
     <meta property="og:type" content={ogType} />
     <meta property="og:image" content={socialImage} />
     <meta property="og:image:alt" content="Octopad — your AI's back-office" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
