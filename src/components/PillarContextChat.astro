@@ -36,13 +36,13 @@
     <!-- 1 · User message — rounded pill, right-aligned -->
     <g class="step user-step">
       <rect class="user-bubble" x="196" y="26" width="296" height="38" rx="19"/>
-      <text class="user-msg" x="478" y="51" text-anchor="end">resume working on home page copy</text>
+      <text class="user-msg" x="478" y="51" text-anchor="end" font-size="15">resume working on home page copy</text>
     </g>
 
     <!-- 2 · Assistant tool call: build_context: homepage copy task -->
     <g class="step ctx-step">
       <image class="action-mascot" href="/assets/mascot.png" x="28" y="92" width="26" height="24"/>
-      <text x="62" y="110" class="tool-line">
+      <text x="62" y="110" class="tool-line" font-size="13.5">
         <tspan class="tl-name">build_context</tspan><tspan class="tl-sep">: </tspan><tspan class="tl-arg">homepage copy task</tspan>
       </text>
     </g>
@@ -50,27 +50,27 @@
     <!-- 3 · Streaming status items — indented under the tool call -->
     <g class="step item-page-1">
       <use href="#ic-page" x="62" y="138" width="12" height="12" class="ic ic-mute"/>
-      <text class="status" x="82" y="148">reading Product Overview page</text>
+      <text class="status" x="82" y="148" font-size="13">reading Product Overview page</text>
     </g>
     <g class="step item-page-2">
       <use href="#ic-page" x="62" y="162" width="12" height="12" class="ic ic-mute"/>
-      <text class="status" x="82" y="172">reading Brand Guidelines page</text>
+      <text class="status" x="82" y="172" font-size="13">reading Brand Guidelines page</text>
     </g>
     <g class="step item-decision">
       <use href="#ic-check" x="62" y="186" width="12" height="12" class="ic ic-green"/>
-      <text class="status" x="82" y="196">fetching Monday's positioning decision</text>
+      <text class="status" x="82" y="196" font-size="13">fetching Monday's positioning decision</text>
     </g>
 
     <!-- 4 · Assistant reply — left-aligned prose, no bubble -->
     <g class="step reply-step">
-      <text class="reply-msg" x="28" y="252">Homepage copy V1 is ready for review</text>
+      <text class="reply-msg" x="28" y="252" font-size="15">Homepage copy V1 is ready for review</text>
     </g>
   </svg>
 </div>
 
 <style>
-  .pillar-chat { width: 100%; }
-  .pillar-chat svg { display: block; width: 100%; height: auto; }
+  .pillar-chat { width: 100%; display: flex; justify-content: center; }
+  .pillar-chat svg { display: block; width: 100%; max-width: 560px; height: auto; }
 
   /* Claude-style cream chat surface */
   .frame {
@@ -85,7 +85,6 @@
   }
   .user-msg {
     font-family: var(--font);
-    font-size: 15px;
     font-weight: 400;
     fill: var(--ink);
     letter-spacing: -0.005em;
@@ -95,18 +94,15 @@
   .tool-line { white-space: pre; }
   .tl-name {
     font-family: var(--mono);
-    font-size: 13.5px;
     font-weight: 500;
     fill: var(--ink);
   }
   .tl-sep {
     font-family: var(--mono);
-    font-size: 13.5px;
     fill: var(--ink-mute);
   }
   .tl-arg {
     font-family: var(--font);
-    font-size: 13.5px;
     font-style: italic;
     fill: var(--ink-soft);
   }
@@ -114,7 +110,6 @@
   /* Streaming status items */
   .status {
     font-family: var(--font);
-    font-size: 13px;
     font-style: italic;
     fill: var(--ink-soft);
   }
@@ -124,7 +119,6 @@
   /* Assistant reply — prose, not a bubble */
   .reply-msg {
     font-family: var(--font);
-    font-size: 15px;
     font-weight: 400;
     fill: var(--ink);
     letter-spacing: -0.005em;

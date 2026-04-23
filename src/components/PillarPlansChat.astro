@@ -36,12 +36,12 @@
     <circle class="frame-dot" cx="494" cy="20" r="3"/>
 
     <!-- 1 · User message — typed on the right -->
-    <text class="user-msg" x="488" y="44" text-anchor="end" clip-path="url(#cp-user-2)">add a task to tighten onboarding copy</text>
+    <text class="user-msg" x="488" y="44" text-anchor="end" clip-path="url(#cp-user-2)" font-size="15">add a task to tighten onboarding copy</text>
 
     <!-- 2 · AI tool call: tasks.create -->
     <g class="step tool-step">
       <image class="action-mascot" href="/assets/mascot.png" x="32" y="74" width="24" height="22"/>
-      <text class="action-name" x="64" y="92">tasks.create</text>
+      <text class="action-name" x="64" y="92" font-size="13.5">tasks.create</text>
     </g>
 
     <!-- 3 · Card body + footer strip + title -->
@@ -51,48 +51,48 @@
       <!-- Footer strip: subtle green tint, sharp top, rounded bottom -->
       <path class="card-footer" d="M 32 192 L 492 192 L 492 228 A 8 8 0 0 1 484 236 L 40 236 A 8 8 0 0 1 32 228 Z"/>
       <!-- Title -->
-      <text class="card-title" x="52" y="134">Tighten onboarding copy</text>
+      <text class="card-title" x="52" y="134" font-size="15.5">Tighten onboarding copy</text>
     </g>
 
     <!-- 4 · Description -->
     <g class="step task-desc">
-      <text class="card-desc" x="52" y="158">Cut setup friction in the first-run flow.</text>
+      <text class="card-desc" x="52" y="158" font-size="13">Cut setup friction in the first-run flow.</text>
     </g>
 
     <!-- 5 · Status chip: open ring + To-do -->
     <g class="step task-status">
       <circle class="chip-ring" cx="58" cy="215" r="4.5"/>
-      <text class="chip-text" x="70" y="219">To-do</text>
+      <text class="chip-text" x="70" y="219" font-size="12">To-do</text>
     </g>
 
     <!-- 6 · Priority chip: small upward triangle + High -->
     <g class="step task-priority">
       <polygon class="chip-priority" points="148,220 156,220 152,213"/>
-      <text class="chip-text" x="162" y="219">High</text>
+      <text class="chip-text" x="162" y="219" font-size="12">High</text>
     </g>
 
     <!-- 7 · Stream chip: green hash + Website Launch -->
     <g class="step task-stream">
-      <text class="chip-hash"   x="232" y="219">#</text>
-      <text class="chip-text"   x="242" y="219">Website Launch</text>
+      <text class="chip-hash"   x="232" y="219" font-size="13">#</text>
+      <text class="chip-text"   x="242" y="219" font-size="12">Website Launch</text>
     </g>
 
     <!-- 8 · Assignee chip: green avatar + Alex -->
     <g class="step task-assignee">
       <circle class="chip-avatar" cx="384" cy="215" r="7"/>
-      <text class="chip-avatar-letter" x="384" y="218" text-anchor="middle">A</text>
-      <text class="chip-text" x="397" y="219">Alex</text>
+      <text class="chip-avatar-letter" x="384" y="218" text-anchor="middle" font-size="9">A</text>
+      <text class="chip-text" x="397" y="219" font-size="12">Alex</text>
     </g>
 
     <!-- 9 · AI reply — types out with cursor -->
-    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-2)">I created the task and assigned it to #Website Launch.</text>
+    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-2)" font-size="15">I created the task and assigned it to #Website Launch.</text>
     <rect class="cursor" x="32" y="262" width="2.5" height="18"/>
   </svg>
 </div>
 
 <style>
-  .pillar-chat { width: 100%; }
-  .pillar-chat svg { display: block; width: 100%; height: auto; }
+  .pillar-chat { width: 100%; display: flex; justify-content: center; }
+  .pillar-chat svg { display: block; width: 100%; max-width: 560px; height: auto; }
 
   /* Frame — the "chat window" containment */
   .frame {
@@ -109,12 +109,10 @@
   .user-msg,
   .reply-msg {
     font-family: var(--font);
-    font-size: 15px;
     fill: var(--ink);
   }
   .action-name {
     font-family: var(--mono);
-    font-size: 13.5px;
     font-weight: 500;
     fill: var(--ink);
   }
@@ -133,14 +131,12 @@
   }
   .card-title {
     font-family: var(--font);
-    font-size: 15.5px;
     font-weight: 500;
     fill: var(--ink);
     letter-spacing: -0.005em;
   }
   .card-desc {
     font-family: var(--font);
-    font-size: 13px;
     font-weight: 400;
     fill: var(--ink-soft);
   }
@@ -148,7 +144,6 @@
   /* Metadata chips — naked icon + text, no pill backgrounds */
   .chip-text {
     font-family: var(--font);
-    font-size: 12px;
     font-weight: 500;
     fill: var(--ink);
   }
@@ -162,14 +157,12 @@
   }
   .chip-hash {
     font-family: var(--font);
-    font-size: 13px;
     font-weight: 600;
     fill: var(--green);
   }
   .chip-avatar { fill: var(--green); }
   .chip-avatar-letter {
     font-family: var(--font);
-    font-size: 9px;
     font-weight: 700;
     fill: var(--paper-raised);
   }
