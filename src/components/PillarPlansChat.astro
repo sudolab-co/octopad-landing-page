@@ -1,92 +1,147 @@
 ---
 // Pillar 2 — Plans
-// Animated SVG chat: user asks for a task, AI calls tasks.create,
-// a real task card materializes — title + description in the body,
-// status / priority / stream / assignee chips in a soft green
-// footer strip. The four metadata chips are things the user did
-// NOT say: the visible proof the AI is pulling structure from
-// the workspace, not echoing the prompt.
-// 14s cycle, same frame and trigger as PillarContextChat.
+// Animated SVG chat: user asks to plan an effort, AI calls batch_tasks,
+// three compact task cards materialize with a dependency chain (line +
+// lock between them). Each card shows:
+//   • title on the left, To-do status pill on the right
+//   • "See full description | [logo] attachment" footer row
+// Task 1 attaches a page. Task 2 links a GitHub issue. Task 3 runs
+// through the Gmail MCP integration. Those three "extras" are the
+// visible proof the AI is pulling structure from the workspace.
+//
+// The content group scrolls up across the cycle so the user message
+// recedes off the top as the plan populates, mirroring real chat UX.
+// Cycle: 12s loop. Frame + observer parity with PillarContextChat.
 ---
 
-<div class="pillar-chat" role="img" aria-label="AI chat transcript: Alex asks Claude to add a task to tighten onboarding copy. Claude calls the Octopad tasks.create tool. A task card materializes with the title 'Tighten onboarding copy', a one-line description, and four metadata chips — Status: To-do, Priority: High, Stream: Website Launch, Assignee: Alex. Claude then replies that the task was created and assigned to the Website Launch stream.">
-  <svg viewBox="0 0 520 304" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+<div class="pillar-chat" role="img" aria-label="Claude conversation: Alex asks Claude to plan the onboarding revamp. Claude calls batch_tasks and creates three sequential tasks, each marked To-do. Task one, Draft the new activation milestones, has an Activation metrics page attached. Task two, Ship the in-app onboarding tour, depends on task one and links to GitHub issue 142. Task three, Email the first 100 users to measure lift, depends on task two and uses the Gmail MCP integration. Claude replies that the plan is ready with three tasks linked to the Activation work stream.">
+  <svg viewBox="0 0 520 312" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
     <defs>
-      <!-- Soft drop shadow for the chat-window frame -->
+      <!-- Soft drop shadow for the chat surface -->
       <filter id="frame-shadow-2" x="-4%" y="-4%" width="108%" height="110%">
-        <feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="#0a1830" flood-opacity="0.06"/>
+        <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#1a1410" flood-opacity="0.06"/>
       </filter>
 
-      <!-- Typewriter clip for the user message (right-aligned, reveals L→R) -->
-      <clipPath id="cp-user-2">
-        <rect class="cp-user-rect-2" x="140" y="28" width="0" height="32"/>
-      </clipPath>
+      <!-- Padlock: closed state, signals "blocked by" dependency -->
+      <symbol id="ic-lock-2" viewBox="0 0 14 14">
+        <path d="M4.2 6 V4.5 a2.8 2.8 0 0 1 5.6 0 V6"
+              fill="none" stroke="currentColor" stroke-width="1.2"
+              stroke-linecap="round"/>
+        <rect x="3" y="6" width="8" height="6.5" rx="1.2"
+              fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <circle cx="7" cy="9" r="0.9" fill="currentColor"/>
+      </symbol>
 
-      <!-- Typewriter clip for the AI final reply -->
-      <clipPath id="cp-reply-2">
-        <rect class="cp-reply-rect-2" x="32" y="258" width="0" height="30"/>
+      <!-- Paperclip: universal attachment indicator -->
+      <symbol id="ic-clip-2" viewBox="0 0 14 14">
+        <path d="M10.4 4.2 L5.4 9.2 a2 2 0 1 0 2.8 2.8 L11.9 8.3 a3.2 3.2 0 0 0 -4.5 -4.5 L3.4 11.8"
+              fill="none" stroke="currentColor" stroke-width="1.25"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
+      <!-- GitHub Octocat mark -->
+      <symbol id="ic-github-2" viewBox="0 0 16 16">
+        <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.5 7.5 0 014 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"
+              fill="currentColor" fill-rule="evenodd"/>
+      </symbol>
+
+      <!-- Gmail mark: simplified red envelope -->
+      <symbol id="ic-gmail-2" viewBox="0 0 16 12">
+        <rect x="1" y="1.5" width="14" height="9" rx="1.3" fill="#ea4335"/>
+        <path d="M1.6 2.4 L8 7 L14.4 2.4" fill="none" stroke="white" stroke-width="1.1"
+              stroke-linejoin="round" stroke-linecap="round"/>
+      </symbol>
+
+      <!-- ClipPath matching the frame — keeps scrolling content inside it -->
+      <clipPath id="frame-clip-2">
+        <rect x="4" y="4" width="512" height="304" rx="16"/>
       </clipPath>
     </defs>
 
-    <!-- Chat-window frame -->
-    <rect class="frame" x="4" y="4" width="512" height="296" rx="14" filter="url(#frame-shadow-2)"/>
+    <!-- Claude-style warm cream chat surface -->
+    <rect class="frame" x="4" y="4" width="512" height="304" rx="16" filter="url(#frame-shadow-2)"/>
 
-    <!-- Tiny live-dot in the top-right corner of the frame -->
-    <circle class="frame-dot" cx="494" cy="20" r="3"/>
+    <!-- Clipped wrapper — content inside scrolls up across the cycle -->
+    <g clip-path="url(#frame-clip-2)">
+      <g class="scroll-group">
 
-    <!-- 1 · User message — typed on the right -->
-    <text class="user-msg" x="488" y="44" text-anchor="end" clip-path="url(#cp-user-2)" font-size="15">add a task to tighten onboarding copy</text>
+        <!-- 1 · User message — rounded pill, right-aligned -->
+        <g class="step user-step">
+          <rect class="user-bubble" x="220" y="22" width="272" height="36" rx="18"/>
+          <text class="user-msg" x="478" y="46" text-anchor="end">plan the onboarding revamp</text>
+        </g>
 
-    <!-- 2 · AI tool call: tasks.create -->
-    <g class="step tool-step">
-      <image class="action-mascot" href="/assets/mascot.png" x="32" y="74" width="24" height="22"/>
-      <text class="action-name" x="64" y="92" font-size="13.5">tasks.create</text>
+        <!-- 2 · Assistant tool call -->
+        <g class="step tool-step">
+          <image class="action-mascot" href="/assets/mascot.png" x="24" y="72" width="26" height="24"/>
+          <text class="tool-line" x="58" y="90">
+            <tspan class="tl-name">batch_tasks</tspan><tspan class="tl-sep">: </tspan><tspan class="tl-arg">onboarding revamp</tspan>
+          </text>
+        </g>
+
+        <!-- 3 · Task 1 — page attachment -->
+        <g class="step task-1">
+          <rect class="card" x="24" y="108" width="472" height="50" rx="9"/>
+          <!-- Title -->
+          <text class="card-title" x="38" y="128">Draft the new activation milestones</text>
+          <!-- Status pill: To-do -->
+          <rect class="status-pill" x="420" y="113" width="64" height="18" rx="9"/>
+          <circle class="status-ring" cx="432" cy="122" r="3.5"/>
+          <text class="status-text" x="441" y="126">To-do</text>
+          <!-- Footer row: See full description | clip + page name -->
+          <text class="card-more" x="38" y="148">See full description</text>
+          <line class="card-sep" x1="158" y1="137" x2="158" y2="150"/>
+          <use href="#ic-clip-2" x="168" y="137" width="12" height="12" class="ic-soft"/>
+          <text class="card-extra" x="184" y="148">Activation metrics</text>
+        </g>
+
+        <!-- 4 · Dependency 1 — vertical line segments flanking a lock -->
+        <g class="step dep-1">
+          <line class="dep-line" x1="60" y1="160" x2="60" y2="165"/>
+          <use href="#ic-lock-2" x="53" y="165" width="14" height="14" class="ic-soft"/>
+          <line class="dep-line" x1="60" y1="180" x2="60" y2="184"/>
+        </g>
+
+        <!-- 5 · Task 2 — GitHub issue -->
+        <g class="step task-2">
+          <rect class="card" x="24" y="186" width="472" height="50" rx="9"/>
+          <text class="card-title" x="38" y="206">Ship the in-app onboarding tour</text>
+          <rect class="status-pill" x="420" y="191" width="64" height="18" rx="9"/>
+          <circle class="status-ring" cx="432" cy="200" r="3.5"/>
+          <text class="status-text" x="441" y="204">To-do</text>
+          <text class="card-more" x="38" y="226">See full description</text>
+          <line class="card-sep" x1="158" y1="215" x2="158" y2="228"/>
+          <use href="#ic-github-2" x="168" y="215" width="12" height="12" class="ic-strong"/>
+          <text class="card-extra" x="184" y="226">GitHub #142</text>
+        </g>
+
+        <!-- 6 · Dependency 2 -->
+        <g class="step dep-2">
+          <line class="dep-line" x1="60" y1="238" x2="60" y2="243"/>
+          <use href="#ic-lock-2" x="53" y="243" width="14" height="14" class="ic-soft"/>
+          <line class="dep-line" x1="60" y1="258" x2="60" y2="262"/>
+        </g>
+
+        <!-- 7 · Task 3 — Gmail MCP integration -->
+        <g class="step task-3">
+          <rect class="card" x="24" y="264" width="472" height="50" rx="9"/>
+          <text class="card-title" x="38" y="284">Email the first 100 users to measure lift</text>
+          <rect class="status-pill" x="420" y="269" width="64" height="18" rx="9"/>
+          <circle class="status-ring" cx="432" cy="278" r="3.5"/>
+          <text class="status-text" x="441" y="282">To-do</text>
+          <text class="card-more" x="38" y="304">See full description</text>
+          <line class="card-sep" x1="158" y1="293" x2="158" y2="306"/>
+          <use href="#ic-gmail-2" x="167" y="294" width="14" height="10.5"/>
+          <text class="card-extra" x="185" y="304">Gmail MCP</text>
+        </g>
+
+        <!-- 8 · Assistant reply — confirming the plan was linked to a stream -->
+        <g class="step reply-step">
+          <text class="reply-msg" x="24" y="336">3 tasks created in Activation Sprint work stream.</text>
+        </g>
+      </g>
     </g>
-
-    <!-- 3 · Card body + footer strip + title -->
-    <g class="step task-card">
-      <!-- Outer card: paper inset with hairline border, rounded corners -->
-      <rect class="card-bg" x="32" y="108" width="460" height="128" rx="8"/>
-      <!-- Footer strip: subtle green tint, sharp top, rounded bottom -->
-      <path class="card-footer" d="M 32 192 L 492 192 L 492 228 A 8 8 0 0 1 484 236 L 40 236 A 8 8 0 0 1 32 228 Z"/>
-      <!-- Title -->
-      <text class="card-title" x="52" y="134" font-size="15.5">Tighten onboarding copy</text>
-    </g>
-
-    <!-- 4 · Description -->
-    <g class="step task-desc">
-      <text class="card-desc" x="52" y="158" font-size="13">Cut setup friction in the first-run flow.</text>
-    </g>
-
-    <!-- 5 · Status chip: open ring + To-do -->
-    <g class="step task-status">
-      <circle class="chip-ring" cx="58" cy="215" r="4.5"/>
-      <text class="chip-text" x="70" y="219" font-size="12">To-do</text>
-    </g>
-
-    <!-- 6 · Priority chip: small upward triangle + High -->
-    <g class="step task-priority">
-      <polygon class="chip-priority" points="148,220 156,220 152,213"/>
-      <text class="chip-text" x="162" y="219" font-size="12">High</text>
-    </g>
-
-    <!-- 7 · Stream chip: green hash + Website Launch -->
-    <g class="step task-stream">
-      <text class="chip-hash"   x="232" y="219" font-size="13">#</text>
-      <text class="chip-text"   x="242" y="219" font-size="12">Website Launch</text>
-    </g>
-
-    <!-- 8 · Assignee chip: green avatar + Alex -->
-    <g class="step task-assignee">
-      <circle class="chip-avatar" cx="384" cy="215" r="7"/>
-      <text class="chip-avatar-letter" x="384" y="218" text-anchor="middle" font-size="9">A</text>
-      <text class="chip-text" x="397" y="219" font-size="12">Alex</text>
-    </g>
-
-    <!-- 9 · AI reply — types out with cursor -->
-    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-2)" font-size="15">I created the task and assigned it to #Website Launch.</text>
-    <rect class="cursor" x="32" y="262" width="2.5" height="18"/>
   </svg>
 </div>
 
@@ -94,169 +149,174 @@
   .pillar-chat { width: 100%; display: flex; justify-content: center; }
   .pillar-chat svg { display: block; width: 100%; max-width: 560px; height: auto; }
 
-  /* Frame — the "chat window" containment */
+  /* Claude-style cream chat surface */
   .frame {
-    fill: var(--paper-raised);
-    stroke: var(--line);
+    fill: #F9F9F6;
+    stroke: #EDECE4;
     stroke-width: 1;
   }
-  .frame-dot {
-    fill: var(--green);
-    opacity: 0.55;
+
+  /* User message bubble — subtle darker tone, matches Pillar 1 */
+  .user-bubble { fill: #EEEFEC; }
+  .user-msg {
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 400;
+    fill: var(--ink);
+    letter-spacing: -0.005em;
   }
 
-  /* Typography — identical chat voice to Pillar 1 */
-  .user-msg,
-  .reply-msg {
-    font-family: var(--font);
-    fill: var(--ink);
-  }
-  .action-name {
+  /* Tool call line: mono name + mono sep + italic argument */
+  .tool-line { white-space: pre; }
+  .tl-name {
     font-family: var(--mono);
+    font-size: 13.5px;
     font-weight: 500;
     fill: var(--ink);
   }
-  .cursor { fill: var(--green); }
-
-  /* Task card — quiet paper inset with a soft tinted footer that
-     carries the metadata. No accent bar, no completion check; the
-     state lives in the chips. */
-  .card-bg {
-    fill: var(--paper);
-    stroke: var(--line);
-    stroke-width: 1;
+  .tl-sep {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    fill: var(--ink-mute);
   }
-  .card-footer {
-    fill: var(--green-soft);
+  .tl-arg {
+    font-family: var(--font);
+    font-size: 13.5px;
+    font-style: italic;
+    fill: var(--ink-soft);
+  }
+
+  /* Task card: compact paper inset, hairline border, rounded corners */
+  .card {
+    fill: #FFFDF7;
+    stroke: #E8E6DD;
+    stroke-width: 1;
   }
   .card-title {
     font-family: var(--font);
+    font-size: 14px;
     font-weight: 500;
     fill: var(--ink);
     letter-spacing: -0.005em;
   }
-  .card-desc {
+
+  /* Status pill — outlined, quiet */
+  .status-pill {
+    fill: transparent;
+    stroke: #E0DDD1;
+    stroke-width: 1;
+  }
+  .status-ring {
+    fill: none;
+    stroke: var(--ink-mute);
+    stroke-width: 1.3;
+  }
+  .status-text {
     font-family: var(--font);
-    font-weight: 400;
-    fill: var(--ink-soft);
+    font-size: 10.5px;
+    font-weight: 500;
+    fill: var(--ink-mute);
+    letter-spacing: 0.01em;
   }
 
-  /* Metadata chips — naked icon + text, no pill backgrounds */
-  .chip-text {
+  /* Footer row: "See full description" + separator + attachment */
+  .card-more {
     font-family: var(--font);
+    font-size: 11.5px;
+    font-style: italic;
+    fill: var(--ink-mute);
+  }
+  .card-sep {
+    stroke: #DDDAD0;
+    stroke-width: 1;
+  }
+  .card-extra {
+    font-family: var(--font);
+    font-size: 11.5px;
     font-weight: 500;
     fill: var(--ink);
   }
-  .chip-ring {
-    fill: none;
+
+  /* Dependency line + lock between cards */
+  .dep-line {
     stroke: var(--ink-mute);
-    stroke-width: 1.4;
+    stroke-width: 1.2;
+    opacity: 0.55;
   }
-  .chip-priority {
+
+  /* Icon color modes */
+  .ic-soft   { color: var(--ink-mute); opacity: 0.85; }
+  .ic-strong { color: var(--ink);       opacity: 0.95; }
+
+  /* Assistant reply — prose, not a bubble */
+  .reply-msg {
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 400;
     fill: var(--ink);
-  }
-  .chip-hash {
-    font-family: var(--font);
-    font-weight: 600;
-    fill: var(--green);
-  }
-  .chip-avatar { fill: var(--green); }
-  .chip-avatar-letter {
-    font-family: var(--font);
-    font-weight: 700;
-    fill: var(--paper-raised);
+    letter-spacing: -0.005em;
   }
 
-  /* ---- Animation timeline ---- */
-  /* Master cycle = 14s, looping. Elements stay hidden until activated. */
+  /* ---- Animation timeline ----
+     12s cycle. Scroll-group translates up (translateY) across the cycle
+     so the user message recedes off the top as tasks populate. Each step
+     fades + rises into its (post-transform) position. */
 
-  .pillar-chat .step,
-  .pillar-chat .cursor { opacity: 0; }
+  .step { opacity: 0; }
 
-  /* User message typewriter */
-  .pillar-chat.animate .cp-user-rect-2 {
-    animation: type-user-2 14s linear infinite;
-  }
-  @keyframes type-user-2 {
-    0%, 2%   { width: 0; }
-    11%      { width: 360px; }
-    92%      { width: 360px; }
-    96%, 100%{ width: 0; }
+  /* Scroll: 0 → -46 from 18% to 72%, holds at -46 */
+  .pillar-chat.animate .scroll-group { animation: scroll-2 12s ease-in-out infinite; }
+  @keyframes scroll-2 {
+    0%, 18%   { transform: translateY(0); }
+    72%, 92%  { transform: translateY(-46px); }
+    96%, 100% { transform: translateY(0); }
   }
 
-  /* Sequenced reveals — tool, then card frame+title, then description,
-     then four metadata chips cascade in */
-  .pillar-chat.animate .tool-step     { animation: in-tool-2   14s ease-out infinite; }
-  .pillar-chat.animate .task-card     { animation: in-card-2   14s ease-out infinite; }
-  .pillar-chat.animate .task-desc     { animation: in-desc-2   14s ease-out infinite; }
-  .pillar-chat.animate .task-status   { animation: in-st-2     14s ease-out infinite; }
-  .pillar-chat.animate .task-priority { animation: in-prio-2   14s ease-out infinite; }
-  .pillar-chat.animate .task-stream   { animation: in-stream-2 14s ease-out infinite; }
-  .pillar-chat.animate .task-assignee { animation: in-assign-2 14s ease-out infinite; }
+  /* Individual step reveals */
+  .pillar-chat.animate .user-step  { animation: in-user-2  12s ease-out infinite; }
+  .pillar-chat.animate .tool-step  { animation: in-tool-2  12s ease-out infinite; }
+  .pillar-chat.animate .task-1     { animation: in-t1-2    12s ease-out infinite; }
+  .pillar-chat.animate .dep-1      { animation: in-d1-2    12s ease-out infinite; }
+  .pillar-chat.animate .task-2     { animation: in-t2-2    12s ease-out infinite; }
+  .pillar-chat.animate .dep-2      { animation: in-d2-2    12s ease-out infinite; }
+  .pillar-chat.animate .task-3     { animation: in-t3-2    12s ease-out infinite; }
+  .pillar-chat.animate .reply-step { animation: in-reply-2 12s ease-out infinite; }
 
-  @keyframes in-tool-2   { 0%,14% {opacity:0;transform:translateY(4px)} 18%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-card-2   { 0%,22% {opacity:0;transform:translateY(6px)} 27%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-desc-2   { 0%,29% {opacity:0;transform:translateY(4px)} 33%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-st-2     { 0%,37% {opacity:0;transform:translateY(4px)} 40%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-prio-2   { 0%,42% {opacity:0;transform:translateY(4px)} 45%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-stream-2 { 0%,47% {opacity:0;transform:translateY(4px)} 50%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-assign-2 { 0%,52% {opacity:0;transform:translateY(4px)} 55%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-user-2  { 0%       { opacity:0; transform: translateY(6px); }
+                          5%,92%   { opacity:1; transform: translateY(0); }
+                          96%,100% { opacity:0; } }
+  @keyframes in-tool-2  { 0%,12%   { opacity:0; transform: translateY(6px); }
+                          16%,92%  { opacity:1; transform: translateY(0); }
+                          96%,100% { opacity:0; } }
+  @keyframes in-t1-2    { 0%,20%   { opacity:0; transform: translateY(6px); }
+                          24%,92%  { opacity:1; transform: translateY(0); }
+                          96%,100% { opacity:0; } }
+  @keyframes in-d1-2    { 0%,28%   { opacity:0; transform: translateY(4px); }
+                          31%,92%  { opacity:1; transform: translateY(0); }
+                          96%,100% { opacity:0; } }
+  @keyframes in-t2-2    { 0%,34%   { opacity:0; transform: translateY(6px); }
+                          38%,92%  { opacity:1; transform: translateY(0); }
+                          96%,100% { opacity:0; } }
+  @keyframes in-d2-2    { 0%,42%   { opacity:0; transform: translateY(4px); }
+                          45%,92%  { opacity:1; transform: translateY(0); }
+                          96%,100% { opacity:0; } }
+  @keyframes in-t3-2    { 0%,48%   { opacity:0; transform: translateY(6px); }
+                          52%,92%  { opacity:1; transform: translateY(0); }
+                          96%,100% { opacity:0; } }
+  @keyframes in-reply-2 { 0%,62%   { opacity:0; transform: translateY(6px); }
+                          67%,92%  { opacity:1; transform: translateY(0); }
+                          96%,100% { opacity:0; } }
 
-  /* Reply typewriter */
-  .pillar-chat.animate .cp-reply-rect-2 {
-    animation: type-reply-2 14s linear infinite;
-  }
-  @keyframes type-reply-2 {
-    0%, 60%  { width: 0; }
-    74%      { width: 445px; }
-    92%      { width: 445px; }
-    96%, 100%{ width: 0; }
-  }
-
-  /* Cursor tracks reply then blinks */
-  .pillar-chat.animate .cursor {
-    animation:
-      cursor-pos-2 14s linear infinite,
-      cursor-blink-2 14s step-end infinite;
-  }
-  @keyframes cursor-pos-2 {
-    0%, 60%  { transform: translateX(0); }
-    74%, 100%{ transform: translateX(400px); }
-  }
-  @keyframes cursor-blink-2 {
-    0%, 59%  { opacity: 0; }
-    60%      { opacity: 1; }
-    74%      { opacity: 1; }
-    78%      { opacity: 0; }
-    82%      { opacity: 1; }
-    86%      { opacity: 0; }
-    90%      { opacity: 1; }
-    92%      { opacity: 1; }
-    93%, 100%{ opacity: 0; }
-  }
-
-  /* Frame live-dot quiet pulse */
-  .pillar-chat.animate .frame-dot {
-    animation: dot-pulse-2 2.4s ease-in-out infinite;
-  }
-  @keyframes dot-pulse-2 {
-    0%, 100% { opacity: 0.35; }
-    50%      { opacity: 0.85; }
-  }
-
-  /* Reduced-motion: show the full transcript, skip the loop */
+  /* Reduced-motion: show final scrolled state, no animation */
   @media (prefers-reduced-motion: reduce) {
-    .pillar-chat .step,
-    .pillar-chat .cursor { opacity: 1 !important; }
-    .pillar-chat .cp-user-rect-2  { width: 360px !important; }
-    .pillar-chat .cp-reply-rect-2 { width: 445px !important; }
-    .pillar-chat .cursor          { transform: translateX(400px) !important; }
-    .pillar-chat *                { animation: none !important; }
+    .pillar-chat .step         { opacity: 1 !important; transform: none !important; }
+    .pillar-chat .scroll-group { transform: translateY(-46px) !important; }
+    .pillar-chat *             { animation: none !important; }
   }
 </style>
 
 <script>
-  // Same IntersectionObserver pattern as Pillar 1 — idempotent class toggle.
+  // Trigger the looping animation when the pillar scrolls into view.
   const sync = () => {
     document.querySelectorAll('.pillar-chat').forEach((el) => {
       const r = el.getBoundingClientRect();

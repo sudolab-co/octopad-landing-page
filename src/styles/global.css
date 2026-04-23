@@ -84,8 +84,8 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 .btn:active { transform: translateY(1px); }
-.btn-primary { background: var(--ink); color: var(--paper); }
-.btn-primary:hover { background: #000; }
+.btn-primary { background: var(--green); color: var(--paper); }
+.btn-primary:hover { background: color-mix(in oklab, var(--green) 88%, black); }
 .btn-secondary {
   background: transparent; color: var(--ink); border-color: var(--line);
 }

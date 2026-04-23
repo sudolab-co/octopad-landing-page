@@ -1,12 +1,22 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHead from '../components/PageHead.astro';
-import CTABand from '../components/CTABand.astro';
+
+// Pro pricing — $9/seat/mo, 20% off when billed annually.
+// Founding 100 = 50% off for the lifetime of the subscription, first 100 Pro subscribers.
+const proMonthly = 9;
+const proYearly = 7.2;
+const ebRate = 0.5;
+const proMonthlyEB = proMonthly * ebRate;
+const proYearlyEB = proYearly * ebRate;
+const proYearlyTotal = proYearly * 12;
+
+const fmt = (n: number) =>
+  Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
 
 const freeFeatures = [
   '1 workspace',
   'Unlimited members, tasks, goals, and work streams',
-  '100 pages',
+  '50 pages',
   '10 file uploads, up to 5 MB each',
   '1 week of AI session memory',
   'Essential octobots',
@@ -17,32 +27,56 @@ const freeFeatures = [
 const proFeatures = [
   'Unlimited workspaces',
   'Unlimited pages and files (up to 20 MB each)',
-  'Unlimited AI session memory',
+  '30 days of AI session memory',
   'All octobots',
   'Email support',
 ];
 ---
 
 <BaseLayout
-  title="Octopad — Pricing | Free forever, Pro from $9 per seat"
-  description="Free forever for small teams. Pro from $9 per seat per month ($7 annual) with unlimited workspaces, unlimited pages, unlimited AI session memory, and all octobots. First month of Pro included."
+  title="Octopad — Pricing | Free forever, Pro from $7.20 per seat"
+  description="Free forever for small teams. Pro $9 per seat per month, or $7.20 billed annually (save 20%). Founding 100: first 100 subscribers get 50% off for the lifetime of their subscription."
   page="pricing"
 >
-  <PageHead
-    kicker="Pricing"
-    heading="Simple pricing."
-    lede="Free forever, with one month of Pro on the house."
-  />
+  <section class="wrap" style="padding: 56px 0 80px;">
+    <div class="founding-strip-wrap">
+      <aside class="founding-strip" aria-label="Founding 100 offer">
+        <span class="pulse" aria-hidden="true"></span>
+        <span class="founding-strip-text">
+          <strong>Founding 100</strong> · First 100 Pro subscribers get <strong>50% off for life.</strong>
+        </span>
+      </aside>
+    </div>
 
-  <section class="wrap" style="padding-bottom: 80px;">
-    <div class="plans">
+    <div class="billing-toggle-wrap" data-billing-root>
+      <div class="billing-toggle" role="tablist" aria-label="Billing period">
+        <button type="button" data-period="monthly" class="active" role="tab" aria-selected="true">Monthly</button>
+        <button type="button" data-period="yearly" role="tab" aria-selected="false">
+          Yearly <span class="save-pill">−20%</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="plans plans-2">
       <div class="plan">
-        <div class="name"><h3>Free</h3></div>
-        <div class="price">$0<small> forever</small></div>
-        <p class="small">For a founder or small team trying Octopad with their AI.</p>
-        <a href="https://www.octopad.app/signup" class="btn btn-secondary btn-lg" style="justify-content: center;">Start free</a>
+        <div class="plan-name"><h3>Free</h3></div>
+
+        <div class="price-block">
+          <div class="price-row">
+            <span class="price">$0<small> forever</small></span>
+          </div>
+          <p class="price-eb price-eb-empty" aria-hidden="true">&nbsp;</p>
+          <p class="small-price">No credit card. Always free.</p>
+        </div>
+
+        <p class="plan-desc">For a founder or small team trying Octopad with their AI.</p>
+
+        <a href="https://www.octopad.app/signup" class="btn btn-secondary btn-lg plan-cta">Start free</a>
+
         <hr class="rule" />
-        <ul>
+
+        <p class="plan-prelude">Includes:</p>
+        <ul class="plan-features">
           {freeFeatures.map((f) => (
             <li>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" /></svg>
@@ -53,17 +87,37 @@ const proFeatures = [
       </div>
 
       <div class="plan featured">
-        <div class="name">
-          <h3>Pro</h3>
-          <span class="badge">First month free</span>
+        <div class="plan-name"><h3>Pro</h3></div>
+
+        <div class="price-block">
+          <div class="price-row show-monthly">
+            <span class="price">{fmt(proMonthly)}<small> per seat / month</small></span>
+          </div>
+          <div class="price-row show-yearly" hidden>
+            <span class="price">{fmt(proYearly)}<small> per seat / month</small></span>
+          </div>
+
+          <p class="price-eb show-monthly">
+            Early bird: <strong>{fmt(proMonthlyEB)}</strong> per seat / month
+          </p>
+          <p class="price-eb show-yearly" hidden>
+            Early bird: <strong>{fmt(proYearlyEB)}</strong> per seat / month
+          </p>
+
+          <p class="small-price show-monthly">Billed monthly. Cancel anytime.</p>
+          <p class="small-price show-yearly" hidden>
+            Billed annually at {fmt(proYearlyTotal)} per seat. Save 20% vs monthly.
+          </p>
         </div>
-        <div class="price">$9<small> per seat / month</small></div>
-        <p class="small-price">Or $7 per seat per month billed annually.</p>
-        <p class="small">For teams running real work through their AI every day.</p>
-        <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg" style="justify-content: center;">Start free</a>
+
+        <p class="plan-desc">For teams running real work through their AI every day.</p>
+
+        <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg plan-cta">Start free</a>
+
         <hr class="rule" />
+
         <p class="plan-prelude">Everything in Free, plus:</p>
-        <ul>
+        <ul class="plan-features">
           {proFeatures.map((f) => (
             <li>
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" /></svg>
@@ -73,29 +127,289 @@ const proFeatures = [
         </ul>
       </div>
     </div>
+
+    <ul class="plan-fineprint">
+      <li>
+        <b>What's a seat?</b>
+        One person on your team. Add or remove anytime — billing prorates automatically.
+      </li>
+      <li>
+        <b>What's a page?</b>
+        A markdown document — the building block of your back-office memory. Specs, decisions, and notes your AI reads, updates, and reuses across sessions.
+      </li>
+      <li>
+        <b>What's an octobot?</b>
+        A background helper Octopad runs for you — quietly keeping your workspace in shape so your AI is always up to speed.
+      </li>
+      <li>
+        <b>Cancel anytime.</b>
+        Monthly stops at the end of the period. Annual gets a 14-day refund window.
+      </li>
+    </ul>
   </section>
 
-  <CTABand
-    eyebrow="Still weighing it"
-    heading="Try it on a real project."
-    description="The free tier is more than enough to decide. Invite two teammates and run one plan — you'll know within a day."
-  >
-    <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg">Start free</a>
-    <a href="/getting-started" class="btn btn-ghost">Quick Start</a>
-  </CTABand>
+  <section class="section" style="padding-bottom: 96px;">
+    <div class="wrap">
+      <div class="cta-light">
+        <div class="cta-light-copy">
+          <h2 class="section-title">Start experimenting with the free tier in minutes.</h2>
+        </div>
+        <div class="cta-light-actions">
+          <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg">Start free</a>
+          <a href="/getting-started" class="btn btn-ghost">Quick Start</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
+<script is:inline>
+  (function () {
+    const root = document.querySelector('[data-billing-root]');
+    if (!root) return;
+    const buttons = root.querySelectorAll('[data-period]');
+
+    const setPeriod = (period) => {
+      document.documentElement.dataset.billing = period;
+      buttons.forEach((b) => {
+        const active = b.dataset.period === period;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      document.querySelectorAll('.show-monthly').forEach((el) => {
+        el.hidden = period !== 'monthly';
+      });
+      document.querySelectorAll('.show-yearly').forEach((el) => {
+        el.hidden = period !== 'yearly';
+      });
+    };
+
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => setPeriod(b.dataset.period))
+    );
+    setPeriod('monthly');
+  })();
+</script>
+
 <style>
+  /* hidden attribute must beat display:flex on .price-row */
+  [hidden] { display: none !important; }
+
+  /* ───── Founding 100 — slim info bar ───── */
+  .founding-strip-wrap {
+    display: flex; justify-content: center;
+    margin: 4px 0 22px;
+  }
+  .founding-strip {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 7px 14px 7px 12px;
+    background: var(--green-soft);
+    border: 1px solid color-mix(in oklab, var(--green) 22%, transparent);
+    border-radius: 999px;
+    color: var(--ink);
+    font-size: 13px; line-height: 1.4;
+  }
+  .founding-strip strong { color: var(--green); font-weight: 600; }
+  .founding-strip .pulse { width: 7px; height: 7px; }
+  @media (max-width: 560px) {
+    .founding-strip { font-size: 12.5px; padding: 7px 12px 7px 10px; }
+  }
+
+  /* ───── Billing toggle (light) ───── */
+  .billing-toggle-wrap {
+    display: flex; justify-content: center;
+    margin: 4px 0 28px;
+  }
+  .billing-toggle {
+    display: inline-flex;
+    padding: 4px;
+    background: var(--line-soft);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    gap: 2px;
+  }
+  .billing-toggle button {
+    background: transparent; border: 0;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 14px; font-weight: 500;
+    color: var(--ink-mute);
+    transition: background .15s, color .15s, box-shadow .15s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .billing-toggle button:hover { color: var(--ink); }
+  .billing-toggle button.active {
+    background: var(--paper-raised);
+    color: var(--ink);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .billing-toggle .save-pill {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--green);
+    background: var(--paper);
+    border: 1px solid color-mix(in oklab, var(--green) 22%, transparent);
+    border-radius: 999px;
+    padding: 1px 7px;
+    font-variant-numeric: tabular-nums;
+  }
+  .billing-toggle button.active .save-pill {
+    background: var(--green-soft);
+    border-color: color-mix(in oklab, var(--green) 30%, transparent);
+  }
+
+  /* ───── Plans grid — 2 columns, subgrid for row alignment ───── */
+  .plans.plans-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto auto auto auto auto auto;
+    gap: 16px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .plans.plans-2 .plan {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 7;
+    gap: 18px;
+    padding: 32px 28px;
+  }
+  /* Featured Pro card — keep emphasis WITHOUT going dark */
+  .plans.plans-2 .plan.featured {
+    border-color: color-mix(in oklab, var(--green) 35%, var(--line));
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--green) 30%, transparent),
+      0 12px 32px -16px color-mix(in oklab, var(--green) 30%, transparent);
+  }
+  @media (max-width: 720px) {
+    .plans.plans-2 { grid-template-columns: 1fr; grid-template-rows: none; }
+    .plans.plans-2 .plan { display: flex; flex-direction: column; grid-row: auto; }
+  }
+
+  /* ───── Plan card pieces ───── */
+  .plan-name h3 {
+    font-size: 20px; font-weight: 500; letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .price-block {
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .price-row {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  .price-row .price {
+    font-size: 44px; font-weight: 500; letter-spacing: -0.03em; line-height: 1;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+  .price-row .price small {
+    font-size: 14px; color: var(--ink-mute); font-weight: 400; letter-spacing: 0;
+  }
+
+  .price-eb {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  .price-eb strong {
+    color: var(--green); font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .price-eb-empty { visibility: hidden; }
+
   .small-price {
     color: var(--ink-mute);
-    font-size: 14px;
-    margin-top: -6px;
-    margin-bottom: 10px;
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.5;
   }
+
+  .plan-desc {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .plan-cta { justify-content: center; }
+
   .plan-prelude {
     color: var(--ink-soft);
     font-size: 14px;
-    margin: 0 0 10px;
+    margin: 0;
     font-weight: 500;
+  }
+
+  .plan-features {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .plan-features li {
+    font-size: 14px; color: var(--ink-soft);
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .plan-features li svg {
+    flex-shrink: 0; margin-top: 3px; color: var(--green);
+  }
+
+  /* ───── Plan fineprint row ───── */
+  .plan-fineprint {
+    list-style: none;
+    padding: 28px 0 0;
+    margin: 36px auto 0;
+    max-width: 880px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px 24px;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 920px) {
+    .plan-fineprint { grid-template-columns: repeat(2, 1fr); }
+  }
+  .plan-fineprint li {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .plan-fineprint b {
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 13px;
+    display: block;
+    margin-bottom: 3px;
+  }
+  @media (max-width: 720px) {
+    .plan-fineprint { grid-template-columns: 1fr; }
+  }
+
+  /* ───── Light CTA section (replaces dark CTA band on this page) ───── */
+  .cta-light {
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 48px 56px;
+    display: grid;
+    grid-template-columns: 1.3fr 0.7fr;
+    gap: 40px;
+    align-items: end;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-light::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 110% 20%, color-mix(in oklab, var(--green) 9%, transparent) 0%, transparent 55%);
+    pointer-events: none;
+  }
+  .cta-light-copy, .cta-light-actions { position: relative; z-index: 1; }
+  .cta-light-copy h2 { margin: 0; font-size: clamp(28px, 3vw, 40px); max-width: 18ch; }
+  .cta-light-actions {
+    display: flex; gap: 12px; justify-self: end; align-items: center; flex-wrap: wrap;
+  }
+  @media (max-width: 860px) {
+    .cta-light { grid-template-columns: 1fr; padding: 36px; }
+    .cta-light-actions { justify-self: start; }
   }
 </style>
