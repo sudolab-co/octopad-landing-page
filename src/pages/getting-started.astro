@@ -3,7 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
 ---
 
-<BaseLayout title="Octopad — Quick Start" page="quickstart">
+<BaseLayout
+  title="Getting Started with Octopad | Set up your AI back-office in minutes"
+  description="A short guide to setting up Octopad: sign up, connect your AI, load your workspace with context, and run your first goal. Four steps, roughly five minutes."
+  page="quickstart"
+>
   <PageHead
     kicker="Quick Start"
     heading="Getting Started<br/>with Octopad."
@@ -12,75 +16,12 @@ import PageHead from '../components/PageHead.astro';
 
   <section class="wrap">
     <div class="docs">
-      <nav class="toc" aria-label="Quick Start progress">
-        <p class="toc-kicker">Your progress</p>
-        <ol class="progress">
-          <li class="progress-item" data-state="current">
-            <a href="#overview">
-              <span class="progress-num">01</span>
-              <span class="progress-body">
-                <span class="progress-status" data-state="current">
-                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
-                  <span class="progress-label">In progress</span>
-                </span>
-                <span class="progress-title">What Octopad is in 60 seconds</span>
-              </span>
-            </a>
-          </li>
-          <li class="progress-item" data-state="todo">
-            <a href="#setup">
-              <span class="progress-num">02</span>
-              <span class="progress-body">
-                <span class="progress-status" data-state="todo">
-                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
-                  <span class="progress-label">To do</span>
-                </span>
-                <span class="progress-title">Set up in minutes</span>
-              </span>
-            </a>
-          </li>
-          <li class="progress-item" data-state="todo">
-            <a href="#context">
-              <span class="progress-num">03</span>
-              <span class="progress-body">
-                <span class="progress-status" data-state="todo">
-                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
-                  <span class="progress-label">To do</span>
-                </span>
-                <span class="progress-title">The three systems your AI leans on</span>
-              </span>
-            </a>
-          </li>
-          <li class="progress-item" data-state="todo">
-            <a href="#work">
-              <span class="progress-num">04</span>
-              <span class="progress-body">
-                <span class="progress-status" data-state="todo">
-                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
-                  <span class="progress-label">To do</span>
-                </span>
-                <span class="progress-title">How work is organized</span>
-              </span>
-            </a>
-          </li>
-          <li class="progress-item" data-state="todo">
-            <a href="#next">
-              <span class="progress-num">05</span>
-              <span class="progress-body">
-                <span class="progress-status" data-state="todo">
-                  <svg class="progress-mark progress-mark-check" viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5L5.5 10.5L11.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  <span class="progress-mark progress-mark-dot" aria-hidden="true"></span>
-                  <span class="progress-label">To do</span>
-                </span>
-                <span class="progress-title">What to do next</span>
-              </span>
-            </a>
-          </li>
-        </ol>
+      <nav class="toc" aria-label="On this page">
+        <a href="#overview" class="active">1 — What Octopad is in 60 seconds</a>
+        <a href="#setup">2 — Set up in minutes</a>
+        <a href="#context">3 — The three systems your AI leans on</a>
+        <a href="#work">4 — How work is organized</a>
+        <a href="#next">5 — What to do next</a>
       </nav>
 
       <article>
@@ -250,230 +191,16 @@ import PageHead from '../components/PageHead.astro';
     flex-wrap: wrap;
     margin-top: 28px;
   }
-
-  /* ───── Progress TOC ───── */
-  .docs nav.toc {
-    position: sticky;
-    top: 88px;
-    align-self: start;
-    display: block;
-    font-size: 14px;
-    color: var(--ink-soft);
-  }
-  .toc-kicker {
-    font-family: var(--mono, 'Geist Mono', monospace);
-    font-size: 10.5px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.4px;
-    color: var(--ink-mute);
-    margin: 0 0 14px 8px;
-  }
-  .progress {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    position: relative;
-  }
-  .progress::before {
-    content: '';
-    position: absolute;
-    left: 21px;
-    top: 26px;
-    bottom: 26px;
-    width: 1px;
-    background: var(--line);
-    z-index: 0;
-  }
-  .progress-item {
-    position: relative;
-    z-index: 1;
-  }
-  .progress-item a {
-    display: grid;
-    grid-template-columns: 26px 1fr;
-    gap: 12px;
-    align-items: start;
-    padding: 10px 8px;
-    border-radius: 8px;
-    transition: background 0.18s ease;
-    text-decoration: none;
-  }
-  .progress-item a:hover {
-    background: var(--line-soft);
-  }
-  .progress-num {
-    font-family: var(--mono, 'Geist Mono', monospace);
-    font-size: 10.5px;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.6px;
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    display: inline-grid;
-    place-items: center;
-    background: var(--paper-raised);
-    border: 1px solid var(--line);
-    color: var(--ink-mute);
-    transition: all 0.2s ease;
-  }
-  .progress-body {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    min-width: 0;
-    padding-top: 2px;
-  }
-  .progress-status {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    font-family: var(--mono, 'Geist Mono', monospace);
-    font-size: 9.5px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--ink-mute);
-    line-height: 1;
-  }
-  .progress-mark {
-    display: none;
-    flex-shrink: 0;
-  }
-  .progress-mark-check {
-    width: 10px;
-    height: 10px;
-    color: var(--green);
-  }
-  .progress-mark-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: progressPulse 1.8s ease-out infinite;
-  }
-  .progress-status[data-state="current"] .progress-mark-dot {
-    display: inline-block;
-  }
-  .progress-status[data-state="done"] .progress-mark-check {
-    display: inline-block;
-  }
-  .progress-title {
-    font-size: 13px;
-    color: var(--ink-soft);
-    line-height: 1.35;
-    font-weight: 450;
-  }
-
-  /* Done */
-  .progress-item[data-state="done"] .progress-num {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-  }
-  .progress-item[data-state="done"] .progress-status {
-    color: var(--ink);
-  }
-  .progress-item[data-state="done"] .progress-title {
-    color: var(--ink-soft);
-  }
-
-  /* In progress / current */
-  .progress-item[data-state="current"] > a {
-    background: var(--green-soft);
-  }
-  .progress-item[data-state="current"] .progress-num {
-    background: var(--green);
-    color: var(--ink);
-    border-color: var(--green);
-  }
-  .progress-item[data-state="current"] .progress-status {
-    color: var(--ink);
-  }
-  .progress-item[data-state="current"] .progress-title {
-    color: var(--ink);
-    font-weight: 500;
-  }
-
-  @keyframes progressPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(18, 32, 46, 0.25); }
-    70%  { box-shadow: 0 0 0 6px rgba(18, 32, 46, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(18, 32, 46, 0); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .progress-mark-dot { animation: none; }
-  }
-
-  /* Mobile — horizontal snap strip */
-  @media (max-width: 860px) {
-    .docs {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .docs nav.toc {
-      position: static;
-      padding-bottom: 4px;
-      border-bottom: 1px solid var(--line);
-    }
-    .toc-kicker { margin-left: 2px; }
-    .progress {
-      flex-direction: row;
-      gap: 8px;
-      overflow-x: auto;
-      padding: 2px 2px 16px;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-    .progress::before { display: none; }
-    .progress-item {
-      scroll-snap-align: start;
-      flex: 0 0 auto;
-    }
-    .progress-item a {
-      grid-template-columns: auto 1fr;
-      min-width: 210px;
-      max-width: 240px;
-      border: 1px solid var(--line);
-      background: var(--paper-raised);
-      border-radius: 10px;
-      padding: 12px;
-    }
-    .progress-item[data-state="current"] > a {
-      border-color: var(--green);
-      box-shadow: 0 0 0 1px var(--green);
-    }
-  }
 </style>
 
 <script>
-  const items = document.querySelectorAll<HTMLLIElement>('.progress-item');
-  const heads = Array.from(items).map((li) => {
-    const href = li.querySelector('a')?.getAttribute('href');
+  const links = document.querySelectorAll<HTMLAnchorElement>('.docs nav.toc a');
+  const heads = Array.from(links).map((a) => {
+    const href = a.getAttribute('href');
     return href ? document.querySelector(href) : null;
   });
-
-  const labelFor = (state: 'done' | 'current' | 'todo') =>
-    state === 'done' ? 'Done' : state === 'current' ? 'In progress' : 'To do';
-
-  const setActive = (activeIdx: number) => {
-    items.forEach((li, k) => {
-      const state: 'done' | 'current' | 'todo' =
-        k < activeIdx ? 'done' : k === activeIdx ? 'current' : 'todo';
-      li.setAttribute('data-state', state);
-      const status = li.querySelector<HTMLElement>('.progress-status');
-      if (status) {
-        status.setAttribute('data-state', state);
-        const label = status.querySelector<HTMLElement>('.progress-label');
-        if (label) label.textContent = labelFor(state);
-      }
-    });
-  };
-
+  const setActive = (i: number) =>
+    links.forEach((l, k) => l.classList.toggle('active', k === i));
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
