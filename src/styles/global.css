@@ -339,17 +339,18 @@ h3.tile-title {
 
 /* ───────── Quick start / docs ───────── */
 .docs {
-  display: grid; grid-template-columns: 220px 1fr; gap: 48px;
-  padding: 56px 0;
+  padding: 40px 0 56px;
 }
 .docs nav.toc {
-  position: sticky; top: 88px; align-self: start;
-  display: flex; flex-direction: column; gap: 4px;
+  display: flex; flex-wrap: wrap; gap: 4px;
   font-size: 14px; color: var(--ink-soft);
+  padding-bottom: 16px; margin-bottom: 40px;
+  border-bottom: 1px solid var(--line);
 }
-.docs nav.toc a { padding: 6px 10px; border-radius: 6px; border-left: 2px solid transparent; }
+.docs nav.toc a { padding: 6px 12px; border-radius: 6px; border-bottom: 2px solid transparent; }
 .docs nav.toc a:hover { color: var(--ink); }
-.docs nav.toc a.active { color: var(--ink); border-left-color: var(--green); background: var(--green-soft); font-weight: 500; }
+.docs nav.toc a.active { color: var(--ink); border-bottom-color: var(--green); background: var(--green-soft); font-weight: 500; }
+.docs article { max-width: 720px; }
 .docs article h2 { font-size: 28px; margin-top: 40px; }
 .docs article h2:first-child { margin-top: 0; }
 .docs article h3 { font-size: 18px; margin-top: 28px; font-weight: 500; }
@@ -369,10 +370,6 @@ h3.tile-title {
 .docs article blockquote {
   border-left: 2px solid var(--green); margin: 16px 0; padding: 4px 18px;
   color: var(--ink-soft); font-style: italic;
-}
-@media (max-width: 860px) {
-  .docs { grid-template-columns: 1fr; }
-  .docs nav.toc { position: static; flex-direction: row; overflow: auto; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
 }
 
 /* ───────── Blog ───────── */
