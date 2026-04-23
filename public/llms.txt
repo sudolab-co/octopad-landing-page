@@ -1,0 +1,37 @@
+# Octopad
+
+> Octopad is your AI's back-office: a shared workspace where any AI your team uses (Claude, ChatGPT, Cursor, and any MCP-compatible model) can make plans, run tasks, and capture what matters on one shared brain.
+
+Octopad solves the cold-start problem for AI teams. Instead of re-explaining context in every new chat, your team's strategy, tasks, decisions, and know-how live in one structured workspace every AI can read and update. You set direction. Your AI handles the structured work. Both contribute to the same source of truth.
+
+## Core pages
+
+- [Product overview](https://octopad.ai/): How Octopad gives any AI your team uses (Claude, ChatGPT, Cursor) a shared back-office with the right context, plans ready for execution, and decisions captured as you go.
+- [Pricing](https://octopad.ai/pricing): Free forever tier; Pro at $9 per seat per month ($7 annual). First month of Pro included. No credit card to start.
+- [Getting Started](https://octopad.ai/getting-started): A short guide covering sign-up, connecting your AI, loading your workspace with context, and running your first goal. Four steps, roughly five minutes.
+- [About](https://octopad.ai/about): Why we're building Octopad. Our vision for human-AI symbiosis, our mission, and where the product is heading.
+- [Blog](https://octopad.ai/blog): Notes from the team on engineering, design, and product.
+
+## How Octopad works
+
+Octopad is organized around three systems your AI leans on:
+
+- **Pages**: long-form documents (Product Overview, Company Overview, strategy notes, research, meeting notes) with auto-generated summaries so your AI can skim the index before opening any page in full.
+- **Key Information**: short atomic items captured as they come up — facts, decisions, open questions, and risks — and pulled back when they are relevant to a task.
+- **Build Context**: the engine that assembles the right material for each job. When you ask your AI to work on a task, Build Context loads the task, its dependencies, its linked pages, related key information, and the tracker page for its work stream.
+
+Work is organized in three layers:
+
+- **Goals**: what you're trying to achieve and why. Quarterly or yearly.
+- **Work Streams**: how you get there. Ongoing streams (e.g., Customer Support) never close; time-bound streams (e.g., Marketing Website) sit under a goal and have a finish line. Each stream gets an auto-generated tracker page updated by an octobot.
+- **Tasks**: the unit of work. Each task has a Why, a What, a How, and a Done-when.
+
+## Who it's for
+
+Small teams (founders, operators, builders) who already work with one or more AI tools every day and want to stop re-explaining context. If your team uses Claude, ChatGPT, Cursor, or any MCP-compatible model, Octopad becomes the shared back-office across all of them.
+
+## Contact
+
+- Email: support@octopad.ai
+- X: https://x.com/octopad_ai
+- App: https://www.octopad.app

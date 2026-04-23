@@ -7,19 +7,83 @@ interface Props {
   title: string;
   description?: string;
   page?: 'product' | 'pricing' | 'quickstart' | 'about' | 'blog';
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
 }
 
-const { title, description, page } = Astro.props;
+const {
+  title,
+  description,
+  page,
+  ogImage,
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = 'https://octopad.ai';
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const socialImage = new URL(ogImage ?? '/assets/mascot.png', siteUrl).toString();
+
+const defaultDescription =
+  "Octopad is your AI's back-office: a shared workspace where any AI your team uses (Claude, ChatGPT, Cursor) can make plans, run tasks, and capture what matters on one shared brain.";
+const metaDescription = description ?? defaultDescription;
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Octopad',
+  url: siteUrl,
+  logo: `${siteUrl}/assets/mascot.svg`,
+  description:
+    "Octopad is the AI back-office: a shared workspace where any AI your team uses can plan, run tasks, and capture what matters on one shared brain.",
+  sameAs: ['https://x.com/octopad_ai'],
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Octopad',
+  url: siteUrl,
+  description: defaultDescription,
+  publisher: { '@type': 'Organization', name: 'Octopad' },
+};
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>{title}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    {description && <meta name="description" content={description} />}
+
+    <title>{title}</title>
+    <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="icon" type="image/svg+xml" href="/assets/mascot.svg" />
     <link rel="icon" type="image/png" href="/assets/mascot.png" />
+    <link rel="apple-touch-icon" href="/assets/mascot.png" />
+
+    <meta property="og:site_name" content="Octopad" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content="Octopad — your AI's back-office" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@octopad_ai" />
+    <meta name="twitter:creator" content="@octopad_ai" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

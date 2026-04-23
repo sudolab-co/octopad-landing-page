@@ -1,19 +1,15 @@
 ---
 // Pillar 2 — Plans
-// Animated SVG that reads as a real AI chat transcript inside the same
-// quiet chat-window frame as Pillar 1. Beat:
-//   user asks for a task → AI calls tasks.create → a task-card preview
-//   assembles itself (title → stream + priority + impact → dependency) →
-//   AI reply confirms the task is wired into the workspace.
-//
-// The card fields are things the user did NOT say (stream, priority,
-// impact, dependency) — that's the visible proof the AI is pulling
-// structure from the workspace, not just echoing the prompt.
-//
-// 14s cycle, same trigger + reduced-motion fallback as PillarContextChat.
+// Animated SVG chat: user asks for a task, AI calls tasks.create,
+// a real task card materializes — title + description in the body,
+// status / priority / stream / assignee chips in a soft green
+// footer strip. The four metadata chips are things the user did
+// NOT say: the visible proof the AI is pulling structure from
+// the workspace, not echoing the prompt.
+// 14s cycle, same frame and trigger as PillarContextChat.
 ---
 
-<div class="pillar-chat" role="img" aria-label="AI chat transcript: Alex asks Claude to add a task to tighten onboarding copy. Claude calls the Octopad tasks.create tool. A task-card preview appears showing Tighten onboarding copy, wired into the Launch Execution work stream at HIGH priority and impact 5, with a dependency on Ship onboarding v2. Claude replies that the task was created and wired into the Launch Execution stream.">
+<div class="pillar-chat" role="img" aria-label="AI chat transcript: Alex asks Claude to add a task to tighten onboarding copy. Claude calls the Octopad tasks.create tool. A task card materializes with the title 'Tighten onboarding copy', a one-line description, and four metadata chips — Status: To-do, Priority: High, Stream: Website Launch, Assignee: Alex. Claude then replies that the task was created and assigned to the Website Launch stream.">
   <svg viewBox="0 0 520 304" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
     <defs>
@@ -21,13 +17,6 @@
       <filter id="frame-shadow-2" x="-4%" y="-4%" width="108%" height="110%">
         <feDropShadow dx="0" dy="3" stdDeviation="8" flood-color="#0a1830" flood-opacity="0.06"/>
       </filter>
-
-      <!-- Check symbol — same geometry as Pillar 1's ic-check, scoped id -->
-      <symbol id="ic-check-2" viewBox="0 0 14 14">
-        <polyline points="2.5,7.5 5.8,10.5 11.5,3.8"
-                  fill="none" stroke="currentColor" stroke-width="1.6"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-      </symbol>
 
       <!-- Typewriter clip for the user message (right-aligned, reveals L→R) -->
       <clipPath id="cp-user-2">
@@ -55,25 +44,48 @@
       <text class="action-name" x="64" y="92">tasks.create</text>
     </g>
 
-    <!-- 3 · Task-card preview: container + title + green check -->
+    <!-- 3 · Card body + footer strip + title -->
     <g class="step task-card">
-      <rect class="card-bg" x="32" y="108" width="460" height="100" rx="8"/>
-      <use href="#ic-check-2" x="48" y="120" width="14" height="14" class="ic-green"/>
-      <text class="card-title" x="70" y="131">Tighten onboarding copy</text>
+      <!-- Outer card: paper inset with hairline border, rounded corners -->
+      <rect class="card-bg" x="32" y="108" width="460" height="128" rx="8"/>
+      <!-- Footer strip: subtle green tint, sharp top, rounded bottom -->
+      <path class="card-footer" d="M 32 192 L 492 192 L 492 228 A 8 8 0 0 1 484 236 L 40 236 A 8 8 0 0 1 32 228 Z"/>
+      <!-- Title -->
+      <text class="card-title" x="52" y="134">Tighten onboarding copy</text>
     </g>
 
-    <!-- 4 · Metadata row — inferred from workspace -->
-    <g class="step task-meta">
-      <text class="card-meta" x="48" y="161">#Launch Execution  ·  HIGH  ·  impact 5</text>
+    <!-- 4 · Description -->
+    <g class="step task-desc">
+      <text class="card-desc" x="52" y="158">Cut setup friction in the first-run flow.</text>
     </g>
 
-    <!-- 5 · Dependency row — pulled from workspace -->
-    <g class="step task-dep">
-      <text class="card-dep" x="48" y="187">depends on #Ship onboarding v2</text>
+    <!-- 5 · Status chip: open ring + To-do -->
+    <g class="step task-status">
+      <circle class="chip-ring" cx="58" cy="215" r="4.5"/>
+      <text class="chip-text" x="70" y="219">To-do</text>
     </g>
 
-    <!-- 6 · AI reply — types out with cursor -->
-    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-2)">Task created — wired into #Launch Execution.</text>
+    <!-- 6 · Priority chip: small upward triangle + High -->
+    <g class="step task-priority">
+      <polygon class="chip-priority" points="148,220 156,220 152,213"/>
+      <text class="chip-text" x="162" y="219">High</text>
+    </g>
+
+    <!-- 7 · Stream chip: green hash + Website Launch -->
+    <g class="step task-stream">
+      <text class="chip-hash"   x="232" y="219">#</text>
+      <text class="chip-text"   x="242" y="219">Website Launch</text>
+    </g>
+
+    <!-- 8 · Assignee chip: green avatar + Alex -->
+    <g class="step task-assignee">
+      <circle class="chip-avatar" cx="384" cy="215" r="7"/>
+      <text class="chip-avatar-letter" x="384" y="218" text-anchor="middle">A</text>
+      <text class="chip-text" x="397" y="219">Alex</text>
+    </g>
+
+    <!-- 9 · AI reply — types out with cursor -->
+    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-2)">I created the task and assigned it to #Website Launch.</text>
     <rect class="cursor" x="32" y="262" width="2.5" height="18"/>
   </svg>
 </div>
@@ -94,7 +106,8 @@
   }
 
   /* Typography — identical chat voice to Pillar 1 */
-  .user-msg {
+  .user-msg,
+  .reply-msg {
     font-family: var(--font);
     font-size: 15px;
     fill: var(--ink);
@@ -105,37 +118,60 @@
     font-weight: 500;
     fill: var(--ink);
   }
-  .reply-msg {
-    font-family: var(--font);
-    font-size: 15px;
-    fill: var(--ink);
-  }
   .cursor { fill: var(--green); }
-  .ic-green { color: var(--green); }
 
-  /* Task-card treatment — a quiet recessed inset so it reads as a
-     structured artefact inside the transcript, not a chrome widget */
+  /* Task card — quiet paper inset with a soft tinted footer that
+     carries the metadata. No accent bar, no completion check; the
+     state lives in the chips. */
   .card-bg {
-    fill: var(--green-soft);
+    fill: var(--paper);
     stroke: var(--line);
     stroke-width: 1;
   }
+  .card-footer {
+    fill: var(--green-soft);
+  }
   .card-title {
     font-family: var(--font);
-    font-size: 14px;
+    font-size: 15.5px;
+    font-weight: 500;
+    fill: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .card-desc {
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 400;
+    fill: var(--ink-soft);
+  }
+
+  /* Metadata chips — naked icon + text, no pill backgrounds */
+  .chip-text {
+    font-family: var(--font);
+    font-size: 12px;
     font-weight: 500;
     fill: var(--ink);
   }
-  .card-meta {
-    font-family: var(--mono);
-    font-size: 12px;
-    fill: var(--ink-mute);
+  .chip-ring {
+    fill: none;
+    stroke: var(--ink-mute);
+    stroke-width: 1.4;
   }
-  .card-dep {
+  .chip-priority {
+    fill: var(--ink);
+  }
+  .chip-hash {
     font-family: var(--font);
-    font-size: 12.5px;
-    font-style: italic;
-    fill: var(--ink-mute);
+    font-size: 13px;
+    font-weight: 600;
+    fill: var(--green);
+  }
+  .chip-avatar { fill: var(--green); }
+  .chip-avatar-letter {
+    font-family: var(--font);
+    font-size: 9px;
+    font-weight: 700;
+    fill: var(--paper-raised);
   }
 
   /* ---- Animation timeline ---- */
@@ -155,25 +191,32 @@
     96%, 100%{ width: 0; }
   }
 
-  /* Sequenced reveals — tool, then the card fills itself in */
-  .pillar-chat.animate .tool-step { animation: in-tool-2 14s ease-out infinite; }
-  .pillar-chat.animate .task-card { animation: in-card-2 14s ease-out infinite; }
-  .pillar-chat.animate .task-meta { animation: in-meta-2 14s ease-out infinite; }
-  .pillar-chat.animate .task-dep  { animation: in-dep-2  14s ease-out infinite; }
+  /* Sequenced reveals — tool, then card frame+title, then description,
+     then four metadata chips cascade in */
+  .pillar-chat.animate .tool-step     { animation: in-tool-2   14s ease-out infinite; }
+  .pillar-chat.animate .task-card     { animation: in-card-2   14s ease-out infinite; }
+  .pillar-chat.animate .task-desc     { animation: in-desc-2   14s ease-out infinite; }
+  .pillar-chat.animate .task-status   { animation: in-st-2     14s ease-out infinite; }
+  .pillar-chat.animate .task-priority { animation: in-prio-2   14s ease-out infinite; }
+  .pillar-chat.animate .task-stream   { animation: in-stream-2 14s ease-out infinite; }
+  .pillar-chat.animate .task-assignee { animation: in-assign-2 14s ease-out infinite; }
 
-  @keyframes in-tool-2 { 0%,14% {opacity:0;transform:translateY(4px)} 18%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-card-2 { 0%,22% {opacity:0;transform:translateY(6px)} 27%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-meta-2 { 0%,33% {opacity:0;transform:translateY(4px)} 37%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-dep-2  { 0%,42% {opacity:0;transform:translateY(4px)} 46%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-tool-2   { 0%,14% {opacity:0;transform:translateY(4px)} 18%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-card-2   { 0%,22% {opacity:0;transform:translateY(6px)} 27%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-desc-2   { 0%,29% {opacity:0;transform:translateY(4px)} 33%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-st-2     { 0%,37% {opacity:0;transform:translateY(4px)} 40%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-prio-2   { 0%,42% {opacity:0;transform:translateY(4px)} 45%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-stream-2 { 0%,47% {opacity:0;transform:translateY(4px)} 50%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-assign-2 { 0%,52% {opacity:0;transform:translateY(4px)} 55%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
 
   /* Reply typewriter */
   .pillar-chat.animate .cp-reply-rect-2 {
     animation: type-reply-2 14s linear infinite;
   }
   @keyframes type-reply-2 {
-    0%, 55%  { width: 0; }
-    68%      { width: 370px; }
-    92%      { width: 370px; }
+    0%, 60%  { width: 0; }
+    74%      { width: 445px; }
+    92%      { width: 445px; }
     96%, 100%{ width: 0; }
   }
 
@@ -184,18 +227,17 @@
       cursor-blink-2 14s step-end infinite;
   }
   @keyframes cursor-pos-2 {
-    0%, 55%  { transform: translateX(0); }
-    68%, 100%{ transform: translateX(335px); }
+    0%, 60%  { transform: translateX(0); }
+    74%, 100%{ transform: translateX(400px); }
   }
   @keyframes cursor-blink-2 {
-    0%, 54%  { opacity: 0; }
-    55%      { opacity: 1; }
-    68%      { opacity: 1; }
-    72%      { opacity: 0; }
-    76%      { opacity: 1; }
-    80%      { opacity: 0; }
-    84%      { opacity: 1; }
-    88%      { opacity: 0; }
+    0%, 59%  { opacity: 0; }
+    60%      { opacity: 1; }
+    74%      { opacity: 1; }
+    78%      { opacity: 0; }
+    82%      { opacity: 1; }
+    86%      { opacity: 0; }
+    90%      { opacity: 1; }
     92%      { opacity: 1; }
     93%, 100%{ opacity: 0; }
   }
@@ -214,8 +256,8 @@
     .pillar-chat .step,
     .pillar-chat .cursor { opacity: 1 !important; }
     .pillar-chat .cp-user-rect-2  { width: 360px !important; }
-    .pillar-chat .cp-reply-rect-2 { width: 370px !important; }
-    .pillar-chat .cursor          { transform: translateX(335px) !important; }
+    .pillar-chat .cp-reply-rect-2 { width: 445px !important; }
+    .pillar-chat .cursor          { transform: translateX(400px) !important; }
     .pillar-chat *                { animation: none !important; }
   }
 </style>
@@ -241,4 +283,3 @@
     document.querySelectorAll('.pillar-chat').forEach((el) => obs.observe(el));
   }
 </script>
-

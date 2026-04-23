@@ -48,7 +48,11 @@ const posts = [
 ];
 ---
 
-<BaseLayout title="Octopad — Blog" page="blog">
+<BaseLayout
+  title="Octopad Blog | Notes from the shared brain"
+  description="Dispatches from the Octopad team on AI tooling, engineering, design, and the back-office pattern. Posts land every week or two."
+  page="blog"
+>
   <PageHead
     kicker="Blog · Dispatches"
     heading="Notes from<br/>the shared brain."
@@ -95,27 +99,4 @@ const posts = [
     </div>
   </section>
 
-  <section class="section" style="padding-bottom: 80px;">
-    <div class="wrap">
-      <div class="cta-band">
-        <div>
-          <span class="eyebrow" style="color: rgba(255,255,255,0.55); margin-bottom: 18px;">
-            Subscribe
-          </span>
-          <h2>One post, once a week.</h2>
-          <p>No newsletter bloat. Just what we're building and thinking about.</p>
-        </div>
-        <div class="ctas">
-          <form onsubmit="event.preventDefault()" style="display: flex; gap: 10px; align-items: center;">
-            <input
-              type="email"
-              placeholder="you@team.com"
-              style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: var(--paper); padding: 12px 16px; border-radius: 8px; font: inherit; font-size: 14px; min-width: 220px;"
-            />
-            <button class="btn btn-primary btn-lg" type="submit">Subscribe</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
 </BaseLayout>
