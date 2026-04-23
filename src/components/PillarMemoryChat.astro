@@ -20,6 +20,28 @@
       <filter id="frame-shadow-3" x="-4%" y="-4%" width="108%" height="110%">
         <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#1a1410" flood-opacity="0.06"/>
       </filter>
+
+      <!-- Kind glyphs — sit to the left of each capture row's label. All three
+           render in --ink-mute for uniform weight with the chip treatment;
+           type distinction is carried by the glyph shape (+ the label word). -->
+      <symbol id="ic-page-3" viewBox="0 0 14 14">
+        <path d="M2.5 1.5 H8.5 L11.5 4.5 V12 a1 1 0 0 1 -1 1 H3.5 a1 1 0 0 1 -1 -1 V2.5 a1 1 0 0 1 1 -1 z"
+              fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+        <path d="M8.5 1.5 V4.5 H11.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+      </symbol>
+      <symbol id="ic-keyfact-3" viewBox="0 0 14 14">
+        <path d="M7 1.4 L8.55 5.1 L12.55 5.45 L9.5 8.1 L10.45 12 L7 9.85 L3.55 12 L4.5 8.1 L1.45 5.45 L5.45 5.1 Z"
+              fill="none" stroke="currentColor" stroke-width="1.1"
+              stroke-linejoin="round" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="ic-risk-3" viewBox="0 0 14 14">
+        <path d="M7 1.6 L12.7 11.7 L1.3 11.7 Z"
+              fill="none" stroke="currentColor" stroke-width="1.1"
+              stroke-linejoin="round"/>
+        <line x1="7" y1="5.4" x2="7" y2="8.6"
+              stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+        <circle cx="7" cy="10.2" r="0.7" fill="currentColor"/>
+      </symbol>
     </defs>
 
     <!-- Cream chat surface -->
@@ -52,26 +74,28 @@
       </text>
     </g>
 
-    <!-- 4 · Page capture — italic label + paper chip holding the title -->
+    <!-- 4 · Page capture — kind glyph + italic label + paper chip -->
     <g class="step item-page-3">
-      <text class="k-label" x="28" y="172" font-size="13">page:</text>
-      <rect class="k-chip" x="86" y="158" width="222" height="20" rx="5"/>
-      <text class="k-content" x="95" y="172" font-size="13">Acme Corp — competitor review</text>
+      <use href="#ic-page-3" x="28" y="162" width="12" height="12" class="ic ic-mute"/>
+      <text class="k-label" x="46" y="172" font-size="13">page:</text>
+      <rect class="k-chip" x="104" y="158" width="222" height="20" rx="5"/>
+      <text class="k-content" x="113" y="172" font-size="13">Acme Corp — competitor review</text>
     </g>
 
     <!-- 5 · Key-fact capture -->
     <g class="step item-keyfact-3">
-      <text class="k-label" x="28" y="206" font-size="13">key fact:</text>
-      <rect class="k-chip" x="86" y="192" width="274" height="20" rx="5"/>
-      <text class="k-content" x="95" y="206" font-size="13">Acme Corp is now a top named competitor</text>
+      <use href="#ic-keyfact-3" x="28" y="196" width="12" height="12" class="ic ic-mute"/>
+      <text class="k-label" x="46" y="206" font-size="13">key fact:</text>
+      <rect class="k-chip" x="104" y="192" width="274" height="20" rx="5"/>
+      <text class="k-content" x="113" y="206" font-size="13">Acme Corp is now a top named competitor</text>
     </g>
 
-    <!-- 6 · Risk capture (severity label removed — three rows now share one
-         uniform chip, type carried by the label word alone) -->
+    <!-- 6 · Risk capture -->
     <g class="step item-risk-3">
-      <text class="k-label" x="28" y="240" font-size="13">risk:</text>
-      <rect class="k-chip" x="86" y="226" width="306" height="20" rx="5"/>
-      <text class="k-content" x="95" y="240" font-size="13">Acme Corp&#8217;s traction may crowd our mindshare</text>
+      <use href="#ic-risk-3" x="28" y="230" width="12" height="12" class="ic ic-mute"/>
+      <text class="k-label" x="46" y="240" font-size="13">risk:</text>
+      <rect class="k-chip" x="104" y="226" width="306" height="20" rx="5"/>
+      <text class="k-content" x="113" y="240" font-size="13">Acme Corp&#8217;s traction may crowd our mindshare</text>
     </g>
 
     <!-- 7 · Assistant reply — left-aligned prose, no bubble, no cursor -->
@@ -120,6 +144,9 @@
 
   /* Search (native) icon — dark ink, upright glyph */
   .search-icon { color: var(--ink); }
+
+  /* Kind glyphs for capture rows — muted so they don't fight the chip */
+  .ic-mute { color: var(--ink-mute); opacity: 0.75; }
 
   /* Capture rows: italic label outside, paper chip around the content.
      Chip surface + border match Pillar 2's task cards — system-wide
