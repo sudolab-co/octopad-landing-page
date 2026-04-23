@@ -2,19 +2,20 @@
 // Pillar 3 — Memory
 // Animated SVG that reads as a real AI chat transcript inside a quiet
 // chat-window frame. Each line appears in sequence:
-//   user types → web_search tool runs (searching status) → knowledge.create
-//   tool runs (page, key fact, risk cascade in with their kind glyphs) →
-//   AI reply.
+//   user types → web_search runs (single self-contained line, magnifying-glass
+//   icon — NOT the Octopad mascot, since it's a native AI tool) →
+//   knowledge.create runs (Octopad mascot; page, key fact, risk cascade in
+//   with their kind glyphs) → AI reply.
 //
 // The transcript loops on a 14s cycle so a visitor scrolling to the
 // section catches a full pass even if they arrive mid-cycle.
 //
 // Frame, typography, timing, and trigger mirror PillarContextChat.astro
-// verbatim — only the script and the kind-icon set change. Two new
-// symbols (#ic-keyfact-3, #ic-risk-3) carry the typed-knowledge story.
+// verbatim. The mascot/magnifying-glass split signals which side of the
+// stack each tool lives on — Octopad branding only attaches to Octopad tools.
 ---
 
-<div class="pillar-chat memory" role="img" aria-label="AI chat transcript: Alex asks Claude to review Brieflab, a competitor whose name keeps coming up. Claude calls the web_search tool, searching for 'brieflab', then calls the Octopad knowledge.create tool, which files three captures — a page titled Brieflab — competitor review, a key fact that Brieflab is now a top named competitor, and a medium-severity risk that Brieflab's traction with our ICP may crowd our mindshare. Claude then replies: Captured — page, key fact, and risk.">
+<div class="pillar-chat memory" role="img" aria-label="AI chat transcript: Alex asks Claude to review Acme Corp, a competitor whose name keeps coming up. Claude calls its native web_search tool to look up an Acme Corp review, then calls the Octopad knowledge.create tool, which files three captures — a page titled Acme Corp — competitor review, a key fact that Acme Corp is now a top named competitor, and a medium-severity risk that Acme Corp's traction may crowd our mindshare. Claude then replies: I've reviewed Acme Corp and logged new information.">
   <svg viewBox="0 0 520 304" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
     <defs>
@@ -48,10 +49,10 @@
       </symbol>
 
       <!-- Typewriter clip for the user message (right-aligned, reveals L→R).
-           x is set so the clip starts exactly where the 50-char message starts
-           (text-anchor=end at x=488 minus the ~350 rendered width). -->
+           x is set so the clip starts a hair before the 51-char message starts
+           (text-anchor=end at x=488 minus the ~370 rendered width). -->
       <clipPath id="cp-user-3">
-        <rect class="cp-user-rect-3" x="138" y="28" width="0" height="32"/>
+        <rect class="cp-user-rect-3" x="115" y="28" width="0" height="32"/>
       </clipPath>
 
       <!-- Typewriter clip for the AI final reply -->
@@ -67,53 +68,51 @@
     <circle class="frame-dot" cx="494" cy="20" r="3"/>
 
     <!-- 1 · User message — typed on the right -->
-    <text class="user-msg" x="488" y="44" text-anchor="end" clip-path="url(#cp-user-3)">can you review Brieflab? I keep hearing their name</text>
+    <text class="user-msg" x="488" y="44" text-anchor="end" clip-path="url(#cp-user-3)" font-size="15">can you review Acme Corp? I keep hearing their name</text>
 
-    <!-- 2 · AI tool call: web_search -->
+    <!-- 2 · AI tool call: web_search (NATIVE AI tool — magnifying-glass icon, not the
+         Octopad mascot. Single self-contained line: tool name + key argument.) -->
     <g class="step search-step-3">
-      <image class="action-mascot" href="/assets/mascot.png" x="32" y="74" width="24" height="22"/>
-      <text class="action-name" x="64" y="92">web_search</text>
+      <g class="search-icon" transform="translate(32, 74)">
+        <circle cx="11" cy="11" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <line x1="15.2" y1="15.2" x2="20" y2="20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </g>
+      <text class="action-name" x="64" y="92" font-size="13.5">web_search: Acme Corp review</text>
     </g>
 
-    <!-- 2b · Search status line -->
-    <g class="step search-status-3">
-      <circle class="dot" cx="68" cy="119" r="2.4"/>
-      <text class="status" x="80" y="123">searching &#8220;brieflab&#8221;</text>
-    </g>
-
-    <!-- 3 · AI tool call: knowledge.create -->
+    <!-- 3 · AI tool call: knowledge.create (Octopad MCP tool — mascot icon) -->
     <g class="step capture-step-3">
       <image class="action-mascot" href="/assets/mascot.png" x="32" y="146" width="24" height="22"/>
-      <text class="action-name" x="64" y="164">knowledge.create</text>
+      <text class="action-name" x="64" y="164" font-size="13.5">knowledge.create</text>
     </g>
 
     <!-- 4 · Page capture -->
     <g class="step item-page-3">
       <use href="#ic-page-3" x="64" y="184" width="12" height="12" class="ic ic-mute"/>
-      <text class="status" x="82" y="194">page · Brieflab — competitor review</text>
+      <text class="status" x="82" y="194" font-size="13">page · Acme Corp — competitor review</text>
     </g>
 
     <!-- 5 · Key-fact capture -->
     <g class="step item-keyfact-3">
       <use href="#ic-keyfact-3" x="64" y="206" width="12" height="12" class="ic ic-mute"/>
-      <text class="status" x="82" y="216">key fact · Brieflab is now a top named competitor</text>
+      <text class="status" x="82" y="216" font-size="13">key fact · Acme Corp is now a top named competitor</text>
     </g>
 
     <!-- 6 · Risk capture (medium → green glyph) -->
     <g class="step item-risk-3">
       <use href="#ic-risk-3" x="64" y="228" width="12" height="12" class="ic ic-green"/>
-      <text class="status" x="82" y="238">risk · medium · Brieflab&#8217;s traction with our ICP may crowd our mindshare</text>
+      <text class="status" x="82" y="238" font-size="13">risk · medium · Acme Corp&#8217;s traction may crowd our mindshare</text>
     </g>
 
     <!-- 7 · AI reply — types out with cursor -->
-    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-3)">Captured — page, key fact, and risk.</text>
+    <text class="reply-msg" x="32" y="278" clip-path="url(#cp-reply-3)" font-size="15">I&#8217;ve reviewed Acme Corp and logged new information</text>
     <rect class="cursor" x="32" y="262" width="2.5" height="18"/>
   </svg>
 </div>
 
 <style>
-  .pillar-chat { width: 100%; }
-  .pillar-chat svg { display: block; width: 100%; height: auto; }
+  .pillar-chat { width: 100%; display: flex; justify-content: center; }
+  .pillar-chat svg { display: block; width: 100%; max-width: 560px; height: auto; }
 
   /* Frame — the "chat window" containment */
   .frame {
@@ -129,27 +128,24 @@
   /* Typography — identical to Pillar 1 so all chats share one voice */
   .user-msg {
     font-family: var(--font);
-    font-size: 15px;
     fill: var(--ink);
   }
   .action-name {
     font-family: var(--mono);
-    font-size: 13.5px;
     font-weight: 500;
     fill: var(--ink);
   }
   .status {
     font-family: var(--font);
-    font-size: 13px;
     font-style: italic;
     fill: var(--ink-mute);
   }
   .dot { fill: var(--green); }
   .ic-mute  { color: var(--ink-mute); }
   .ic-green { color: var(--green); }
+  .search-icon { color: var(--ink); }
   .reply-msg {
     font-family: var(--font);
-    font-size: 15px;
     fill: var(--ink);
   }
   .cursor { fill: var(--green); }
@@ -166,34 +162,34 @@
   }
   @keyframes type-user-3 {
     0%, 2%   { width: 0; }
-    13%      { width: 350px; }
-    92%      { width: 350px; }
+    13%      { width: 375px; }
+    92%      { width: 375px; }
     96%, 100%{ width: 0; }
   }
 
-  /* Sequenced fades: tool 1 → status → tool 2 → page → keyfact → risk */
+  /* Sequenced fades: web_search line → knowledge.create → page → keyfact → risk.
+     The search line is now self-contained (no separate status), so the cascade
+     loses one beat — capture-step shifts a few percent earlier to compensate. */
   .pillar-chat.animate .search-step-3    { animation: in-search-3    14s ease-out infinite; }
-  .pillar-chat.animate .search-status-3  { animation: in-search-st-3 14s ease-out infinite; }
   .pillar-chat.animate .capture-step-3   { animation: in-capture-3   14s ease-out infinite; }
   .pillar-chat.animate .item-page-3      { animation: in-page-3      14s ease-out infinite; }
   .pillar-chat.animate .item-keyfact-3   { animation: in-keyfact-3   14s ease-out infinite; }
   .pillar-chat.animate .item-risk-3      { animation: in-risk-3      14s ease-out infinite; }
 
-  @keyframes in-search-3    { 0%,15% {opacity:0;transform:translateY(4px)} 19%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-search-st-3 { 0%,22% {opacity:0;transform:translateY(4px)} 26%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-capture-3   { 0%,31% {opacity:0;transform:translateY(4px)} 35%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-page-3      { 0%,39% {opacity:0;transform:translateY(4px)} 42%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-keyfact-3   { 0%,43% {opacity:0;transform:translateY(4px)} 46%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
-  @keyframes in-risk-3      { 0%,47% {opacity:0;transform:translateY(4px)} 50%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-search-3   { 0%,15% {opacity:0;transform:translateY(4px)} 19%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-capture-3  { 0%,26% {opacity:0;transform:translateY(4px)} 30%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-page-3     { 0%,34% {opacity:0;transform:translateY(4px)} 37%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-keyfact-3  { 0%,38% {opacity:0;transform:translateY(4px)} 41%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
+  @keyframes in-risk-3     { 0%,42% {opacity:0;transform:translateY(4px)} 45%,92% {opacity:1;transform:translateY(0)} 96%,100% {opacity:0} }
 
   /* Reply line: typewriter clip width */
   .pillar-chat.animate .cp-reply-rect-3 {
     animation: type-reply-3 14s linear infinite;
   }
   @keyframes type-reply-3 {
-    0%, 56%  { width: 0; }
-    69%      { width: 300px; }
-    92%      { width: 300px; }
+    0%, 53%  { width: 0; }
+    72%      { width: 375px; }
+    92%      { width: 375px; }
     96%, 100%{ width: 0; }
   }
 
@@ -204,19 +200,18 @@
       cursor-blink-3 14s step-end infinite;
   }
   @keyframes cursor-pos-3 {
-    0%, 56%  { transform: translateX(0); }
-    69%, 100%{ transform: translateX(268px); }
+    0%, 53%  { transform: translateX(0); }
+    72%, 100%{ transform: translateX(365px); }
   }
   @keyframes cursor-blink-3 {
-    0%, 55%  { opacity: 0; }
-    56%      { opacity: 1; }
-    69%      { opacity: 1; }
-    73%      { opacity: 0; }
-    77%      { opacity: 1; }
-    81%      { opacity: 0; }
-    85%      { opacity: 1; }
-    89%      { opacity: 0; }
-    92%      { opacity: 1; }
+    0%, 52%  { opacity: 0; }
+    53%      { opacity: 1; }
+    72%      { opacity: 1; }
+    76%      { opacity: 0; }
+    80%      { opacity: 1; }
+    84%      { opacity: 0; }
+    88%      { opacity: 1; }
+    92%      { opacity: 0; }
     93%, 100%{ opacity: 0; }
   }
 
@@ -233,9 +228,9 @@
   @media (prefers-reduced-motion: reduce) {
     .pillar-chat .step,
     .pillar-chat .cursor { opacity: 1 !important; }
-    .pillar-chat .cp-user-rect-3  { width: 350px !important; }
-    .pillar-chat .cp-reply-rect-3 { width: 300px !important; }
-    .pillar-chat .cursor          { transform: translateX(268px) !important; }
+    .pillar-chat .cp-user-rect-3  { width: 375px !important; }
+    .pillar-chat .cp-reply-rect-3 { width: 375px !important; }
+    .pillar-chat .cursor          { transform: translateX(365px) !important; }
     .pillar-chat *                { animation: none !important; }
   }
 </style>
