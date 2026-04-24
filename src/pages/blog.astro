@@ -1,102 +1,65 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHead from '../components/PageHead.astro';
-import CTABand from '../components/CTABand.astro';
-
-const posts = [
-  {
-    cat: 'Engineering',
-    date: 'April 10, 2026',
-    title: 'Why we run on Postgres and nothing else',
-    excerpt:
-      'A boring stack is the best stack when you\'re chasing a moving target. How Octopad\'s one-process footprint keeps us fast.',
-  },
-  {
-    cat: 'Design',
-    date: 'April 3, 2026',
-    title: 'Designing for calm: the Octopad interface principles',
-    excerpt:
-      'AI tools don\'t need more dashboards. We wrote down the seven rules we use to keep the interface out of your way.',
-  },
-  {
-    cat: 'Product',
-    date: 'March 27, 2026',
-    title: 'v0.4 — checkpoints, shared brain exports, and Linear sync',
-    excerpt:
-      'The biggest release since we opened the beta. Three things you asked for, and one we wanted to sneak in.',
-  },
-  {
-    cat: 'Essays',
-    date: 'March 19, 2026',
-    title: 'The difference between an AI tool and an AI team',
-    excerpt:
-      'Individual AI tools make individuals more productive. Teams need something else entirely — here\'s what.',
-  },
-  {
-    cat: 'Engineering',
-    date: 'March 12, 2026',
-    title: 'Model-agnostic without the mess',
-    excerpt:
-      'Supporting Claude, ChatGPT, Cursor, and local models shouldn\'t be a feature flag swamp. How we keep routing clean.',
-  },
-  {
-    cat: 'Company',
-    date: 'March 4, 2026',
-    title: 'Hello, Octopad',
-    excerpt: 'Why we\'re building this, and who it\'s for. A short one to mark the occasion.',
-  },
-];
 ---
 
 <BaseLayout
   title="Octopad Blog | Notes from the shared brain"
-  description="Dispatches from the Octopad team on AI tooling, engineering, design, and the back-office pattern. Posts land every week or two."
+  description="Dispatches from the Octopad team on AI tooling, engineering, design, and the back-office pattern. First posts arrive at launch."
   page="blog"
 >
   <PageHead
     kicker="Blog · Dispatches"
-    heading="Notes from<br/>the shared brain."
-    lede="What we're building, what we're learning, and occasionally what we're wrong about. Posts land every week or two."
+    heading="Notes from <br/>the shared brain."
+    lede="What we're building, what we're learning, and occasionally what we're wrong about. First posts arrive at launch."
   />
 
-  <section class="wrap" style="padding-bottom: 80px;">
-    <div class="post-grid">
-      <article class="post featured">
-        <div>
-          <div class="meta">
-            <span class="cat">Product</span>
-            <span>April 18, 2026</span>
-            <span>8 min read</span>
-          </div>
-          <h3>
-            <a href="#">The back-office pattern: why AI teams keep rediscovering it</a>
-          </h3>
-          <p class="excerpt">
-            Every AI team we've talked to builds the same three things — a
-            place for context, a place for plans, a place for decisions. Here's
-            why, and what we think it means for the shape of AI tooling over
-            the next year.
-          </p>
-          <div style="margin-top: 14px;">
-            <a href="#" class="btn btn-ghost">Read the post</a>
-          </div>
-        </div>
-        <div class="thumb">
-          <img src="/assets/mascot.png" alt="" />
-        </div>
-      </article>
-
-      {posts.map((p) => (
-        <article class="post">
-          <div class="meta">
-            <span class="cat">{p.cat}</span>
-            <span>{p.date}</span>
-          </div>
-          <h3><a href="#">{p.title}</a></h3>
-          <p class="excerpt">{p.excerpt}</p>
-        </article>
-      ))}
+  <section class="wrap" style="padding: 40px 0 120px;">
+    <div class="blog-soon">
+      <span class="blog-soon-tag">Coming soon</span>
+      <h2 class="blog-soon-title">We're writing our first posts right now.</h2>
+      <p class="blog-soon-sub">
+        The opening run of essays drops at launch. Until then, you can follow
+        along on X or jump straight into the product.
+      </p>
+      <div class="blog-soon-ctas">
+        <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg">Start free</a>
+        <a href="https://x.com/octopad_ai" class="btn btn-ghost">@octopad_ai on X</a>
+      </div>
     </div>
   </section>
-
 </BaseLayout>
+
+<style>
+  .blog-soon {
+    max-width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 48px 0;
+  }
+  .blog-soon-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--green); font-weight: 600;
+    padding: 6px 12px;
+    background: var(--green-soft);
+    border-radius: 999px;
+  }
+  .blog-soon-title {
+    margin-top: 20px;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.1; letter-spacing: -0.02em; font-weight: 500;
+  }
+  .blog-soon-sub {
+    margin: 16px auto 0;
+    max-width: 48ch;
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .blog-soon-ctas {
+    margin-top: 28px;
+    display: flex; gap: 12px;
+    justify-content: center; flex-wrap: wrap;
+  }
+</style>
