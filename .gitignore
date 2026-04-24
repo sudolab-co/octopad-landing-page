@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # superpowers brainstorm workspace
 .superpowers/
+
+# claude code local worktrees
+.claude/worktrees/
