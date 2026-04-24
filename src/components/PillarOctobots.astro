@@ -1,17 +1,18 @@
 ---
 // Pillar 4 — Octobots
-// Animated SVG showing three Octobots working in parallel in the background.
-// No user prompt, no assistant reply — just the crew producing artifacts
-// while you work. Cream frame and type grammar match P1/P2/P3; the break
-// from the chat pattern is the conceptual move.
+// Animated SVG showing Octopad's mascot as a processing layer. Mixed
+// workspace inputs (tasks, comments, pages, files, activity events) drift
+// in from the left on three lanes and converge on the mascot in the
+// center. The mascot pulses gently as it "processes", and a steady flow
+// of uniform paper cards emerges to the right — the structured output.
 //
-// Shown: Session Scribe (recaps every session), Page One-Liner (summarizes
-// every page), Stream Activity Logger (logs every stream's activity). One-
-// for-one mapping with the three verbs in the locked P4 lede, so the visual
-// reinforces the copy instead of drifting.
+// The shape uniformity of the output cards is the whole message: chaos
+// in, consistent artifacts out. That's the Octobot value prop rendered
+// visually, one beat at a time. Cream frame and paper-chip grammar match
+// P1/P2/P3; the pipeline metaphor is the conceptual break.
 ---
 
-<div class="pillar-chat octobots" role="img" aria-label="Three Octobots working in the background while you work. Session Scribe writes a session recap: shipped onboarding v3, locked activation page, closed four launch tasks. Page One-Liner captions a page with the subtitle: Onboarding activation map. Stream Activity Logger posts to the Launch Execution stream: three tasks done, one page updated. Workspace up to date.">
+<div class="pillar-chat octobots" role="img" aria-label="Workspace data flowing through Octopad's mascot. Tasks, comments, pages, files, and activity events drift in from the left on three horizontal lanes and converge on the mascot in the center, which pulses gently as it processes them. A continuous flow of uniform paper cards — the structured output — emerges from the mascot and drifts off to the right.">
   <svg viewBox="0 0 520 312" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
     <defs>
@@ -19,74 +20,106 @@
         <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#1a1410" flood-opacity="0.06"/>
       </filter>
 
-      <!-- Small right arrow paired with the "while you work" cue — signals
-           that Octobot work runs in parallel with whatever you're doing -->
-      <symbol id="ic-arrow-right-4" viewBox="0 0 14 14">
-        <path d="M2 7 H11" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M7.5 3.5 L11 7 L7.5 10.5" fill="none" stroke="currentColor" stroke-width="1.2"
+      <!-- Input glyphs: all ~14x14, single-weight strokes in ink-mute.
+           Represent the varied raw artifacts a workspace generates. -->
+      <symbol id="ic-task" viewBox="0 0 14 14">
+        <rect x="2" y="2" width="10" height="10" rx="2.2" fill="none"
+              stroke="currentColor" stroke-width="1.1"/>
+        <polyline points="4.7,7.1 6.4,8.8 9.4,5.4" fill="none"
+                  stroke="currentColor" stroke-width="1.3"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
+      <symbol id="ic-comment" viewBox="0 0 14 14">
+        <path d="M2 4.2 a1.8 1.8 0 0 1 1.8 -1.8 H10.2 a1.8 1.8 0 0 1 1.8 1.8 V9 a1.8 1.8 0 0 1 -1.8 1.8 H6 L4 12.6 V10.8 a1.8 1.8 0 0 1 -2 -1.8 Z"
+              fill="none" stroke="currentColor" stroke-width="1.1"
+              stroke-linejoin="round"/>
+      </symbol>
+
+      <symbol id="ic-page-4" viewBox="0 0 14 14">
+        <path d="M2.5 1.5 H8.5 L11.5 4.5 V12 a1 1 0 0 1 -1 1 H3.5 a1 1 0 0 1 -1 -1 V2.5 a1 1 0 0 1 1 -1 z"
+              fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+        <path d="M8.5 1.5 V4.5 H11.5"
+              fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/>
+      </symbol>
+
+      <symbol id="ic-file" viewBox="0 0 14 14">
+        <path d="M10.8 6.4 L6 11.2 a2.5 2.5 0 0 1 -3.6 -3.6 L7.4 2.6 a1.55 1.55 0 0 1 2.2 2.2 L5 9.4"
+              fill="none" stroke="currentColor" stroke-width="1.1"
               stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+
+      <symbol id="ic-activity" viewBox="0 0 14 14">
+        <circle cx="7" cy="7" r="4.8" fill="none" stroke="currentColor"
+                stroke-width="1" opacity="0.45"/>
+        <circle cx="7" cy="7" r="2" fill="currentColor"/>
       </symbol>
     </defs>
 
-    <!-- Cream chat surface — same palette as P1/P2/P3 -->
+    <!-- Same cream chat surface as P1/P2/P3 -->
     <rect class="frame" x="4" y="4" width="512" height="304" rx="16" filter="url(#frame-shadow-4)"/>
 
-    <!-- Top-left cue: the absence of a user prompt is the defining move of
-         this pillar; this caption names it gently instead of leaving dead
-         space. -->
-    <g class="step caption-top">
-      <text class="caption" x="28" y="34" font-size="12">while you work</text>
-      <use href="#ic-arrow-right-4" x="120" y="24" width="12" height="12" class="ic-mute"/>
+    <!-- ---- Input flow ----
+         Nine inputs cycle through three lanes. Each lane ships three
+         glyphs, each icon staggered across the 6s master cycle by
+         negative animation-delay, so the page loads mid-flow. Icon type
+         per slot is hand-picked to mix task/comment/page/file/activity
+         across the lanes without perfect 1-to-1 lane mapping. -->
+
+    <g class="input lane-1" style="animation-delay: 0s">       <use href="#ic-task" width="14" height="14"/></g>
+    <g class="input lane-1" style="animation-delay: -2s">      <use href="#ic-page-4" width="14" height="14"/></g>
+    <g class="input lane-1" style="animation-delay: -4s">      <use href="#ic-comment" width="14" height="14"/></g>
+
+    <g class="input lane-2" style="animation-delay: -0.7s">    <use href="#ic-file" width="14" height="14"/></g>
+    <g class="input lane-2" style="animation-delay: -2.7s">    <use href="#ic-activity" width="14" height="14"/></g>
+    <g class="input lane-2" style="animation-delay: -4.7s">    <use href="#ic-task" width="14" height="14"/></g>
+
+    <g class="input lane-3" style="animation-delay: -1.4s">    <use href="#ic-comment" width="14" height="14"/></g>
+    <g class="input lane-3" style="animation-delay: -3.4s">    <use href="#ic-page-4" width="14" height="14"/></g>
+    <g class="input lane-3" style="animation-delay: -5.4s">    <use href="#ic-activity" width="14" height="14"/></g>
+
+    <!-- ---- Mascot — the processing layer ----
+         Centered; wrapper sits at (260, 156) and the image is offset so
+         its center falls on (0, 0) of the wrapper. That lets the pulse
+         animation scale from the image center rather than its top-left. -->
+    <g class="mascot-wrap">
+      <image class="mascot-img" href="/assets/mascot.svg"
+             x="-38" y="-36" width="76" height="72"/>
     </g>
 
-    <!-- ---- Station 1: Session Scribe ---- -->
-    <g class="station st-1">
-      <g class="step st1-mascot">
-        <image href="/assets/mascot.png" x="85" y="54" width="28" height="26"/>
-      </g>
-      <g class="step st1-name">
-        <text class="station-name" x="99" y="104" text-anchor="middle" font-size="12">Session Scribe</text>
-      </g>
-      <g class="step st1-chip">
-        <rect class="chip" x="24" y="118" width="150" height="54" rx="5"/>
-        <text class="chip-line" x="34" y="136" font-size="10.5">Shipped onboarding v3.</text>
-        <text class="chip-line" x="34" y="151" font-size="10.5">Locked activation page.</text>
-        <text class="chip-line" x="34" y="166" font-size="10.5">Closed 4 Launch tasks.</text>
-      </g>
-    </g>
+    <!-- ---- Output flow ----
+         Four uniform paper cards emerge from behind the mascot and drift
+         right, exiting off-frame. All cards identical in shape: title
+         bar + two content lines + a tiny trailing dot. Uniformity IS
+         the "structured" message. -->
 
-    <!-- ---- Station 2: Page One-Liner ---- -->
-    <g class="station st-2">
-      <g class="step st2-mascot">
-        <image href="/assets/mascot.png" x="245" y="54" width="28" height="26"/>
-      </g>
-      <g class="step st2-name">
-        <text class="station-name" x="259" y="104" text-anchor="middle" font-size="12">Page One-Liner</text>
-      </g>
-      <g class="step st2-chip">
-        <rect class="chip" x="184" y="118" width="150" height="24" rx="5"/>
-        <text class="chip-line" x="194" y="135" font-size="10.5">Onboarding activation map</text>
-      </g>
+    <g class="out-card" style="animation-delay: 0s">
+      <rect class="card-bg" width="62" height="26" rx="4"/>
+      <rect class="card-title" x="7" y="6" width="26" height="2.6" rx="1.2"/>
+      <line class="card-line" x1="7" y1="14.5" x2="49" y2="14.5"/>
+      <line class="card-line" x1="7" y1="19.5" x2="40" y2="19.5"/>
+      <circle class="card-dot" cx="50" cy="19.5" r="1.3"/>
     </g>
-
-    <!-- ---- Station 3: Stream Activity Logger ---- -->
-    <g class="station st-3">
-      <g class="step st3-mascot">
-        <image href="/assets/mascot.png" x="405" y="54" width="28" height="26"/>
-      </g>
-      <g class="step st3-name">
-        <text class="station-name" x="419" y="104" text-anchor="middle" font-size="12">Activity Logger</text>
-      </g>
-      <g class="step st3-chip">
-        <rect class="chip" x="344" y="118" width="150" height="38" rx="5"/>
-        <text class="chip-line chip-head" x="354" y="136" font-size="10.5">Launch Execution</text>
-        <text class="chip-line" x="354" y="150" font-size="10.5">+3 done, 1 page updated</text>
-      </g>
+    <g class="out-card" style="animation-delay: -1.5s">
+      <rect class="card-bg" width="62" height="26" rx="4"/>
+      <rect class="card-title" x="7" y="6" width="26" height="2.6" rx="1.2"/>
+      <line class="card-line" x1="7" y1="14.5" x2="49" y2="14.5"/>
+      <line class="card-line" x1="7" y1="19.5" x2="40" y2="19.5"/>
+      <circle class="card-dot" cx="50" cy="19.5" r="1.3"/>
     </g>
-
-    <!-- Bottom stamp: the payoff. What the user walks back to. -->
-    <g class="step caption-bot">
-      <text class="caption caption-bottom" x="260" y="276" text-anchor="middle" font-size="12">Workspace up to date.</text>
+    <g class="out-card" style="animation-delay: -3s">
+      <rect class="card-bg" width="62" height="26" rx="4"/>
+      <rect class="card-title" x="7" y="6" width="26" height="2.6" rx="1.2"/>
+      <line class="card-line" x1="7" y1="14.5" x2="49" y2="14.5"/>
+      <line class="card-line" x1="7" y1="19.5" x2="40" y2="19.5"/>
+      <circle class="card-dot" cx="50" cy="19.5" r="1.3"/>
+    </g>
+    <g class="out-card" style="animation-delay: -4.5s">
+      <rect class="card-bg" width="62" height="26" rx="4"/>
+      <rect class="card-title" x="7" y="6" width="26" height="2.6" rx="1.2"/>
+      <line class="card-line" x1="7" y1="14.5" x2="49" y2="14.5"/>
+      <line class="card-line" x1="7" y1="19.5" x2="40" y2="19.5"/>
+      <circle class="card-dot" cx="50" cy="19.5" r="1.3"/>
     </g>
   </svg>
 </div>
@@ -95,113 +128,123 @@
   .pillar-chat.octobots { width: 100%; display: flex; justify-content: center; }
   .pillar-chat.octobots svg { display: block; width: 100%; max-width: 560px; height: auto; }
 
-  /* Matches P1/P2/P3 cream surface exactly */
+  /* Same cream frame as P1/P2/P3 */
   .pillar-chat.octobots .frame {
     fill: #F9F9F6;
     stroke: #EDECE4;
     stroke-width: 1;
   }
 
-  /* Captions: top-left cue + bottom proof-of-work stamp */
-  .pillar-chat.octobots .caption {
-    font-family: var(--font);
-    font-style: italic;
-    fill: var(--ink-mute);
-    letter-spacing: -0.003em;
-  }
-  .pillar-chat.octobots .caption-bottom { fill: var(--ink-soft); }
-
-  .pillar-chat.octobots .ic-mute { color: var(--ink-mute); opacity: 0.85; }
-
-  /* Octobot name uses the same mono weight as tool-call names in P1/P2/P3 */
-  .pillar-chat.octobots .station-name {
-    font-family: var(--mono);
-    font-weight: 500;
-    fill: var(--ink);
-    letter-spacing: 0.005em;
+  /* ---- Input glyphs ---- */
+  .pillar-chat.octobots .input {
+    color: var(--ink-mute);
+    opacity: 0;
   }
 
-  /* Paper chip surface + border match Pillar 2 task cards and Pillar 3
-     knowledge chips: the shared grammar that "things Octopad writes look
-     like paper." */
-  .pillar-chat.octobots .chip {
+  /* ---- Output cards ---- */
+  .pillar-chat.octobots .out-card { opacity: 0; }
+  .pillar-chat.octobots .card-bg {
     fill: #FFFDF7;
     stroke: #E8E6DD;
     stroke-width: 1;
   }
-  .pillar-chat.octobots .chip-line {
-    font-family: var(--font);
+  .pillar-chat.octobots .card-title {
     fill: var(--ink);
-    letter-spacing: -0.005em;
+    opacity: 0.72;
   }
-  .pillar-chat.octobots .chip-head { font-weight: 500; }
+  .pillar-chat.octobots .card-line {
+    stroke: var(--ink-mute);
+    stroke-width: 1;
+    opacity: 0.55;
+  }
+  .pillar-chat.octobots .card-dot {
+    fill: var(--ink-mute);
+    opacity: 0.7;
+  }
+
+  /* ---- Mascot ---- */
+  .pillar-chat.octobots .mascot-wrap {
+    /* Base position; pulse keyframe re-asserts the translate so the
+       scale composes cleanly from the image center. */
+    transform: translate(260px, 156px);
+  }
+  .pillar-chat.octobots .mascot-img { /* renders via href */ }
 
   /* ---- Animation timeline ----
-     12s cycle, same rhythm as P2/P3. Top cue first, then the three stations
-     stagger in (mascot → name → chip), closing with the bottom stamp. No
-     typewriter: each element fades and rises the same 4–8px. */
+     6s master cycle. Inputs slide left-to-right across their lane and
+     fade as they reach the mascot. Outputs emerge from the mascot and
+     slide right, fading as they exit the frame. Mascot breathes on its
+     own 1.2s cycle. Negative animation-delays stagger instances so the
+     page loads with a flow already in motion.
 
-  .pillar-chat.octobots .step { opacity: 0; }
+     Keyframe translates are absolute (include the base position) so we
+     don't need to compose with a wrapper transform. */
 
-  .pillar-chat.octobots.animate .caption-top { animation: oc-top 12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st1-mascot  { animation: oc-m1  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st2-mascot  { animation: oc-m2  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st3-mascot  { animation: oc-m3  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st1-name    { animation: oc-n1  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st2-name    { animation: oc-n2  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st3-name    { animation: oc-n3  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st1-chip    { animation: oc-c1  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st2-chip    { animation: oc-c2  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .st3-chip    { animation: oc-c3  12s ease-out infinite; }
-  .pillar-chat.octobots.animate .caption-bot { animation: oc-bot 12s ease-out infinite; }
+  .pillar-chat.octobots.animate .input.lane-1  { animation: flow-l1  6s linear infinite; }
+  .pillar-chat.octobots.animate .input.lane-2  { animation: flow-l2  6s linear infinite; }
+  .pillar-chat.octobots.animate .input.lane-3  { animation: flow-l3  6s linear infinite; }
+  .pillar-chat.octobots.animate .out-card      { animation: flow-out 6s linear infinite; }
+  .pillar-chat.octobots.animate .mascot-wrap   { animation: mascot-pulse 1.2s ease-in-out infinite; }
 
-  @keyframes oc-top { 0%       { opacity:0; transform: translateY(4px); }
-                      5%, 92%  { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
+  /* Inputs: translate from off-frame left (x=-20) to just left of the
+     mascot (~x=212) on their lane y. Opacity ramps in early and out as
+     they merge into the mascot. */
+  @keyframes flow-l1 {
+    0%   { transform: translate(-20px, 100px); opacity: 0; }
+    8%   { opacity: 1; }
+    82%  { opacity: 1; }
+    100% { transform: translate(212px, 100px); opacity: 0; }
+  }
+  @keyframes flow-l2 {
+    0%   { transform: translate(-20px, 156px); opacity: 0; }
+    8%   { opacity: 1; }
+    82%  { opacity: 1; }
+    100% { transform: translate(212px, 156px); opacity: 0; }
+  }
+  @keyframes flow-l3 {
+    0%   { transform: translate(-20px, 212px); opacity: 0; }
+    8%   { opacity: 1; }
+    82%  { opacity: 1; }
+    100% { transform: translate(212px, 212px); opacity: 0; }
+  }
 
-  @keyframes oc-m1  { 0%, 10%  { opacity:0; transform: translateY(6px); }
-                      14%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
-  @keyframes oc-m2  { 0%, 16%  { opacity:0; transform: translateY(6px); }
-                      20%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
-  @keyframes oc-m3  { 0%, 22%  { opacity:0; transform: translateY(6px); }
-                      26%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
+  /* Outputs: emerge from behind the mascot (x=268) and travel to x=528
+     off the right edge, centered vertically on the mascot's y (card top
+     at y=143, so middle of the 26px card lands on y=156). */
+  @keyframes flow-out {
+    0%    { transform: translate(268px, 143px); opacity: 0; }
+    10%   { opacity: 1; }
+    82%   { opacity: 1; }
+    100%  { transform: translate(528px, 143px); opacity: 0; }
+  }
 
-  @keyframes oc-n1  { 0%, 20%  { opacity:0; transform: translateY(4px); }
-                      24%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
-  @keyframes oc-n2  { 0%, 26%  { opacity:0; transform: translateY(4px); }
-                      30%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
-  @keyframes oc-n3  { 0%, 32%  { opacity:0; transform: translateY(4px); }
-                      36%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
-
-  @keyframes oc-c1  { 0%, 38%  { opacity:0; transform: translateY(8px); }
-                      44%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
-  @keyframes oc-c2  { 0%, 48%  { opacity:0; transform: translateY(8px); }
-                      54%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
-  @keyframes oc-c3  { 0%, 58%  { opacity:0; transform: translateY(8px); }
-                      64%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
-
-  @keyframes oc-bot { 0%, 72%  { opacity:0; transform: translateY(4px); }
-                      78%, 92% { opacity:1; transform: translateY(0); }
-                      96%,100% { opacity:0; } }
+  /* Mascot breathes. The translate is re-asserted in every keyframe so
+     the scale composes around the wrapper's center (the image inside is
+     drawn with a negative x/y offset so its center sits at 0,0). */
+  @keyframes mascot-pulse {
+    0%, 100% { transform: translate(260px, 156px) scale(1); }
+    50%      { transform: translate(260px, 156px) scale(1.035); }
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    .pillar-chat.octobots .step { opacity: 1 !important; transform: none !important; }
-    .pillar-chat.octobots *     { animation: none !important; }
+    .pillar-chat.octobots .input,
+    .pillar-chat.octobots .out-card { opacity: 1 !important; animation: none !important; }
+    .pillar-chat.octobots .mascot-wrap { animation: none !important; }
+    /* Freeze a readable still: place one icon at the end of each lane,
+       outputs spread along the right half. */
+    .pillar-chat.octobots .input.lane-1 { transform: translate(180px, 100px); }
+    .pillar-chat.octobots .input.lane-2 { transform: translate(180px, 156px); }
+    .pillar-chat.octobots .input.lane-3 { transform: translate(180px, 212px); }
+    .pillar-chat.octobots .out-card:nth-of-type(1) { transform: translate(310px, 143px); }
+    .pillar-chat.octobots .out-card:nth-of-type(2) { transform: translate(385px, 143px); }
+    .pillar-chat.octobots .out-card:nth-of-type(3) { transform: translate(460px, 143px); }
+    .pillar-chat.octobots .out-card:nth-of-type(4) { display: none; }
   }
 </style>
 
 <script>
-  // Trigger the looping animation when the pillar scrolls into view, same
-  // pattern as the other three pillars.
+  // Trigger the looping animation when the pillar scrolls into view —
+  // matches the pattern used by P1/P2/P3.
   const syncOctobots = () => {
     document.querySelectorAll('.pillar-chat.octobots').forEach((el) => {
       const r = el.getBoundingClientRect();
