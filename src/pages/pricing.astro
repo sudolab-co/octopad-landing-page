@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { buildFAQSchema, pricingFaqs } from '../data/faq';
 
 // Pro pricing — $9/seat/mo, 20% off when billed annually.
 // Founding 100 = 50% off for the lifetime of the subscription, first 100 Pro subscribers.
@@ -9,6 +10,56 @@ const ebRate = 0.5;
 const proMonthlyEB = proMonthly * ebRate;
 const proYearlyEB = proYearly * ebRate;
 const proYearlyTotal = proYearly * 12;
+
+const pricingFaqSchema = buildFAQSchema(pricingFaqs);
+
+const softwareAppSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Octopad',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web',
+  url: 'https://octopad.ai',
+  description:
+    "Octopad is a shared workspace where any AI your team uses (Claude, ChatGPT, Cursor, and any MCP-compatible model) can plan, run tasks, and capture what matters on one shared brain.",
+  offers: [
+    {
+      '@type': 'Offer',
+      name: 'Free',
+      price: '0',
+      priceCurrency: 'USD',
+      description: 'Free forever for a founder or small team trying Octopad with their AI.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro (monthly)',
+      price: proMonthly.toFixed(2),
+      priceCurrency: 'USD',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: proMonthly.toFixed(2),
+        priceCurrency: 'USD',
+        billingIncrement: 1,
+        unitText: 'seat / month',
+      },
+      description: 'Pro plan billed monthly, per seat.',
+    },
+    {
+      '@type': 'Offer',
+      name: 'Pro (annual)',
+      price: proYearly.toFixed(2),
+      priceCurrency: 'USD',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: proYearly.toFixed(2),
+        priceCurrency: 'USD',
+        billingIncrement: 1,
+        unitText: 'seat / month, billed annually',
+      },
+      description: 'Pro plan billed annually, per seat — 20% off vs monthly.',
+    },
+  ],
+};
 
 const fmt = (n: number) =>
   Number.isInteger(n) ? `$${n}` : `$${n.toFixed(2)}`;
@@ -38,6 +89,10 @@ const proFeatures = [
   description="Free forever for small teams. Pro $9 per seat per month, or $7.20 billed annually (save 20%). Founding 100: first 100 subscribers get 50% off for the lifetime of their subscription."
   page="pricing"
 >
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(softwareAppSchema)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(pricingFaqSchema)} />
+  </Fragment>
   <section class="wrap" style="padding: 56px 0 80px;">
     <div class="founding-strip-wrap">
       <aside class="founding-strip" aria-label="Founding 100 offer">
@@ -143,7 +198,11 @@ const proFeatures = [
       </li>
       <li>
         <b>Cancel anytime.</b>
-        Monthly stops at the end of the period. Annual gets a 14-day refund window.
+        Monthly stops at the end of the current period. No questions asked.
+      </li>
+      <li>
+        <b>14-day refund on annual.</b>
+        Full refund if you cancel within 14 days of the annual billing date.
       </li>
     </ul>
   </section>
@@ -361,11 +420,14 @@ const proFeatures = [
     margin: 36px auto 0;
     max-width: 880px;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 22px 24px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 22px 20px;
     border-top: 1px solid var(--line);
   }
-  @media (max-width: 920px) {
+  @media (max-width: 1080px) {
+    .plan-fineprint { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 720px) {
     .plan-fineprint { grid-template-columns: repeat(2, 1fr); }
   }
   .plan-fineprint li {

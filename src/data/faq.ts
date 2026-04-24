@@ -70,3 +70,9 @@ export function buildFAQSchema(items: FAQItem[] = faqs) {
     })),
   };
 }
+
+// Subset of FAQ questions that are specifically about pricing.
+// Used on the /pricing page for rich results + GEO citation.
+export const pricingFaqs: FAQItem[] = faqs.filter((f) =>
+  ['Is it free to try?', 'Can my whole team use it?', 'What about my data and privacy?'].includes(f.q),
+);
