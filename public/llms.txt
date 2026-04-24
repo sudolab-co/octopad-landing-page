@@ -7,7 +7,7 @@ Octopad solves the cold-start problem for AI teams. Instead of re-explaining con
 ## Core pages
 
 - [Product overview](https://octopad.ai/): How Octopad gives any AI your team uses (Claude, ChatGPT, Cursor) a shared back-office with the right context, plans ready for execution, and decisions captured as you go.
-- [Pricing](https://octopad.ai/pricing): Free forever tier; Pro at $9 per seat per month ($7 annual). First month of Pro included. No credit card to start.
+- [Pricing](https://octopad.ai/pricing): Free forever tier; Pro at $9 per seat per month ($7 annual). Founding 100: first 100 subscribers get 50% off for the lifetime of their subscription. No credit card to start.
 - [Getting Started](https://octopad.ai/getting-started): A short guide covering sign-up, connecting your AI, loading your workspace with context, and running your first goal. Four steps, roughly five minutes.
 - [About](https://octopad.ai/about): Why we're building Octopad. Our vision for human-AI symbiosis, our mission, and where the product is heading.
 - [Blog](https://octopad.ai/blog): Notes from the team on engineering, design, and product.

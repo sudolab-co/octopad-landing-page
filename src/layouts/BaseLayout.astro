@@ -62,8 +62,11 @@ const websiteSchema = {
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <link rel="icon" type="image/svg+xml" href="/assets/mascot.svg" />
-    <link rel="icon" type="image/png" href="/assets/mascot.png" />
-    <link rel="apple-touch-icon" href="/assets/mascot.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#2a9f73" />
 
     <meta property="og:site_name" content="Octopad" />
     <meta property="og:title" content={title} />
@@ -100,6 +103,6 @@ const websiteSchema = {
       <slot />
     </main>
     <Footer />
-    <script is:inline src="/scripts/tweaks.js"></script>
+    {import.meta.env.DEV && <script is:inline src="/scripts/tweaks.js"></script>}
   </body>
 </html>

@@ -1,0 +1,15 @@
+{
+  "name": "Octopad",
+  "short_name": "Octopad",
+  "description": "Your AI's back-office. One shared workspace across every AI your team uses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fcfbf9",
+  "theme_color": "#2a9f73",
+  "icons": [
+    { "src": "/assets/favicon-16.png", "sizes": "16x16", "type": "image/png" },
+    { "src": "/assets/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
