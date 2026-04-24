@@ -173,8 +173,6 @@ h3.tile-title {
 }
 
 /* ───────── Inline trust row inside the hero ───────── */
-.mcp-pill { font-size: 13px; font-weight: 500; color: var(--ink-soft); background: var(--line-soft); border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
-
 .hero-trust {
   margin-top: 12px;
   display: flex; flex-wrap: wrap; align-items: center;
@@ -182,8 +180,13 @@ h3.tile-title {
   font-size: 13px; color: var(--ink-mute);
   line-height: 1.5;
 }
-.hero-trust b { font-weight: 500; color: var(--ink-soft); letter-spacing: -0.1px; }
+.hero-trust .brand {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-weight: 500; color: var(--ink-soft); letter-spacing: -0.1px;
+}
+.hero-trust .brand svg { width: 13px; height: 13px; flex-shrink: 0; opacity: .75; }
 .hero-trust .sep { color: var(--ink-mute); opacity: .4; }
+.hero-trust .mcp-more { color: var(--ink-mute); white-space: nowrap; }
 
 /* ───────── Pillars / feature rows ───────── */
 .pillar {
