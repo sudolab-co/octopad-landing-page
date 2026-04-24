@@ -130,7 +130,9 @@
 
 <style>
   .pillar-chat.octobots { width: 100%; display: flex; justify-content: center; }
-  .pillar-chat.octobots svg { display: block; width: 100%; max-width: 560px; height: auto; }
+  /* P4 sits 20% larger than P1/P2/P3 (560 -> 672 max-width). The mascot
+     is the hero of this pillar, so the extra visual weight is the point. */
+  .pillar-chat.octobots svg { display: block; width: 100%; max-width: 672px; height: auto; }
 
   /* Same cream frame as P1/P2/P3 */
   .pillar-chat.octobots .frame {
