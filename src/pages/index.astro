@@ -5,6 +5,7 @@ import Pillar from '../components/Pillar.astro';
 import PillarContextChat from '../components/PillarContextChat.astro';
 import PillarPlansChat from '../components/PillarPlansChat.astro';
 import PillarMemoryChat from '../components/PillarMemoryChat.astro';
+import PillarOctobots from '../components/PillarOctobots.astro';
 import Card from '../components/Card.astro';
 import Tile from '../components/Tile.astro';
 import CTABand from '../components/CTABand.astro';
@@ -103,6 +104,20 @@ const faqSchema = buildFAQSchema();
           <p class="lede">Your AI keeps your team's knowledge current as new information surfaces. It writes down what's worth keeping from every conversation, connects it to what's already there, and updates it as things change, all in your workspace.</p>
         </Fragment>
         <PillarMemoryChat />
+      </Pillar>
+    </div>
+  </section>
+
+  <!-- Pillar 04 — Octobots -->
+  <section class="section section-pillar">
+    <div class="wrap">
+      <Pillar reverse>
+        <Fragment slot="copy">
+          <span class="eyebrow pillar-num">04</span>
+          <h2 class="section-title">Agents in the background</h2>
+          <p class="lede">A crew of Octobots keeps your workspace in order while you work. They recap every session, summarize every page, and log every stream's activity, so your AI always walks into a clean desk.</p>
+        </Fragment>
+        <PillarOctobots />
       </Pillar>
     </div>
   </section>

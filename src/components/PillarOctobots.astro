@@ -1,0 +1,223 @@
+---
+// Pillar 4 — Octobots
+// Animated SVG showing three Octobots working in parallel in the background.
+// No user prompt, no assistant reply — just the crew producing artifacts
+// while you work. Cream frame and type grammar match P1/P2/P3; the break
+// from the chat pattern is the conceptual move.
+//
+// Shown: Session Scribe (recaps every session), Page One-Liner (summarizes
+// every page), Stream Activity Logger (logs every stream's activity). One-
+// for-one mapping with the three verbs in the locked P4 lede, so the visual
+// reinforces the copy instead of drifting.
+---
+
+<div class="pillar-chat octobots" role="img" aria-label="Three Octobots working in the background while you work. Session Scribe writes a session recap: shipped onboarding v3, locked activation page, closed four launch tasks. Page One-Liner captions a page with the subtitle: Onboarding activation map. Stream Activity Logger posts to the Launch Execution stream: three tasks done, one page updated. Workspace up to date.">
+  <svg viewBox="0 0 520 312" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+    <defs>
+      <filter id="frame-shadow-4" x="-4%" y="-4%" width="108%" height="110%">
+        <feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#1a1410" flood-opacity="0.06"/>
+      </filter>
+
+      <!-- Small right arrow paired with the "while you work" cue — signals
+           that Octobot work runs in parallel with whatever you're doing -->
+      <symbol id="ic-arrow-right-4" viewBox="0 0 14 14">
+        <path d="M2 7 H11" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M7.5 3.5 L11 7 L7.5 10.5" fill="none" stroke="currentColor" stroke-width="1.2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+    </defs>
+
+    <!-- Cream chat surface — same palette as P1/P2/P3 -->
+    <rect class="frame" x="4" y="4" width="512" height="304" rx="16" filter="url(#frame-shadow-4)"/>
+
+    <!-- Top-left cue: the absence of a user prompt is the defining move of
+         this pillar; this caption names it gently instead of leaving dead
+         space. -->
+    <g class="step caption-top">
+      <text class="caption" x="28" y="34" font-size="12">while you work</text>
+      <use href="#ic-arrow-right-4" x="120" y="24" width="12" height="12" class="ic-mute"/>
+    </g>
+
+    <!-- ---- Station 1: Session Scribe ---- -->
+    <g class="station st-1">
+      <g class="step st1-mascot">
+        <image href="/assets/mascot.png" x="85" y="54" width="28" height="26"/>
+      </g>
+      <g class="step st1-name">
+        <text class="station-name" x="99" y="104" text-anchor="middle" font-size="12">Session Scribe</text>
+      </g>
+      <g class="step st1-chip">
+        <rect class="chip" x="24" y="118" width="150" height="54" rx="5"/>
+        <text class="chip-line" x="34" y="136" font-size="10.5">Shipped onboarding v3.</text>
+        <text class="chip-line" x="34" y="151" font-size="10.5">Locked activation page.</text>
+        <text class="chip-line" x="34" y="166" font-size="10.5">Closed 4 Launch tasks.</text>
+      </g>
+    </g>
+
+    <!-- ---- Station 2: Page One-Liner ---- -->
+    <g class="station st-2">
+      <g class="step st2-mascot">
+        <image href="/assets/mascot.png" x="245" y="54" width="28" height="26"/>
+      </g>
+      <g class="step st2-name">
+        <text class="station-name" x="259" y="104" text-anchor="middle" font-size="12">Page One-Liner</text>
+      </g>
+      <g class="step st2-chip">
+        <rect class="chip" x="184" y="118" width="150" height="24" rx="5"/>
+        <text class="chip-line" x="194" y="135" font-size="10.5">Onboarding activation map</text>
+      </g>
+    </g>
+
+    <!-- ---- Station 3: Stream Activity Logger ---- -->
+    <g class="station st-3">
+      <g class="step st3-mascot">
+        <image href="/assets/mascot.png" x="405" y="54" width="28" height="26"/>
+      </g>
+      <g class="step st3-name">
+        <text class="station-name" x="419" y="104" text-anchor="middle" font-size="12">Activity Logger</text>
+      </g>
+      <g class="step st3-chip">
+        <rect class="chip" x="344" y="118" width="150" height="38" rx="5"/>
+        <text class="chip-line chip-head" x="354" y="136" font-size="10.5">Launch Execution</text>
+        <text class="chip-line" x="354" y="150" font-size="10.5">+3 done, 1 page updated</text>
+      </g>
+    </g>
+
+    <!-- Bottom stamp: the payoff. What the user walks back to. -->
+    <g class="step caption-bot">
+      <text class="caption caption-bottom" x="260" y="276" text-anchor="middle" font-size="12">Workspace up to date.</text>
+    </g>
+  </svg>
+</div>
+
+<style>
+  .pillar-chat.octobots { width: 100%; display: flex; justify-content: center; }
+  .pillar-chat.octobots svg { display: block; width: 100%; max-width: 560px; height: auto; }
+
+  /* Matches P1/P2/P3 cream surface exactly */
+  .pillar-chat.octobots .frame {
+    fill: #F9F9F6;
+    stroke: #EDECE4;
+    stroke-width: 1;
+  }
+
+  /* Captions: top-left cue + bottom proof-of-work stamp */
+  .pillar-chat.octobots .caption {
+    font-family: var(--font);
+    font-style: italic;
+    fill: var(--ink-mute);
+    letter-spacing: -0.003em;
+  }
+  .pillar-chat.octobots .caption-bottom { fill: var(--ink-soft); }
+
+  .pillar-chat.octobots .ic-mute { color: var(--ink-mute); opacity: 0.85; }
+
+  /* Octobot name uses the same mono weight as tool-call names in P1/P2/P3 */
+  .pillar-chat.octobots .station-name {
+    font-family: var(--mono);
+    font-weight: 500;
+    fill: var(--ink);
+    letter-spacing: 0.005em;
+  }
+
+  /* Paper chip surface + border match Pillar 2 task cards and Pillar 3
+     knowledge chips: the shared grammar that "things Octopad writes look
+     like paper." */
+  .pillar-chat.octobots .chip {
+    fill: #FFFDF7;
+    stroke: #E8E6DD;
+    stroke-width: 1;
+  }
+  .pillar-chat.octobots .chip-line {
+    font-family: var(--font);
+    fill: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .pillar-chat.octobots .chip-head { font-weight: 500; }
+
+  /* ---- Animation timeline ----
+     12s cycle, same rhythm as P2/P3. Top cue first, then the three stations
+     stagger in (mascot → name → chip), closing with the bottom stamp. No
+     typewriter: each element fades and rises the same 4–8px. */
+
+  .pillar-chat.octobots .step { opacity: 0; }
+
+  .pillar-chat.octobots.animate .caption-top { animation: oc-top 12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st1-mascot  { animation: oc-m1  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st2-mascot  { animation: oc-m2  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st3-mascot  { animation: oc-m3  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st1-name    { animation: oc-n1  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st2-name    { animation: oc-n2  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st3-name    { animation: oc-n3  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st1-chip    { animation: oc-c1  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st2-chip    { animation: oc-c2  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .st3-chip    { animation: oc-c3  12s ease-out infinite; }
+  .pillar-chat.octobots.animate .caption-bot { animation: oc-bot 12s ease-out infinite; }
+
+  @keyframes oc-top { 0%       { opacity:0; transform: translateY(4px); }
+                      5%, 92%  { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+
+  @keyframes oc-m1  { 0%, 10%  { opacity:0; transform: translateY(6px); }
+                      14%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+  @keyframes oc-m2  { 0%, 16%  { opacity:0; transform: translateY(6px); }
+                      20%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+  @keyframes oc-m3  { 0%, 22%  { opacity:0; transform: translateY(6px); }
+                      26%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+
+  @keyframes oc-n1  { 0%, 20%  { opacity:0; transform: translateY(4px); }
+                      24%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+  @keyframes oc-n2  { 0%, 26%  { opacity:0; transform: translateY(4px); }
+                      30%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+  @keyframes oc-n3  { 0%, 32%  { opacity:0; transform: translateY(4px); }
+                      36%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+
+  @keyframes oc-c1  { 0%, 38%  { opacity:0; transform: translateY(8px); }
+                      44%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+  @keyframes oc-c2  { 0%, 48%  { opacity:0; transform: translateY(8px); }
+                      54%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+  @keyframes oc-c3  { 0%, 58%  { opacity:0; transform: translateY(8px); }
+                      64%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+
+  @keyframes oc-bot { 0%, 72%  { opacity:0; transform: translateY(4px); }
+                      78%, 92% { opacity:1; transform: translateY(0); }
+                      96%,100% { opacity:0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pillar-chat.octobots .step { opacity: 1 !important; transform: none !important; }
+    .pillar-chat.octobots *     { animation: none !important; }
+  }
+</style>
+
+<script>
+  // Trigger the looping animation when the pillar scrolls into view, same
+  // pattern as the other three pillars.
+  const syncOctobots = () => {
+    document.querySelectorAll('.pillar-chat.octobots').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      const inView = r.top < window.innerHeight * 0.9 && r.bottom > 0;
+      el.classList.toggle('animate', inView);
+    });
+  };
+
+  syncOctobots();
+  window.addEventListener('scroll', syncOctobots, { passive: true });
+  window.addEventListener('resize', syncOctobots, { passive: true });
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => e.target.classList.toggle('animate', e.isIntersecting));
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.pillar-chat.octobots').forEach((el) => obs.observe(el));
+  }
+</script>
