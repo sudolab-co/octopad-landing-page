@@ -185,6 +185,31 @@ h3.tile-title {
 .hero-trust b { font-weight: 500; color: var(--ink-soft); letter-spacing: -0.1px; }
 .hero-trust .sep { color: var(--ink-mute); opacity: .4; }
 
+/* ───────── Vision bridge ───────── */
+.section-vision { padding: 80px 0; }
+.vision {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+.vision-title {
+  font-size: clamp(36px, 5vw, 60px);
+  line-height: 1.03;
+  letter-spacing: -0.03em;
+  font-weight: 500;
+  color: var(--ink);
+}
+.vision-sub {
+  margin: 24px auto 0;
+  max-width: 58ch;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+@media (max-width: 560px) {
+  .section-vision { padding: 56px 0; }
+}
+
 /* ───────── Pillars / feature rows ───────── */
 .pillar {
   display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px;
