@@ -4,7 +4,7 @@ interface Props {
   heading: string;
   lede: string;
   primaryCta: { label: string; href: string };
-  secondaryCta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
   trustLine?: string;
 }
 
@@ -32,15 +32,14 @@ const { eyebrow, heading, lede, primaryCta, secondaryCta, trustLine } = Astro.pr
             <path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" />
           </svg>
         </a>
-        <a href={secondaryCta.href} class="btn btn-ghost">{secondaryCta.label}</a>
+        {secondaryCta && <a href={secondaryCta.href} class="btn btn-ghost">{secondaryCta.label}</a>}
       </div>
       {trustLine && <p class="small" style="margin-top: 14px; color: var(--ink-mute);">{trustLine}</p>}
       <slot name="trust-row" />
     </div>
     <div class="hero-art" aria-hidden="true">
       <div class="glow"></div>
-      <img src="/assets/mascot.png" alt="Octopad mascot" />
-
+      <img src="/assets/mascot.svg" alt="" width="300" height="282" />
     </div>
   </div>
 </section>

@@ -37,7 +37,7 @@
     } else {
       root.style.setProperty('--ink', 'oklch(22% 0.012 250)');
       root.style.setProperty('--ink-soft', 'oklch(42% 0.01 250)');
-      root.style.setProperty('--ink-mute', 'oklch(62% 0.008 250)');
+      root.style.setProperty('--ink-mute', 'oklch(55% 0.008 250)');
       root.style.setProperty('--line', 'oklch(90% 0.005 250)');
       root.style.setProperty('--line-soft', 'oklch(94% 0.004 250)');
       root.style.setProperty('--paper-raised', '#ffffff');

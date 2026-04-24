@@ -23,10 +23,6 @@ const columns = [
       { label: 'Terms', href: '/terms' },
     ],
   },
-  {
-    heading: 'Works with',
-    links: [{ label: 'Any MCP-compatible AI model', href: '#' }],
-  },
 ];
 ---
 
@@ -35,7 +31,7 @@ const columns = [
     <div class="footer-grid">
       <div>
         <a href="/" class="brand">
-          <img src="/assets/mascot.png" alt="" />
+          <img src="/assets/mascot.svg" alt="" width="24" height="24" />
           <span>Octopad</span>
         </a>
         <p class="small" style="max-width: 32ch; margin-top: 14px;">
@@ -44,7 +40,7 @@ const columns = [
       </div>
       {columns.map((col) => (
         <div>
-          <h4>{col.heading}</h4>
+          <h3>{col.heading}</h3>
           <ul>
             {col.links.map((link) => (
               <li><a href={link.href}>{link.label}</a></li>

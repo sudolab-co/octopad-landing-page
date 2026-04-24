@@ -24,11 +24,10 @@ const faqSchema = buildFAQSchema();
     <script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
   </Fragment>
   <Hero
-    heading="Your AI's<br/>back-office"
+    heading="Your AI's <br/>back-office"
     lede="Knows the context. Plans the work. Captures what matters. All in your AI."
     primaryCta={{ label: 'Start free', href: 'https://www.octopad.app/signup' }}
-    secondaryCta={{ label: 'See how it works', href: '#' }}
-    trustLine="Free to start. First month of Pro included. $9 per seat after."
+    trustLine="Free to start. No credit card."
   >
     <p slot="trust-row" class="hero-trust">
       <span class="brand">
@@ -49,8 +48,7 @@ const faqSchema = buildFAQSchema();
         </svg>
         Cursor
       </span>
-      <span class="sep">·</span>
-      <span class="mcp-more">+ any MCP-compatible AI</span>
+      <span class="mcp-more"><span class="sep">·</span> and any MCP-compatible AI</span>
     </p>
   </Hero>
 
@@ -73,7 +71,7 @@ const faqSchema = buildFAQSchema();
         <Fragment slot="copy">
           <span class="eyebrow pillar-num">01</span>
           <h2 class="section-title">The right context for every task</h2>
-          <p class="lede">Your AI knows what each task needs, without any prompt. It pulls from the information in your workspace, picks what matters, and builds the right mix for every job before you even ask.</p>
+          <p class="lede">Your AI knows what each task needs, without any prompt. It pulls from the information in your workspace, picks what matters, and builds the right mix for every job.</p>
         </Fragment>
         <PillarContextChat />
       </Pillar>
@@ -130,7 +128,7 @@ const faqSchema = buildFAQSchema();
           <span class="eyebrow">Quick Start</span>
           <h2 class="section-title">Set up in minutes</h2>
           <p class="lede">
-            Four short steps. No credit card to start. One month of Pro included.
+            Four short steps. No credit card to start.
           </p>
           <a href="/getting-started" class="quickstart-link">See the full setup guide →</a>
         </Fragment>
@@ -172,9 +170,10 @@ const faqSchema = buildFAQSchema();
 
   <CTABand
     heading="Give your AI the back-office it's been missing"
-    description="Free to start. First month of Pro included."
+    description="Free to start. No credit card."
+    mascot
   >
-    <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg">Start free</a>
-    <a href="/pricing" class="btn btn-ghost">See pricing</a>
+    <a href="https://www.octopad.app/signup" class="btn btn-primary btn-xl">Start free</a>
+    <a href="/pricing" class="ctas-sub">See pricing</a>
   </CTABand>
 </BaseLayout>

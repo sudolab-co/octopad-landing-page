@@ -4,25 +4,31 @@ interface Props {
   heading: string;
   description: string;
   paddingBottom?: string;
+  mascot?: boolean;
 }
 
-const { eyebrow, heading, description, paddingBottom = '80px' } = Astro.props;
+const { eyebrow, heading, description, paddingBottom = '80px', mascot = false } = Astro.props;
 ---
 
 <section class="section" style={`padding-bottom: ${paddingBottom};`}>
   <div class="wrap">
     <div class="cta-band">
-      <div>
-        {eyebrow && (
-          <span
-            class="eyebrow"
-            style="color: rgba(255,255,255,0.55); margin-bottom: 18px;"
-          >
-            {eyebrow}
-          </span>
+      <div class="cta-band-lead">
+        {mascot && (
+          <img src="/assets/mascot.svg" alt="" aria-hidden="true" class="cta-band-mascot" />
         )}
-        <h2>{heading}</h2>
-        <p>{description}</p>
+        <div>
+          {eyebrow && (
+            <span
+              class="eyebrow"
+              style="color: rgba(255,255,255,0.55); margin-bottom: 18px;"
+            >
+              {eyebrow}
+            </span>
+          )}
+          <h2>{heading}</h2>
+          <p>{description}</p>
+        </div>
       </div>
       <div class="ctas">
         <slot />
