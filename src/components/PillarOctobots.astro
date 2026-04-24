@@ -66,17 +66,17 @@
          per slot is hand-picked to mix task/comment/page/file/activity
          across the lanes without perfect 1-to-1 lane mapping. -->
 
-    <g class="input lane-1" style="animation-delay: 0s">       <use href="#ic-task" width="17" height="17"/></g>
-    <g class="input lane-1" style="animation-delay: -2s">      <use href="#ic-page-4" width="17" height="17"/></g>
-    <g class="input lane-1" style="animation-delay: -4s">      <use href="#ic-comment" width="17" height="17"/></g>
+    <g class="input lane-1" style="animation-delay: 0s">       <use href="#ic-task" width="20" height="20"/></g>
+    <g class="input lane-1" style="animation-delay: -2s">      <use href="#ic-page-4" width="20" height="20"/></g>
+    <g class="input lane-1" style="animation-delay: -4s">      <use href="#ic-comment" width="20" height="20"/></g>
 
-    <g class="input lane-2" style="animation-delay: -0.7s">    <use href="#ic-file" width="17" height="17"/></g>
-    <g class="input lane-2" style="animation-delay: -2.7s">    <use href="#ic-activity" width="17" height="17"/></g>
-    <g class="input lane-2" style="animation-delay: -4.7s">    <use href="#ic-task" width="17" height="17"/></g>
+    <g class="input lane-2" style="animation-delay: -0.7s">    <use href="#ic-file" width="20" height="20"/></g>
+    <g class="input lane-2" style="animation-delay: -2.7s">    <use href="#ic-activity" width="20" height="20"/></g>
+    <g class="input lane-2" style="animation-delay: -4.7s">    <use href="#ic-task" width="20" height="20"/></g>
 
-    <g class="input lane-3" style="animation-delay: -1.4s">    <use href="#ic-comment" width="17" height="17"/></g>
-    <g class="input lane-3" style="animation-delay: -3.4s">    <use href="#ic-page-4" width="17" height="17"/></g>
-    <g class="input lane-3" style="animation-delay: -5.4s">    <use href="#ic-activity" width="17" height="17"/></g>
+    <g class="input lane-3" style="animation-delay: -1.4s">    <use href="#ic-comment" width="20" height="20"/></g>
+    <g class="input lane-3" style="animation-delay: -3.4s">    <use href="#ic-page-4" width="20" height="20"/></g>
+    <g class="input lane-3" style="animation-delay: -5.4s">    <use href="#ic-activity" width="20" height="20"/></g>
 
     <!-- ---- Output flow ----
          Output cards are drawn BEFORE the mascot in SVG source so the
@@ -93,21 +93,14 @@
       <line class="card-line" x1="8" y1="23.4" x2="48" y2="23.4"/>
       <circle class="card-dot" cx="60" cy="23.4" r="1.6"/>
     </g>
-    <g class="out-card" style="animation-delay: -1.5s">
+    <g class="out-card" style="animation-delay: -2s">
       <rect class="card-bg" width="74" height="31" rx="5"/>
       <rect class="card-title" x="8" y="7" width="31" height="3" rx="1.4"/>
       <line class="card-line" x1="8" y1="17.4" x2="59" y2="17.4"/>
       <line class="card-line" x1="8" y1="23.4" x2="48" y2="23.4"/>
       <circle class="card-dot" cx="60" cy="23.4" r="1.6"/>
     </g>
-    <g class="out-card" style="animation-delay: -3s">
-      <rect class="card-bg" width="74" height="31" rx="5"/>
-      <rect class="card-title" x="8" y="7" width="31" height="3" rx="1.4"/>
-      <line class="card-line" x1="8" y1="17.4" x2="59" y2="17.4"/>
-      <line class="card-line" x1="8" y1="23.4" x2="48" y2="23.4"/>
-      <circle class="card-dot" cx="60" cy="23.4" r="1.6"/>
-    </g>
-    <g class="out-card" style="animation-delay: -4.5s">
+    <g class="out-card" style="animation-delay: -4s">
       <rect class="card-bg" width="74" height="31" rx="5"/>
       <rect class="card-title" x="8" y="7" width="31" height="3" rx="1.4"/>
       <line class="card-line" x1="8" y1="17.4" x2="59" y2="17.4"/>
@@ -123,7 +116,7 @@
          its bounds. Image is 20% larger than the initial cut. -->
     <g class="mascot-wrap">
       <image class="mascot-img" href="/assets/mascot.svg"
-             x="-55" y="-51.5" width="110" height="103"/>
+             x="-66" y="-62" width="132" height="124"/>
     </g>
   </svg>
 </div>
@@ -220,16 +213,18 @@
 
   /* Outputs: start at (268, 141) — behind the mascot's right lobe — and
      travel to x=528 off the right edge. The mascot now spans roughly
-     x=205–315 with the bumped 110-unit image, so we hold opacity at 0
-     until the card has cleared the mascot's right edge (about 18%
+     x=194–326 with the bumped 132-unit image, so we hold opacity at 0
+     until the card has cleared the mascot's right edge (about 22%
      through the cycle), then fade in. Combined with the SVG source
      reorder (card drawn before mascot), the card only becomes visible
      once it's genuinely emerged from the mascot. Card top y=141 so the
-     31-unit card centers on the mascot's y=156. */
+     31-unit card centers on the mascot's y=156. Three cards staggered
+     every 2s in the 6s cycle — wider cards at faster stagger would
+     overlap each other in flight. */
   @keyframes flow-out {
     0%    { transform: translate(268px, 141px); opacity: 0; }
-    18%   { opacity: 0; }
-    26%   { opacity: 1; }
+    22%   { opacity: 0; }
+    30%   { opacity: 1; }
     82%   { opacity: 1; }
     100%  { transform: translate(528px, 141px); opacity: 0; }
   }
@@ -249,15 +244,14 @@
     /* Freeze a readable still: place one icon per lane partway through
        the convergence (so lanes 1 and 3 show their diagonal toward the
        mascot), outputs spread along the right half past the mascot.
-       With 74-wide cards only two fit past the bigger mascot before
-       the frame edge, so we show two and hide the rest. */
+       With 74-wide cards and the now 132-wide mascot, only two cards
+       fit between the mascot's right edge (~326) and the frame edge. */
     .pillar-chat.octobots .input.lane-1 { transform: translate(180px, 134px); }
     .pillar-chat.octobots .input.lane-2 { transform: translate(180px, 156px); }
     .pillar-chat.octobots .input.lane-3 { transform: translate(180px, 178px); }
-    .pillar-chat.octobots .out-card:nth-of-type(1) { transform: translate(320px, 141px); }
-    .pillar-chat.octobots .out-card:nth-of-type(2) { transform: translate(410px, 141px); }
+    .pillar-chat.octobots .out-card:nth-of-type(1) { transform: translate(332px, 141px); }
+    .pillar-chat.octobots .out-card:nth-of-type(2) { transform: translate(420px, 141px); }
     .pillar-chat.octobots .out-card:nth-of-type(3) { display: none; }
-    .pillar-chat.octobots .out-card:nth-of-type(4) { display: none; }
   }
 </style>
 
