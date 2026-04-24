@@ -134,6 +134,19 @@
      is the hero of this pillar, so the extra visual weight is the point. */
   .pillar-chat.octobots svg { display: block; width: 100%; max-width: 672px; height: auto; }
 
+  /* Widen the grid column for P4 specifically so the 672 max-width is
+     actually reachable. Default reverse ratio is 1.15/0.85, which gives
+     the visual column ~594px on a 1200-wrap layout — below the cap.
+     1.3/0.7 pushes the visual column to ~672px so the SVG fills it. */
+  :global(.pillar.reverse:has(.pillar-chat.octobots)) {
+    grid-template-columns: 1.3fr 0.7fr;
+  }
+  @media (max-width: 860px) {
+    :global(.pillar.reverse:has(.pillar-chat.octobots)) {
+      grid-template-columns: 1fr;
+    }
+  }
+
   /* Same cream frame as P1/P2/P3 */
   .pillar-chat.octobots .frame {
     fill: #F9F9F6;
