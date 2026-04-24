@@ -78,20 +78,13 @@
     <g class="input lane-3" style="animation-delay: -3.4s">    <use href="#ic-page-4" width="14" height="14"/></g>
     <g class="input lane-3" style="animation-delay: -5.4s">    <use href="#ic-activity" width="14" height="14"/></g>
 
-    <!-- ---- Mascot — the processing layer ----
-         Centered; wrapper sits at (260, 156) and the image is offset so
-         its center falls on (0, 0) of the wrapper. That lets the pulse
-         animation scale from the image center rather than its top-left. -->
-    <g class="mascot-wrap">
-      <image class="mascot-img" href="/assets/mascot.svg"
-             x="-38" y="-36" width="76" height="72"/>
-    </g>
-
     <!-- ---- Output flow ----
-         Four uniform paper cards emerge from behind the mascot and drift
-         right, exiting off-frame. All cards identical in shape: title
-         bar + two content lines + a tiny trailing dot. Uniformity IS
-         the "structured" message. -->
+         Output cards are drawn BEFORE the mascot in SVG source so the
+         mascot's opaque body occludes the portion of each card that's
+         still inside it. Combined with a delayed opacity fade-in, this
+         makes each card look like it's emerging from the mascot's right
+         edge. All cards identical in shape: title bar + two content
+         lines + a trailing dot. Uniformity IS the "structured" message. -->
 
     <g class="out-card" style="animation-delay: 0s">
       <rect class="card-bg" width="62" height="26" rx="4"/>
@@ -120,6 +113,17 @@
       <line class="card-line" x1="7" y1="14.5" x2="49" y2="14.5"/>
       <line class="card-line" x1="7" y1="19.5" x2="40" y2="19.5"/>
       <circle class="card-dot" cx="50" cy="19.5" r="1.3"/>
+    </g>
+
+    <!-- ---- Mascot — the processing layer ----
+         Centered; wrapper sits at (260, 156) and the image is offset so
+         its center falls on (0, 0) of the wrapper. That lets the pulse
+         animation scale from the image center rather than its top-left.
+         Drawn LAST so it occludes any output card that's still inside
+         its bounds. Image is 20% larger than the initial cut. -->
+    <g class="mascot-wrap">
+      <image class="mascot-img" href="/assets/mascot.svg"
+             x="-46" y="-43" width="92" height="86"/>
     </g>
   </svg>
 </div>
@@ -186,34 +190,43 @@
   .pillar-chat.octobots.animate .out-card      { animation: flow-out 6s linear infinite; }
   .pillar-chat.octobots.animate .mascot-wrap   { animation: mascot-pulse 1.2s ease-in-out infinite; }
 
-  /* Inputs: translate from off-frame left (x=-20) to just left of the
-     mascot (~x=212) on their lane y. Opacity ramps in early and out as
-     they merge into the mascot. */
+  /* Inputs: slide in from off-frame left, travel straight along their
+     lane y for the first half of the cycle, then converge diagonally
+     toward the mascot center (260, 156). Lane 2 is already at y=156
+     so it stays horizontal. Opacity fades as each icon enters the
+     mascot's bounds and is visually absorbed. */
   @keyframes flow-l1 {
     0%   { transform: translate(-20px, 100px); opacity: 0; }
     8%   { opacity: 1; }
+    50%  { transform: translate(100px, 100px); opacity: 1; }
     82%  { opacity: 1; }
-    100% { transform: translate(212px, 100px); opacity: 0; }
+    100% { transform: translate(232px, 156px); opacity: 0; }
   }
   @keyframes flow-l2 {
     0%   { transform: translate(-20px, 156px); opacity: 0; }
     8%   { opacity: 1; }
     82%  { opacity: 1; }
-    100% { transform: translate(212px, 156px); opacity: 0; }
+    100% { transform: translate(232px, 156px); opacity: 0; }
   }
   @keyframes flow-l3 {
     0%   { transform: translate(-20px, 212px); opacity: 0; }
     8%   { opacity: 1; }
+    50%  { transform: translate(100px, 212px); opacity: 1; }
     82%  { opacity: 1; }
-    100% { transform: translate(212px, 212px); opacity: 0; }
+    100% { transform: translate(232px, 156px); opacity: 0; }
   }
 
-  /* Outputs: emerge from behind the mascot (x=268) and travel to x=528
-     off the right edge, centered vertically on the mascot's y (card top
-     at y=143, so middle of the 26px card lands on y=156). */
+  /* Outputs: start at (268, 143) — behind the mascot's right lobe — and
+     travel to x=528 off the right edge. The mascot spans roughly
+     x=214–306 with the bigger image, so we hold opacity at 0 until the
+     card has cleared the mascot's right edge (about 16% through the
+     cycle), then fade in. Combined with the SVG source reorder (card
+     drawn before mascot), the card only becomes visible once it's
+     genuinely emerged from the mascot. */
   @keyframes flow-out {
     0%    { transform: translate(268px, 143px); opacity: 0; }
-    10%   { opacity: 1; }
+    16%   { opacity: 0; }
+    24%   { opacity: 1; }
     82%   { opacity: 1; }
     100%  { transform: translate(528px, 143px); opacity: 0; }
   }
@@ -230,14 +243,15 @@
     .pillar-chat.octobots .input,
     .pillar-chat.octobots .out-card { opacity: 1 !important; animation: none !important; }
     .pillar-chat.octobots .mascot-wrap { animation: none !important; }
-    /* Freeze a readable still: place one icon at the end of each lane,
-       outputs spread along the right half. */
-    .pillar-chat.octobots .input.lane-1 { transform: translate(180px, 100px); }
+    /* Freeze a readable still: place one icon per lane partway through
+       the convergence (so lanes 1 and 3 show their diagonal toward the
+       mascot), outputs spread along the right half past the mascot. */
+    .pillar-chat.octobots .input.lane-1 { transform: translate(180px, 134px); }
     .pillar-chat.octobots .input.lane-2 { transform: translate(180px, 156px); }
-    .pillar-chat.octobots .input.lane-3 { transform: translate(180px, 212px); }
-    .pillar-chat.octobots .out-card:nth-of-type(1) { transform: translate(310px, 143px); }
-    .pillar-chat.octobots .out-card:nth-of-type(2) { transform: translate(385px, 143px); }
-    .pillar-chat.octobots .out-card:nth-of-type(3) { transform: translate(460px, 143px); }
+    .pillar-chat.octobots .input.lane-3 { transform: translate(180px, 178px); }
+    .pillar-chat.octobots .out-card:nth-of-type(1) { transform: translate(325px, 143px); }
+    .pillar-chat.octobots .out-card:nth-of-type(2) { transform: translate(395px, 143px); }
+    .pillar-chat.octobots .out-card:nth-of-type(3) { transform: translate(465px, 143px); }
     .pillar-chat.octobots .out-card:nth-of-type(4) { display: none; }
   }
 </style>
