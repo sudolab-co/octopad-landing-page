@@ -40,7 +40,7 @@ export const faqs: FAQItem[] = [
   },
   {
     q: 'How is Octopad different from Claude Projects or ChatGPT Projects?',
-    a: 'Projects are read-only folders locked to one AI host. Your AI can read the files you upload, but it cannot write back, and nothing inside carries over when you switch to another AI. Octopad is the opposite: one shared brain every AI your team uses can both read and update, so what one assistant learns stays available to the next.',
+    a: 'Projects are read-only folders locked to one AI host. Your AI can read the files you upload, but it cannot write back, and nothing inside carries over when you switch to another AI. Octopad is the opposite: one workspace every AI your team uses can both read and update, so what one assistant learns stays available to the next.',
   },
   {
     q: 'How is Octopad different from Notion, Asana, or Linear?',

@@ -1,6 +1,6 @@
 # Octopad
 
-> Octopad is your AI's back-office: a shared workspace where any AI your team uses (Claude, ChatGPT, Cursor, and any MCP-compatible model) can make plans, run tasks, and capture what matters on one shared brain.
+> Octopad is your AI's back-office: a shared workspace where any AI your team uses (Claude, ChatGPT, Cursor, and any MCP-compatible model) can make plans, run tasks, and capture what matters, all in your AI.
 
 Octopad solves the cold-start problem for AI teams. Instead of re-explaining context in every new chat, your team's strategy, tasks, decisions, and know-how live in one structured workspace every AI can read and update. You set direction. Your AI handles the structured work. Both contribute to the same source of truth.
 

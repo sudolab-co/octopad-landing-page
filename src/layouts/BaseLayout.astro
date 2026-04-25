@@ -26,7 +26,7 @@ const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const socialImage = new URL(ogImage ?? '/og-image.png', siteUrl).toString();
 
 const defaultDescription =
-  "Octopad is your AI's back-office: a shared workspace where any AI your team uses (Claude, ChatGPT, Cursor) can make plans, run tasks, and capture what matters on one shared brain.";
+  "Octopad is your AI's back-office: a shared workspace where any AI your team uses (Claude, ChatGPT, Cursor) can make plans, run tasks, and capture what matters, all in your AI.";
 const metaDescription = description ?? defaultDescription;
 
 const organizationSchema = {
@@ -36,7 +36,7 @@ const organizationSchema = {
   url: siteUrl,
   logo: `${siteUrl}/assets/mascot.svg`,
   description:
-    "Octopad is the AI back-office: a shared workspace where any AI your team uses can plan, run tasks, and capture what matters on one shared brain.",
+    "Octopad is the AI back-office: a shared workspace where any AI your team uses can plan, run tasks, and capture what matters, all in your AI.",
   sameAs: ['https://x.com/octopad_ai'],
 };
 
