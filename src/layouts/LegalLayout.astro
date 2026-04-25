@@ -1,0 +1,98 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Frontmatter {
+  title: string;
+  description?: string;
+}
+
+const { frontmatter } = Astro.props as { frontmatter: Frontmatter };
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <section class="wrap">
+    <div class="docs legal-doc">
+      <article>
+        <slot />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-doc {
+    padding: 56px 0 96px;
+  }
+  .legal-doc article {
+    max-width: 760px;
+  }
+  .legal-doc article :global(h1) {
+    font-size: 40px;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .legal-doc article :global(h2) {
+    font-size: 24px;
+    margin-top: 48px;
+  }
+  .legal-doc article :global(h2:first-of-type) {
+    margin-top: 32px;
+  }
+  .legal-doc article :global(h3) {
+    font-size: 17px;
+    margin-top: 28px;
+  }
+  .legal-doc article :global(p),
+  .legal-doc article :global(ol),
+  .legal-doc article :global(ul) {
+    max-width: none;
+  }
+  .legal-doc article :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .legal-doc article :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .legal-doc article :global(thead) {
+    background: var(--green-soft);
+  }
+  .legal-doc article :global(th),
+  .legal-doc article :global(td) {
+    border: 1px solid var(--line);
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+    color: var(--ink-soft);
+  }
+  .legal-doc article :global(th) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .legal-doc article :global(blockquote) {
+    font-style: normal;
+  }
+  .legal-doc article :global(a) {
+    color: var(--green);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-doc article :global(a:hover) {
+    color: var(--ink);
+  }
+  .legal-doc article :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 56px 0;
+  }
+  @media (max-width: 720px) {
+    .legal-doc article :global(table) {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+</style>
