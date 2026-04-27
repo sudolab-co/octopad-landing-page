@@ -2,10 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { buildFAQSchema, pricingFaqs } from '../data/faq';
 
-// Pro pricing — $9/seat/mo, 20% off when billed annually.
+// Pro pricing — $9/seat/mo, 22% off when billed annually.
 // Founding 100 = 50% off for the lifetime of the subscription, first 100 Pro subscribers.
 const proMonthly = 9;
-const proYearly = 7.2;
+const proYearly = 7;
 const ebRate = 0.5;
 const proMonthlyEB = proMonthly * ebRate;
 const proYearlyEB = proYearly * ebRate;
@@ -56,7 +56,7 @@ const softwareAppSchema = {
         billingIncrement: 1,
         unitText: 'seat / month, billed annually',
       },
-      description: 'Pro plan billed annually, per seat — 20% off vs monthly.',
+      description: 'Pro plan billed annually, per seat — 22% off vs monthly.',
     },
   ],
 };
@@ -85,8 +85,8 @@ const proFeatures = [
 ---
 
 <BaseLayout
-  title="Octopad — Pricing | Free forever, Pro from $7.20 per seat"
-  description="Free forever for small teams. Pro $9 per seat per month, or $7.20 billed annually (save 20%). Founding 100: first 100 Pro subscribers get 50% off for the lifetime of their subscription."
+  title="Octopad — Pricing | Free forever, Pro from $7 per seat"
+  description="Free forever for small teams. Pro $9 per seat per month, or $7 billed annually (save 22%). Founding 100: first 100 Pro subscribers get 50% off for the lifetime of their subscription."
   page="pricing"
 >
   <Fragment slot="head">
@@ -107,7 +107,7 @@ const proFeatures = [
       <div class="billing-toggle" role="tablist" aria-label="Billing period">
         <button type="button" data-period="monthly" class="active" role="tab" aria-selected="true">Monthly</button>
         <button type="button" data-period="yearly" role="tab" aria-selected="false">
-          Yearly <span class="save-pill">−20%</span>
+          Yearly <span class="save-pill">−22%</span>
         </button>
       </div>
     </div>
@@ -161,7 +161,7 @@ const proFeatures = [
 
           <p class="small-price show-monthly">Billed monthly. Cancel anytime.</p>
           <p class="small-price show-yearly" hidden>
-            Billed annually at {fmt(proYearlyTotal)} per seat. Save 20% vs monthly.
+            Billed annually at {fmt(proYearlyTotal)} per seat. Save 22% vs monthly.
           </p>
         </div>
 
