@@ -4,10 +4,12 @@
 // This is critical: a Next.js-style middleware will not deploy on a
 // non-Next.js Vercel project.
 //
-// Reads CF-IPCountry from the incoming request and rewrites the URL with
-// a __geo search param so the static page can read it via Astro.url and
-// emit a <meta name="x-octopad-geo"> tag in the HTML head. The banner JS
-// reads that meta tag synchronously on mount — no cookie race, no flash.
+// Reads the visitor country from Vercel's x-vercel-ip-country header
+// (with cf-ipcountry as a fallback for any future Cloudflare-fronted
+// deploy) and rewrites the URL with a __geo search param so the static
+// page can read it via Astro.url and emit a <meta name="x-octopad-geo">
+// tag in the HTML head. The banner JS reads that meta tag synchronously
+// on mount — no cookie race, no flash.
 //
 // Cache-Control: private, no-store on the rewritten response prevents
 // Cloudflare from caching geo-fragmented HTML across visitors.
@@ -27,7 +29,15 @@ export const config = {
 
 export default function middleware(request: Request): Response {
   const url = new URL(request.url);
-  const country = request.headers.get("cf-ipcountry") ?? "XX";
+  // Vercel's edge sets x-vercel-ip-country on every request (ISO 3166-1
+  // alpha-2). It is missing or empty when geolocation fails, so we use ||
+  // not ?? to fall back to "XX" for both cases. cf-ipcountry is kept as a
+  // secondary fallback in case the project ever sits behind Cloudflare.
+  // "XX" is treated as fail-open EEA in src/lib/consent/index.ts.
+  const country =
+    request.headers.get("x-vercel-ip-country") ||
+    request.headers.get("cf-ipcountry") ||
+    "XX";
 
   // Stamp the country on the rewritten URL. The Astro page reads
   // Astro.url.searchParams.get("__geo") server-side and renders it into a
