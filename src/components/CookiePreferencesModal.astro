@@ -10,15 +10,12 @@
 //   - "default" → standard intro
 //   - "ccpa"    → California-specific intro
 //
-// Cookie list rows are server-rendered from src/lib/consent/config.ts so
-// the table is correct on first paint without JS hydration. The toggles
-// hydrate via the consent module on mount.
+// The toggles hydrate via the consent module on mount.
 //
 // Pairs with: docs/superpowers/specs/2026-04-28-cookie-banner-design.md (§3.4, §3.5, §3.10)
 
-import { COOKIE_LIST, COPY } from "../lib/consent/config";
+import { COPY } from "../lib/consent/config";
 
-const cookieRows = COOKIE_LIST;
 const m = COPY.modal;
 ---
 
@@ -78,40 +75,10 @@ const m = COPY.modal;
       </article>
     </section>
 
-    <section class="cookie-list-section">
-      <h3 class="cookie-list-heading">{m.cookieListHeading}</h3>
-      <table class="cookie-table">
-        <thead>
-          <tr>
-            <th>{m.columns.category}</th>
-            <th>{m.columns.name}</th>
-            <th>{m.columns.provider}</th>
-            <th>{m.columns.purpose}</th>
-            <th>{m.columns.duration}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cookieRows.map((row) => (
-            <tr>
-              <td>{m.categories[row.category].label}</td>
-              <td><code>{row.name}</code></td>
-              <td>
-                {row.subprocessorAnchor ? (
-                  <a href={row.subprocessorAnchor}>{row.provider}</a>
-                ) : (
-                  row.provider
-                )}
-                {row.notActive && (
-                  <span class="not-active-badge">{m.notActiveLabel}</span>
-                )}
-              </td>
-              <td>{row.purpose}</td>
-              <td>{row.duration}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
+    <p class="modal-policy-link">
+      Full cookie list and lawful bases:
+      <a href="/privacy#11-cookies-and-similar-technologies">Privacy Policy §11</a>.
+    </p>
 
     <footer class="modal-buttons">
       <button type="button" class="banner-btn" data-consent-action="reject_all">
@@ -295,54 +262,18 @@ const m = COPY.modal;
     white-space: nowrap;
   }
 
-  /* Cookie table */
-  .cookie-list-section {
+  .modal-policy-link {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--ink-3, #666);
     border-block-start: 1px solid var(--border, rgba(0, 0, 0, 0.12));
     padding-block-start: 14px;
   }
 
-  .cookie-list-heading {
-    margin: 0 0 10px;
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .cookie-table {
-    inline-size: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-  }
-
-  .cookie-table th,
-  .cookie-table td {
-    text-align: start;
-    padding: 8px 8px 8px 0;
-    border-block-end: 1px solid var(--border, rgba(0, 0, 0, 0.08));
-    vertical-align: top;
-  }
-
-  .cookie-table th {
-    font-weight: 500;
-    color: var(--ink-3, #666);
-  }
-
-  .cookie-table code {
-    font-family: var(--font-mono, monospace);
-    font-size: 11px;
-    background: rgba(0, 0, 0, 0.04);
-    padding: 1px 4px;
-    border-radius: 3px;
-  }
-
-  .not-active-badge {
-    display: inline-block;
-    margin-inline-start: 6px;
-    font-size: 10px;
-    color: var(--ink-3, #666);
-    border: 1px solid var(--border, rgba(0, 0, 0, 0.18));
-    padding: 1px 5px;
-    border-radius: 3px;
-    white-space: nowrap;
+  .modal-policy-link a {
+    color: inherit;
+    text-decoration: underline;
   }
 
   /* Buttons — same .banner-btn class as banner for CNIL parity */
