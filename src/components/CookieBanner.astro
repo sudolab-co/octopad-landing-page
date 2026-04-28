@@ -1,0 +1,158 @@
+---
+// Cookie consent banner for octopad.ai.
+//
+// Renders the static banner HTML. Hidden by default; the consent module
+// (src/lib/consent/index.ts) decides whether to show it based on geo +
+// existing consent_v1 cookie state.
+//
+// All button text is duplicated here from src/lib/consent/config.ts COPY
+// because Astro components are server-rendered and the consent module
+// runs client-side. The build-time snapshot test catches drift.
+//
+// Pairs with: docs/superpowers/specs/2026-04-28-cookie-banner-design.md (§3.4)
+---
+
+<aside
+  id="octopad-cookie-banner"
+  class="cookie-banner"
+  role="region"
+  aria-label="Cookie consent"
+  hidden
+>
+  <div class="banner-inner">
+    <h2 class="banner-title">Cookies on Octopad</h2>
+    <p class="banner-body">
+      We use cookies to make Octopad work, remember your preferences, and
+      understand how the site is used. Strictly necessary cookies are always
+      on. Everything else is your call. You can change your choice anytime
+      from the Cookie preferences link in the footer.
+    </p>
+    <div class="banner-buttons">
+      <button type="button" class="banner-btn" data-consent-action="reject_all">
+        Reject all
+      </button>
+      <button type="button" class="banner-btn" data-consent-action="customize">
+        Customize
+      </button>
+      <button type="button" class="banner-btn" data-consent-action="accept_all">
+        Accept all
+      </button>
+    </div>
+    <p class="banner-footer">
+      See our <a href="/privacy">Privacy Policy</a> and
+      <button type="button" class="banner-link" data-consent-open-modal>
+        Cookie preferences
+      </button>
+      for details.
+    </p>
+  </div>
+</aside>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    inset-block-end: 0;
+    inset-inline: 0;
+    z-index: 9000;
+    background: var(--paper, #fdfcf8);
+    border-block-start: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.08);
+    padding: clamp(16px, 3vw, 24px);
+    max-block-size: 80vh;
+    overflow-y: auto;
+  }
+
+  .cookie-banner[hidden] {
+    display: none;
+  }
+
+  .banner-inner {
+    max-inline-size: 880px;
+    margin-inline: auto;
+    display: grid;
+    gap: 12px;
+  }
+
+  .banner-title {
+    font-size: clamp(18px, 1.6vw, 20px);
+    font-weight: 600;
+    margin: 0;
+    color: var(--ink, #1a1a1a);
+  }
+
+  .banner-body {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-2, #444);
+  }
+
+  .banner-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-block-start: 4px;
+  }
+
+  /* CNIL parity: every button is the same. Same class, same computed style.
+     Tested by Playwright (see tests/consent.spec.ts §4.1). */
+  .banner-btn {
+    appearance: none;
+    border: 1px solid var(--ink, #1a1a1a);
+    background: transparent;
+    color: var(--ink, #1a1a1a);
+    padding: 10px 16px;
+    font: inherit;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    min-block-size: 44px;
+  }
+
+  .banner-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .banner-btn:focus-visible {
+    outline: 2px solid var(--accent, #2a9f73);
+    outline-offset: 2px;
+  }
+
+  .banner-footer {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-3, #666);
+  }
+
+  .banner-footer a,
+  .banner-link {
+    color: inherit;
+    text-decoration: underline;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  @media (max-width: 540px) {
+    .banner-buttons {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cookie-banner {
+      animation: cookie-banner-in 220ms ease-out;
+    }
+    @keyframes cookie-banner-in {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+  }
+</style>

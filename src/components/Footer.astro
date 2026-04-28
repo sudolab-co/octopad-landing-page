@@ -1,29 +1,23 @@
 ---
-const columns = [
-  {
-    heading: 'Product',
-    links: [
-      { label: 'Features', href: '/' },
-      { label: 'Pricing', href: '/pricing' },
-      { label: 'Quick Start', href: '/getting-started' },
-    ],
-  },
-  {
-    heading: 'Company',
-    links: [
-      { label: 'About', href: '/about' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Contact', href: 'mailto:support@octopad.ai' },
-    ],
-  },
-  {
-    heading: 'Legal',
-    links: [
-      { label: 'Privacy', href: '/privacy' },
-      { label: 'Terms', href: '/terms' },
-      { label: 'DPA', href: '/dpa' },
-    ],
-  },
+// Cookie preferences and (geo-conditional) Your Privacy Choices links
+// are rendered as <button> elements that the consent module wires up
+// client-side. A plain <a href> would scroll-jump.
+const productLinks = [
+  { label: 'Features', href: '/' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Quick Start', href: '/getting-started' },
+];
+
+const companyLinks = [
+  { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: 'mailto:support@octopad.ai' },
+];
+
+const legalLinks = [
+  { label: 'Privacy', href: '/privacy' },
+  { label: 'Terms', href: '/terms' },
+  { label: 'DPA', href: '/dpa' },
 ];
 ---
 
@@ -39,16 +33,40 @@ const columns = [
           Your AI's back-office. The same context across every AI your team uses.
         </p>
       </div>
-      {columns.map((col) => (
-        <div>
-          <h3>{col.heading}</h3>
-          <ul>
-            {col.links.map((link) => (
-              <li><a href={link.href}>{link.label}</a></li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <div>
+        <h3>Product</h3>
+        <ul>
+          {productLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h3>Company</h3>
+        <ul>
+          {companyLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          {legalLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+          <li>
+            <button type="button" class="footer-link-btn" data-consent-open-modal>
+              Cookie preferences
+            </button>
+          </li>
+          <li hidden data-ccpa-link>
+            <button type="button" class="footer-link-btn" data-consent-open-ccpa>
+              Your Privacy Choices
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 Octopad</span>
@@ -58,3 +76,26 @@ const columns = [
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-link-btn {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    text-align: start;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 120ms;
+  }
+  .footer-link-btn:hover {
+    text-decoration-color: currentColor;
+  }
+  .footer-link-btn:focus-visible {
+    outline: 2px solid var(--accent, #2a9f73);
+    outline-offset: 2px;
+  }
+</style>

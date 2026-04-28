@@ -1,0 +1,404 @@
+---
+// Cookie preferences modal for octopad.ai.
+//
+// Native <dialog> element. Closed by default; the consent module opens it
+// via dialog.showModal() in response to user action (banner Customize,
+// footer Cookie preferences, "Your Privacy Choices" link).
+//
+// One modal serves both the GDPR/EEA flow and the CCPA/GPC flow.
+// data-consent-mode attribute switches the intro text:
+//   - "default" → standard intro
+//   - "ccpa"    → California-specific intro
+//
+// Cookie list rows are server-rendered from src/lib/consent/config.ts so
+// the table is correct on first paint without JS hydration. The toggles
+// hydrate via the consent module on mount.
+//
+// Pairs with: docs/superpowers/specs/2026-04-28-cookie-banner-design.md (§3.4, §3.5, §3.10)
+
+import { COOKIE_LIST, COPY } from "../lib/consent/config";
+
+const cookieRows = COOKIE_LIST;
+const m = COPY.modal;
+---
+
+<dialog
+  id="octopad-consent-modal"
+  class="consent-modal"
+  aria-labelledby="consent-modal-title"
+  data-consent-mode="default"
+>
+  <form method="dialog" class="modal-form">
+    <header class="modal-header">
+      <h2 id="consent-modal-title" class="modal-title">{m.title}</h2>
+      <button
+        type="button"
+        class="modal-close"
+        aria-label="Close cookie preferences without saving"
+        data-consent-modal-close
+      >
+        ×
+      </button>
+    </header>
+
+    <p class="modal-intro" data-mode="default">{m.intro}</p>
+    <p class="modal-intro" data-mode="ccpa" hidden>{COPY.ccpa.intro}</p>
+
+    <section class="modal-categories">
+      <article class="category-row">
+        <div class="category-head">
+          <h3 class="category-label">{m.categories.necessary.label}</h3>
+          <span class="category-status category-status--on">{m.categories.necessary.alwaysOn}</span>
+        </div>
+        <p class="category-desc">{m.categories.necessary.description}</p>
+      </article>
+
+      <article class="category-row">
+        <div class="category-head">
+          <h3 class="category-label">{m.categories.functional.label}</h3>
+          <label class="category-toggle">
+            <input type="checkbox" data-consent-toggle="functional" />
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span class="visually-hidden">Toggle Functional cookies</span>
+          </label>
+        </div>
+        <p class="category-desc">{m.categories.functional.description}</p>
+      </article>
+
+      <article class="category-row">
+        <div class="category-head">
+          <h3 class="category-label">{m.categories.analytics.label}</h3>
+          <label class="category-toggle">
+            <input type="checkbox" data-consent-toggle="analytics" />
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span class="visually-hidden">Toggle Analytics cookies</span>
+          </label>
+        </div>
+        <p class="category-desc">{m.categories.analytics.description}</p>
+      </article>
+    </section>
+
+    <section class="cookie-list-section">
+      <h3 class="cookie-list-heading">{m.cookieListHeading}</h3>
+      <table class="cookie-table">
+        <thead>
+          <tr>
+            <th>{m.columns.category}</th>
+            <th>{m.columns.name}</th>
+            <th>{m.columns.provider}</th>
+            <th>{m.columns.purpose}</th>
+            <th>{m.columns.duration}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cookieRows.map((row) => (
+            <tr>
+              <td>{m.categories[row.category].label}</td>
+              <td><code>{row.name}</code></td>
+              <td>
+                {row.subprocessorAnchor ? (
+                  <a href={row.subprocessorAnchor}>{row.provider}</a>
+                ) : (
+                  row.provider
+                )}
+                {row.notActive && (
+                  <span class="not-active-badge">{m.notActiveLabel}</span>
+                )}
+              </td>
+              <td>{row.purpose}</td>
+              <td>{row.duration}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
+
+    <footer class="modal-buttons">
+      <button type="button" class="banner-btn" data-consent-action="reject_all">
+        {m.rejectAll}
+      </button>
+      <button type="button" class="banner-btn" data-consent-action="save_preferences">
+        {m.savePreferences}
+      </button>
+      <button type="button" class="banner-btn" data-consent-action="accept_all">
+        {m.acceptAll}
+      </button>
+    </footer>
+  </form>
+
+  <p
+    id="octopad-consent-toast"
+    class="consent-toast"
+    role="status"
+    aria-live="polite"
+    hidden
+  >
+    {m.confirmation}
+  </p>
+</dialog>
+
+<style>
+  .consent-modal {
+    border: 0;
+    padding: 0;
+    background: var(--paper, #fdfcf8);
+    color: var(--ink, #1a1a1a);
+    border-radius: 12px;
+    inline-size: min(640px, 92vw);
+    max-block-size: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  }
+
+  .consent-modal::backdrop {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+  }
+
+  .modal-form {
+    display: grid;
+    gap: 16px;
+    padding: clamp(20px, 3vw, 28px);
+    overflow-y: auto;
+    max-block-size: 90vh;
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .modal-title {
+    margin: 0;
+    font-size: clamp(20px, 2vw, 24px);
+    font-weight: 600;
+  }
+
+  .modal-close {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: var(--ink-2, #444);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+
+  .modal-intro {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-2, #444);
+  }
+
+  .modal-categories {
+    display: grid;
+    gap: 14px;
+    border-block-start: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+    padding-block-start: 14px;
+  }
+
+  .category-row {
+    display: grid;
+    gap: 6px;
+  }
+
+  .category-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .category-label {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .category-status {
+    font-size: 12px;
+    color: var(--ink-3, #666);
+  }
+
+  .category-status--on {
+    color: var(--accent, #2a9f73);
+    font-weight: 500;
+  }
+
+  .category-desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-2, #444);
+  }
+
+  /* Toggle */
+  .category-toggle {
+    position: relative;
+    inline-size: 36px;
+    block-size: 20px;
+    cursor: pointer;
+  }
+
+  .category-toggle input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .toggle-track {
+    display: block;
+    inline-size: 36px;
+    block-size: 20px;
+    border-radius: 999px;
+    background: var(--ink-3, #999);
+    transition: background 160ms;
+    position: relative;
+  }
+
+  .toggle-track::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 2px;
+    inset-inline-start: 2px;
+    inline-size: 16px;
+    block-size: 16px;
+    border-radius: 50%;
+    background: white;
+    transition: transform 160ms;
+  }
+
+  .category-toggle input:checked ~ .toggle-track {
+    background: var(--accent, #2a9f73);
+  }
+
+  .category-toggle input:checked ~ .toggle-track::before {
+    transform: translateX(16px);
+  }
+
+  .category-toggle input:focus-visible ~ .toggle-track {
+    outline: 2px solid var(--accent, #2a9f73);
+    outline-offset: 2px;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /* Cookie table */
+  .cookie-list-section {
+    border-block-start: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+    padding-block-start: 14px;
+  }
+
+  .cookie-list-heading {
+    margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .cookie-table {
+    inline-size: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  .cookie-table th,
+  .cookie-table td {
+    text-align: start;
+    padding: 8px 8px 8px 0;
+    border-block-end: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+    vertical-align: top;
+  }
+
+  .cookie-table th {
+    font-weight: 500;
+    color: var(--ink-3, #666);
+  }
+
+  .cookie-table code {
+    font-family: var(--font-mono, monospace);
+    font-size: 11px;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  .not-active-badge {
+    display: inline-block;
+    margin-inline-start: 6px;
+    font-size: 10px;
+    color: var(--ink-3, #666);
+    border: 1px solid var(--border, rgba(0, 0, 0, 0.18));
+    padding: 1px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* Buttons — same .banner-btn class as banner for CNIL parity */
+  .modal-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    border-block-start: 1px solid var(--border, rgba(0, 0, 0, 0.12));
+    padding-block-start: 14px;
+  }
+
+  .modal-buttons .banner-btn {
+    appearance: none;
+    border: 1px solid var(--ink, #1a1a1a);
+    background: transparent;
+    color: var(--ink, #1a1a1a);
+    padding: 10px 16px;
+    font: inherit;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    min-block-size: 44px;
+  }
+
+  .modal-buttons .banner-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .modal-buttons .banner-btn:focus-visible {
+    outline: 2px solid var(--accent, #2a9f73);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 540px) {
+    .modal-buttons {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Toast */
+  .consent-toast {
+    position: fixed;
+    inset-block-end: 24px;
+    inset-inline-end: 24px;
+    background: var(--ink, #1a1a1a);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    max-inline-size: 360px;
+    z-index: 10000;
+  }
+
+  .consent-toast[hidden] {
+    display: none;
+  }
+</style>
