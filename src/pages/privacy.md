@@ -6,7 +6,7 @@ description: How Octopad collects, uses, shares, and protects your personal data
 
 # Privacy Policy
 
-**Version 1.4** · **Effective 25 April 2026** · **Last updated 25 April 2026**
+**Version 1.5** · **Effective 28 April 2026** · **Last updated 28 April 2026**
 
 ## At a glance
 
@@ -181,8 +181,6 @@ We rely on the following transfer mechanisms:
 - **From the United Arab Emirates outbound:** transfers from the UAE to other countries comply with **UAE PDPL Articles 22 and 23** on cross-border transfers, relying on adequacy determinations issued by the UAE Data Office where available and on appropriate contractual safeguards equivalent to the SCCs otherwise.
 - **For transfers to all other countries:** the same Standard Contractual Clauses with any necessary supplementary measures.
 
-**Schrems II supplementary measures.** Recognising that US providers may receive law enforcement or surveillance requests under FISA Section 702 and Executive Order 12333, we apply the following supplementary measures to all transfers, regardless of mechanism: encryption in transit using TLS 1.2 or higher, encryption at rest using AES-256, strict access controls including row-level security and least-privilege production access, contractual confidentiality and challenge-the-request obligations on each subprocessor, and data minimisation in the categories of personal data we hand to each subprocessor (described in **Section 6.1**).
-
 You can request a copy of the relevant transfer safeguards by writing to **support@octopad.ai**.
 
 ## 8. How long we keep your personal data
@@ -261,11 +259,11 @@ Under the California Consumer Privacy Act as amended by the California Privacy R
 
 ### 9.4 Additional rights for residents of other US states
 
-Residents of Virginia, Colorado, Connecticut, Utah, Texas, Oregon, Montana, Tennessee, Iowa, Indiana, Delaware, New Jersey, New Hampshire, Minnesota, Maryland, Rhode Island, Kentucky, and any other US state with a comprehensive consumer privacy law have rights similar to those described in **Section 9.3**, including the right to access, delete, correct, and port personal information, and to opt out of targeted advertising and the sale of personal information. We extend the same intake process and verification described above to all US state residents.
+Residents of US states with comprehensive consumer privacy laws have similar rights, and we extend the same intake process described in **Section 9.3** to all US state residents.
 
 ### 9.5 Additional rights under other privacy laws
 
-If you are protected by Brazil's Lei Geral de Proteção de Dados (LGPD), Canada's Personal Information Protection and Electronic Documents Act (PIPEDA) and any provincial equivalent, the UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data, Australia's Privacy Act 1988, New Zealand's Privacy Act 2020, or another comprehensive data protection law, you have rights similar to those described above. Please contact us and we will respond in line with the law that applies to you.
+Residents of any other jurisdiction with a comprehensive data-protection law have similar rights. Contact us and we will respond in line with the law that applies to you.
 
 ## 10. How we secure your personal data
 
@@ -291,7 +289,11 @@ We use cookies and similar technologies for three purposes:
 | Functional | Remember your interface preferences, such as theme and language | Your consent, where consent is required |
 | Analytics | Understand aggregate usage so we can improve the product | Your consent, where consent is required |
 
-We do not use advertising cookies. The cookie consent banner shown to visitors in the European Economic Area, the United Kingdom, Switzerland, and similar jurisdictions lets you accept, reject, or selectively allow non-essential categories. You can change your choice at any time from the **Cookie preferences** link in the website footer.
+We do not use advertising cookies. The cookie consent banner shown to visitors in the European Economic Area, the United Kingdom, Switzerland, Brazil, and similar jurisdictions lets you accept, reject, or selectively allow non-essential categories. You can change your choice at any time from the **Cookie preferences** link in the website footer.
+
+**Consent record (audit log).** Each time you click Accept all, Reject all, or Save preferences in the banner or modal, we write one row to an internal `consent_records` table on Supabase. The row contains a randomly-generated visitor identifier (stored in your browser's local storage), the timestamp, your category choices, the consent string version, the page URL where you took the action, your country code, your truncated user-agent string, and a server-side hash of your IP address derived with a daily-rotated salt. This is required by GDPR Article 7(1) so that we can demonstrate consent if a regulator asks. The log is append-only (no updates, no deletions), accessible only to our service-role key, and auto-purged 6 years after each row is written.
+
+**Global Privacy Control.** If your browser sends the `Sec-GPC: 1` header, Octopad treats it as an automatic opt-out from the Analytics category. The first-load banner does not appear; analytics SDKs do not load; we record a consent row with action `gpc` for the audit trail.
 
 ## 12. Data breach notification
 
