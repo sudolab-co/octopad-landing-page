@@ -53,15 +53,20 @@ import PageHead from '../components/PageHead.astro';
         </p>
 
         <h2 id="setup">2. Set up in minutes</h2>
-        <p>Four moves. Roughly five minutes.</p>
+        <p>Here is what happens, step by step.</p>
         <p>
           <strong>Sign up.</strong> Free, no credit card. Head to
-          <code>octopad.app</code>.
+          <a href="https://www.octopad.app/signup">octopad.app</a>.
         </p>
         <p>
-          <strong>Follow the onboarding.</strong> It walks you through
-          connecting your AI and setting up your workspace. Come back here
-          when it's done.
+          <strong>Connect your AI.</strong> First step of onboarding.
+          Pick the AI you actually use (ChatGPT, Claude, Gemini, Cursor,
+          whichever) and follow the prompts to wire it up. This is what
+          lets your AI read and write your workspace.
+        </p>
+        <p>
+          <strong>Create your workspace.</strong> Second step of
+          onboarding. Name it, pick a few defaults, and you're in.
         </p>
         <p>
           <strong>Open a fresh chat with your AI and say "use octopad."</strong>
@@ -72,18 +77,28 @@ import PageHead from '../components/PageHead.astro';
           AI still tries, but quality drops because it's flying blind.
         </p>
         <p>
-          <strong>Tell your AI about your company, your product, and where
-          you're headed.</strong> Share the basics in that same chat: what
-          you're building, who it's for, where you stand today, what comes
-          next. Your AI turns it into pages (typically a Product Overview
-          and a Company Overview) and sets up a first goal with a work
-          stream under it. For example: the goal "Launch our beta by
-          June 30" with a "Marketing Website" stream underneath.
+          <strong>Tell your AI about your company and your product.</strong>
+          In that same chat, share the basics: what you're building, who
+          it's for, where you stand today, what comes next. Your AI turns
+          it into pages, typically a Product Overview and a Company
+          Overview.
         </p>
         <p>
-          That's enough to have a real workspace. From this point on, any
-          chat that starts with "use octopad" picks up with all of this
-          already loaded.
+          <strong>Add those pages to your workspace context.</strong>
+          Open each page in Octopad and add it to workspace context. From
+          now on, every AI working in this workspace gets that information
+          loaded automatically, every chat. Set it once.
+        </p>
+        <p>
+          <strong>Create your first goal.</strong> Something like "Launch
+          our beta by June 30." Your AI sets up a work stream under it
+          (for example, "Marketing Website") and you have a real workspace
+          to work from. From here on out, you're working.
+        </p>
+        <p>
+          To go deeper, the <strong>Learn</strong> section inside
+          <a href="https://www.octopad.app">octopad.app</a> walks through
+          the rest.
         </p>
 
         <h2 id="context">3. The three systems your AI leans on</h2>
@@ -161,14 +176,16 @@ import PageHead from '../components/PageHead.astro';
 
         <h2 id="next">5. What to do next</h2>
         <p>
-          Sign up at <code>octopad.app</code>, say "use octopad" in your
-          next chat, and give your AI the basics about your company and a
-          first goal. That's the entire opening move.
+          Sign up at <a href="https://www.octopad.app/signup">octopad.app</a>,
+          say "use octopad" in your next chat, and give your AI the basics
+          about your company and a first goal. That's the entire opening
+          move.
         </p>
         <p>
-          <code>octopad.ai</code> is the marketing site. <code>octopad.app</code>
-          is where the product lives, and where the full in-product guide
-          will walk you through everything else once you're in.
+          <a href="https://octopad.ai">octopad.ai</a> is the marketing
+          site. <a href="https://www.octopad.app">octopad.app</a> is where
+          the product lives, and where the Learn section walks you through
+          everything else once you're in.
         </p>
         <p class="cta-row">
           <a href="https://www.octopad.app/signup" class="btn btn-primary btn-lg">Start free</a>
@@ -185,6 +202,16 @@ import PageHead from '../components/PageHead.astro';
     gap: 12px;
     flex-wrap: wrap;
     margin-top: 28px;
+  }
+  .docs article a:not(.btn) {
+    color: var(--green);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color .15s;
+  }
+  .docs article a:not(.btn):hover {
+    color: var(--ink);
   }
 </style>
 
