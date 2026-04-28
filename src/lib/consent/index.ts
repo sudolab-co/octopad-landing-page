@@ -4,8 +4,8 @@
 // imports into a single _astro asset shared across pages.
 //
 // Responsibilities:
-//   1. Read the geo from the meta tag emitted by BaseLayout (set by
-//      middleware.ts via __geo search param).
+//   1. Fetch the visitor country from /api/geo (served by middleware.ts).
+//      The site is static-rendered, so this cannot be done server-side.
 //   2. Decide whether to show the first-load banner.
 //   3. Wire DOM event handlers on banner + modal.
 //   4. Install window.octopadConsent global.
@@ -50,10 +50,27 @@ function getRefs(): DomRefs {
   };
 }
 
-function readGeoFromMeta(): string | undefined {
-  const meta = document.querySelector<HTMLMetaElement>('meta[name="x-octopad-geo"]');
-  return meta?.content || undefined;
+// Kicked off at module evaluation so the request is in flight while the
+// DOM parses; bootstrap() awaits this before deciding banner state. Fail
+// modes (network error, non-2xx, malformed JSON, missing field) all
+// resolve to undefined → isEEA() returns true → fail-open per Q8.
+async function fetchGeo(): Promise<string | undefined> {
+  try {
+    const res = await fetch("/api/geo", {
+      method: "GET",
+      cache: "no-store",
+      credentials: "omit",
+    });
+    if (!res.ok) return undefined;
+    const data = (await res.json()) as { country?: unknown };
+    return typeof data.country === "string" && data.country ? data.country : undefined;
+  } catch {
+    return undefined;
+  }
 }
+
+const geoPromise: Promise<string | undefined> =
+  typeof fetch === "function" ? fetchGeo() : Promise.resolve(undefined);
 
 function isGpcOptOut(): boolean {
   const nav = navigator as Navigator & { globalPrivacyControl?: boolean };
@@ -222,34 +239,38 @@ export function initConsent(): void {
     return;
   }
 
-  // Toggle CCPA link visibility based on geo + GPC.
-  const country = readGeoFromMeta();
-  const ccpaApplies = isCCPA(country) || isGpcOptOut();
-  for (const el of document.querySelectorAll<HTMLElement>("[data-ccpa-link]")) {
-    el.hidden = !ccpaApplies;
-  }
-
   installOctopadConsentGlobal();
 
   if (typeof document === "undefined") return;
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => bootstrap(country));
+    document.addEventListener("DOMContentLoaded", () => void bootstrap());
   } else {
-    bootstrap(country);
+    void bootstrap();
   }
 }
 
-function bootstrap(country: string | undefined): void {
+async function bootstrap(): Promise<void> {
   const refs = getRefs();
   attachActionHandlers(refs);
 
-  // GPC fast-path: write a reject_all record without showing the banner.
+  // GPC fast-path: skip the geo fetch entirely. GPC is a hard opt-out
+  // signal that overrides geo regardless of jurisdiction.
   if (isGpcOptOut() && !readConsent()) {
     void commitConsent(refs, {
       action: "gpc",
       categories: { necessary: true, functional: false, analytics: false },
     });
     return;
+  }
+
+  const country = await geoPromise;
+
+  // Toggle CCPA link visibility based on geo + GPC. Done after the geo
+  // resolves; the link is hidden in markup by default so non-US visitors
+  // never see a flash.
+  const ccpaApplies = isCCPA(country) || isGpcOptOut();
+  for (const el of document.querySelectorAll<HTMLElement>("[data-ccpa-link]")) {
+    el.hidden = !ccpaApplies;
   }
 
   const state = readConsent();

@@ -23,12 +23,6 @@ const {
   noindex = false,
 } = Astro.props;
 
-// Geo from middleware. Set as a search param on the rewritten URL by
-// /middleware.ts; consent module reads it from this meta tag client-side.
-// Falls back to "XX" (treated as fail-open / EEA per spec Q8) when the
-// middleware isn't running, e.g. local dev without `vercel dev`.
-const geoCountry = Astro.url.searchParams.get('__geo') ?? 'XX';
-
 const siteUrl = 'https://octopad.ai';
 const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const socialImage = new URL(ogImage ?? '/og-image.png', siteUrl).toString();
@@ -96,8 +90,6 @@ const websiteSchema = {
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
-
-    <meta name="x-octopad-geo" content={geoCountry} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

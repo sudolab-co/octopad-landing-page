@@ -84,31 +84,32 @@ Both surfaces sit behind Cloudflare. Cloudflare sets the `CF-IPCountry` header o
 
 #### octopad.ai (Astro static on Vercel)
 
+**Errata (2026-04-28):** the original design below — middleware rewrites the URL with a `__geo` search param, BaseLayout.astro reads it and emits a `<meta name="x-octopad-geo">` tag — does not work with `output: 'static'`. Astro evaluates `Astro.url.searchParams.get('__geo')` at build time, not request time, so the meta tag is permanently baked as `XX` for every visitor and the banner shows worldwide. Replaced with a JSON endpoint at `/api/geo` served by the middleware; the consent module fetches it on load. Trade-off: a one-roundtrip async delay before the banner appears for EEA visitors, in exchange for keeping the static site CDN-cacheable. The banner is hidden in markup by default, so the delay is "appears slightly later" not a visible flash.
+
 **Web-standard Vercel Edge Middleware** (NOT Next.js style) at the project root, peer of `astro.config.mjs`:
 
 ```ts
 // middleware.ts (project root)
-import { rewrite } from "@vercel/edge";
+export const config = { matcher: ["/api/geo"] };
 
-export const config = { matcher: ["/((?!_next|_astro|favicon|.*\\.).*)"] };
-
-export default function middleware(request: Request): Response | undefined {
-  const country = request.headers.get("CF-IPCountry") ?? "XX";
-  const url = new URL(request.url);
-  // Rewrite to inject the country into a search param the static page reads via meta tag
-  url.searchParams.set("__geo", country);
-  return rewrite(url, {
+export default function middleware(request: Request): Response {
+  const country =
+    request.headers.get("x-vercel-ip-country") ||
+    request.headers.get("cf-ipcountry") ||
+    "XX";
+  return new Response(JSON.stringify({ country }), {
+    status: 200,
     headers: {
-      "x-octopad-geo": country,
+      "Content-Type": "application/json; charset=utf-8",
       "Cache-Control": "private, no-store",
     },
   });
 }
 ```
 
-The `BaseLayout.astro` reads `Astro.url.searchParams.get("__geo")` (or falls back to the `x-octopad-geo` header for static-route renders) and emits a `<meta name="x-octopad-geo" content="FR">` tag in the HTML head. The banner JS reads `document.querySelector('meta[name="x-octopad-geo"]')?.content` synchronously — no cookie race, no flash on first load.
+The consent module kicks off `fetch('/api/geo')` at module evaluation (in flight while the DOM parses) and `bootstrap()` awaits the result before deciding banner state. Failures (network error, non-2xx, malformed JSON) resolve to `undefined` → fail-open EEA per Q8.
 
-`Cache-Control: private, no-store` on dynamic-rewrite responses prevents Cloudflare from caching geo-specific HTML across visitors.
+`Cache-Control: private, no-store` on the `/api/geo` response prevents the edge from caching one visitor's country for the next.
 
 #### octopad.app (Next.js)
 

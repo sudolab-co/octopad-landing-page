@@ -4,31 +4,28 @@
 // This is critical: a Next.js-style middleware will not deploy on a
 // non-Next.js Vercel project.
 //
-// Reads the visitor country from Vercel's x-vercel-ip-country header
-// (with cf-ipcountry as a fallback for any future Cloudflare-fronted
-// deploy) and rewrites the URL with a __geo search param so the static
-// page can read it via Astro.url and emit a <meta name="x-octopad-geo">
-// tag in the HTML head. The banner JS reads that meta tag synchronously
-// on mount — no cookie race, no flash.
+// Serves a single JSON endpoint at /api/geo that returns the visitor
+// country derived from Vercel's edge headers. The consent module fetches
+// this on load to decide whether to show the banner.
 //
-// Cache-Control: private, no-store on the rewritten response prevents
-// Cloudflare from caching geo-fragmented HTML across visitors.
+// Why not stamp the country into the static HTML via x-middleware-rewrite?
+// Astro is configured with output: 'static', so every page is pre-rendered
+// at build time. Astro.url.searchParams.get('__geo') resolves at build —
+// not at request — and bakes 'XX' into the HTML for every visitor. The
+// rewrite chain looks plausible but is silently a no-op in production.
 //
 // Pairs with: docs/superpowers/specs/2026-04-28-cookie-banner-design.md (§3.2, §6.1)
 
-// Zero-deps. Uses Vercel's documented x-middleware-rewrite header for
-// non-Next.js projects instead of the @vercel/edge package, so we don't
-// add a runtime dependency for a 30-line middleware.
+// Zero-deps. Uses Vercel's documented edge middleware signature without
+// the @vercel/edge package.
 
 export const config = {
-  // Match all routes except static assets and API routes. Astro's _astro/
-  // bundle directory and standard static-file extensions are excluded so
-  // we don't add edge latency to image / font / JS asset requests.
-  matcher: ["/((?!_astro|_vercel|favicon|assets|scripts|.*\\.[a-zA-Z0-9]+$).*)"],
+  // Only intercept /api/geo. Everything else flows through to Vercel's
+  // static asset handler with normal CDN caching.
+  matcher: ["/api/geo"],
 };
 
 export default function middleware(request: Request): Response {
-  const url = new URL(request.url);
   // Vercel's edge sets x-vercel-ip-country on every request (ISO 3166-1
   // alpha-2). It is missing or empty when geolocation fails, so we use ||
   // not ?? to fall back to "XX" for both cases. cf-ipcountry is kept as a
@@ -39,18 +36,12 @@ export default function middleware(request: Request): Response {
     request.headers.get("cf-ipcountry") ||
     "XX";
 
-  // Stamp the country on the rewritten URL. The Astro page reads
-  // Astro.url.searchParams.get("__geo") server-side and renders it into a
-  // meta tag.
-  url.searchParams.set("__geo", country);
-
-  return new Response(null, {
+  return new Response(JSON.stringify({ country }), {
     status: 200,
     headers: {
-      "x-middleware-rewrite": url.toString(),
-      "x-octopad-geo": country,
-      // Geo-fragmented response must not be cached at the CF edge or
-      // every visitor would inherit the first one's country.
+      "Content-Type": "application/json; charset=utf-8",
+      // Geo-fragmented response must not be cached at the edge or every
+      // visitor would inherit the first one's country.
       "Cache-Control": "private, no-store",
     },
   });
