@@ -16,14 +16,6 @@ import PageHead from '../components/PageHead.astro';
 
   <section class="wrap">
     <div class="docs">
-      <nav class="toc" aria-label="On this page">
-        <a href="#overview" class="active">1. What Octopad is in 60 seconds</a>
-        <a href="#setup">2. Set up in minutes</a>
-        <a href="#context">3. The three systems your AI leans on</a>
-        <a href="#work">4. How work is organized</a>
-        <a href="#next">5. What to do next</a>
-      </nav>
-
       <article>
         <blockquote>
           <strong>Shortcut worth knowing:</strong> once your AI is connected,
@@ -62,8 +54,53 @@ import PageHead from '../components/PageHead.astro';
           <strong>Connect your AI.</strong> First step of onboarding.
           Pick the AI you actually use (ChatGPT, Claude, Gemini, Cursor,
           whichever) and follow the prompts to wire it up. This is what
-          lets your AI read and write your workspace.
+          lets your AI read and write your workspace. Quick reference
+          for the two most common:
         </p>
+
+        <details class="connector">
+          <summary>
+            <span>Claude Desktop / claude.ai</span>
+            <span class="connector-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5L7 9.5L11 5.5"/></svg>
+            </span>
+          </summary>
+          <div class="connector-body">
+            <p>
+              Works the same way in the Claude desktop app and at
+              <a href="https://claude.ai">claude.ai</a>. Follow these
+              steps:
+            </p>
+            <ol>
+              <li>Click the menu in the bottom-left of the interface, then <strong>Settings</strong>.</li>
+              <li>Go to <strong>Connectors</strong>.</li>
+              <li>Scroll to the bottom and click <strong>Custom connectors</strong>.</li>
+              <li>Give it a name (Octopad) and paste the URL <code>https://mcp.octopad.app/mcp</code></li>
+              <li>Octopad will appear in your list of connectors. Click <strong>Connect</strong> and sign in with the same account you used to create your Octopad account (Google SSO, or your email and password).</li>
+            </ol>
+          </div>
+        </details>
+
+        <details class="connector">
+          <summary>
+            <span>ChatGPT</span>
+            <span class="connector-icon" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.5L7 9.5L11 5.5"/></svg>
+            </span>
+          </summary>
+          <div class="connector-body">
+            <p>
+              Custom MCP connectors require Developer mode to be enabled.
+              In ChatGPT:
+            </p>
+            <ol>
+              <li>Open <strong>Settings → Connectors</strong> (or <strong>Apps &amp; connectors</strong>).</li>
+              <li>Enable <strong>Developer mode</strong> if it isn't on yet.</li>
+              <li>Click <strong>Add</strong> and paste the URL <code>https://mcp.octopad.app/mcp</code></li>
+              <li>Click <strong>Connect</strong> on the new Octopad connector to authorize, or just use Octopad in a chat and ChatGPT will prompt you.</li>
+            </ol>
+          </div>
+        </details>
         <p>
           <strong>Create your workspace.</strong> Second step of
           onboarding. Name it, pick a few defaults, and you're in.
@@ -213,26 +250,51 @@ import PageHead from '../components/PageHead.astro';
   .docs article a:not(.btn):hover {
     color: var(--ink);
   }
-</style>
 
-<script>
-  const links = document.querySelectorAll<HTMLAnchorElement>('.docs nav.toc a');
-  const heads = Array.from(links).map((a) => {
-    const href = a.getAttribute('href');
-    return href ? document.querySelector(href) : null;
-  });
-  const setActive = (i: number) =>
-    links.forEach((l, k) => l.classList.toggle('active', k === i));
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          const i = heads.indexOf(e.target);
-          if (i >= 0) setActive(i);
-        }
-      }
-    },
-    { rootMargin: '-88px 0px -70% 0px', threshold: 0 },
-  );
-  heads.forEach((h) => h && io.observe(h));
-</script>
+  .docs article .connector {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    margin: 12px 0;
+    overflow: hidden;
+    max-width: 62ch;
+  }
+  .docs article .connector + .connector { margin-top: 8px; }
+  .docs article .connector > summary {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+    font-size: 15px; font-weight: 500; color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+    transition: color .15s;
+  }
+  .docs article .connector > summary::-webkit-details-marker { display: none; }
+  .docs article .connector > summary:hover { color: var(--green); }
+  .docs article .connector .connector-icon {
+    color: var(--ink-mute);
+    transition: transform .2s ease, color .15s;
+    display: inline-flex; flex-shrink: 0;
+  }
+  .docs article .connector[open] > summary { color: var(--green); }
+  .docs article .connector[open] .connector-icon {
+    transform: rotate(180deg); color: var(--green);
+  }
+  .docs article .connector-body {
+    padding: 4px 18px 18px;
+    border-top: 1px solid var(--line);
+  }
+  .docs article .connector-body p {
+    margin: 12px 0 0;
+    font-size: 15px;
+    max-width: none;
+  }
+  .docs article .connector-body ol {
+    margin: 8px 0 0;
+    padding-left: 22px;
+    font-size: 15px;
+  }
+  .docs article .connector-body ol li { margin: 6px 0; }
+  .docs article .connector-body code {
+    word-break: break-all;
+  }
+</style>
