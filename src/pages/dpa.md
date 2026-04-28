@@ -6,7 +6,7 @@ description: Octopad's commitments as your data processor when your workspace co
 
 # Data Processing Addendum
 
-**Version 1.3** · **Effective 25 April 2026** · **Last updated 25 April 2026**
+**Version 1.4** · **Effective 28 April 2026** · **Last updated 28 April 2026**
 
 This Data Processing Addendum (the "**DPA**") forms part of the Terms of Service or other written agreement between **Beemo Consulting FZCO**, a free zone company established under the laws of the United Arab Emirates (License No. 10996), with its registered office at Unit 101, IFZA Dubai Building A2, Dubai Silicon Oasis, Dubai, UAE ("**Octopad**"), and the customer identified in that agreement (the "**Customer**") (the "**Agreement**"), and governs the processing of Personal Data carried out by Octopad on Customer's behalf in connection with the Service.
 
@@ -242,7 +242,7 @@ Octopad implements and maintains the following technical and organizational secu
 **Personnel**
 
 - All personnel are bound by written confidentiality obligations.
-- Personnel receive periodic security awareness training, including on data protection.
+- Personnel with production access have reviewed Octopad's written security policy.
 
 **Sub-processor management**
 
