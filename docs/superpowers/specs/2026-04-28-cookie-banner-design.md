@@ -1,18 +1,19 @@
 # Cookie banner frontend design (octopad.ai + octopad.app)
 
-**Date:** 2026-04-28
+**Date:** 2026-04-28 (revised post-adversarial-review same day)
 **Author:** Claude Opus 4.7 acting as Octopad chief legal counsel
-**Source-of-truth copy:** Octopad page #Cookie banner copy v1.2 (revision of v1.1 with placement note correction)
+**Source-of-truth copy:** Octopad page #Cookie banner copy v1.3 (revision of v1.2 with retention policy, CCPA acknowledgment, Mixpanel/PostHog "not yet active" framing)
 **Implements task:** "Build cookie banner frontend (octopad.ai + octopad.app)" in stream Launch Legal & Compliance
 **Implementer brief (execution model):** Sonnet 4.6 high
+**Adversarial review log:** five parallel agents 2026-04-28 (Astro/Vercel, Next.js/React 19, Privacy/GDPR/ePrivacy, Supabase/security, DevOps/shipping). 14 critical findings integrated below; review notes archived in this session's transcript.
 
 ---
 
 ## 1. Plain-English summary
 
-Octopad has two web surfaces. The marketing site (`octopad.ai`, Astro static on Vercel) and the product app (`octopad.app`, Next.js on Railway). Both are Cloudflare-proxied. The legal pack is published, but visitors from EEA, UK, and Switzerland still need a cookie consent banner before any non-essential cookie or analytics script is allowed to fire. This design describes how we ship that banner and the supporting plumbing on both surfaces in one motion, ready for Mixpanel and PostHog to land behind the gate later.
+Octopad has two web surfaces. The marketing site (`octopad.ai`, Astro static on Vercel) and the product app (`octopad.app`, Next.js on Railway). Both are Cloudflare-proxied. The legal pack is published, but visitors from EEA, UK, Switzerland, and Brazil still need a cookie consent banner before any non-essential cookie or analytics script is allowed to fire. California visitors (and anyone sending Global Privacy Control) need a "Your Privacy Choices" path. This design describes how we ship that banner and the supporting plumbing on both surfaces in one motion, ready for Mixpanel and PostHog to land behind the gate later.
 
-The user-facing copy is locked in #Cookie banner copy v1.2 and is not re-litigated here. This document describes the engineering shape only.
+The user-facing copy is locked in #Cookie banner copy v1.3 and is not re-litigated here. This document describes the engineering shape only.
 
 ---
 
@@ -22,10 +23,13 @@ The user-facing copy is locked in #Cookie banner copy v1.2 and is not re-litigat
 |---|---|---|---|
 | Q1 | Banner posture | **Full banner on both surfaces, treat analytics as live for the gating** | "Ship and don't come back to this." Forward-compatible. When Mixpanel/PostHog land later they slot into an existing gate. |
 | Q2 | Cookie preferences placement on octopad.app | **Banner + Settings page entry + small link on auth pages. No global footer on the dashboard.** | Peer-checked against Notion, Linear, Asana. Legal standard is "as easy to withdraw as to give," not "footer link literally." Avoids 32 pixels of chrome on every workspace screen. |
-| Q3 | Consent record persistence | **Cookie + localStorage AND server-side Supabase table** | Article 7(1) demonstrability. A cookie alone is on the user's device; if they clear it, the controller cannot demonstrate consent. A small append-only Supabase table closes that gap. |
-| Q4 | Sharing strategy between repos | **Parallel `consent-config` files in each repo, byte-identical for shared copy + a build-time string-match test** | The two repos use different stacks (Astro vanilla CSS vs Next.js + Tailwind v4 + React 19). A shared npm package is overkill for two surfaces with a 1-week launch runway. Manual sync + automated drift detection is enough. |
-| Q5 | Mixpanel / PostHog SDK install | **Out of scope. Banner ships first; SDK install is a separate task per stream sequencing.** | Engineering note in v1.2: "Banner ships before any non-essential script is wired in." |
-| Q6 | Stripe rows in cookie list | **Defer until the Stripe Integration stream wires Stripe.js into `/pricing`** | Stripe is not currently loaded on either surface. Adding placeholder rows now would be inaccurate. Stripe Integration stream owns the row addition. |
+| Q3 | Consent record persistence | **Cookie + localStorage AND server-side Supabase table behind an Edge Function with HMAC integrity** | Article 7(1) demonstrability. A cookie alone is on the user's device; if they clear it, the controller cannot demonstrate consent. The Edge Function adds server-set integrity (IP-derived hash with daily salt) so the audit log is forensically defensible. |
+| Q4 | Sharing strategy between repos | **Parallel `consent-config` files in each repo + a local snapshot test in each repo's build** | The two repos use different stacks. No cross-repo CI exists today; each repo's build runs the snapshot test independently, drift surfaces at next deploy on either side. |
+| Q5 | Mixpanel / PostHog SDK install | **Out of scope. Banner ships first; SDK install is a separate task per stream sequencing.** | Engineering note: banner ships before any non-essential script is wired in. SDK loader contract is specified in §3.9 below. |
+| Q6 | Stripe rows in cookie list | **Defer until the Stripe Integration stream wires Stripe.js into `/pricing`** | Stripe is not currently loaded on either surface. |
+| Q7 (post-review) | CCPA/CPRA coverage | **Minimum-viable: "Your Privacy Choices" footer link + GPC handler on both surfaces. Same modal, US-specific copy.** | California exposure is real ($7,500/violation). Notion and Linear ship this pattern. Full CCPA Sale/Share categorization deferred until adtech enters the stack. |
+| Q8 (post-review) | Geo-detection failure mode | **Fail-open: missing/unknown `CF-IPCountry` shows the banner** | Article 5(3) is strict-liability; missing the banner on a real EEA visitor is the violation. Showing the banner to a non-EEA visitor is consent fatigue, not illegal. |
+| Q9 (post-review) | Kill switch | **`NEXT_PUBLIC_CONSENT_BANNER_ENABLED` env flag, default true** | Both repos auto-deploy on push. If the banner breaks something, env-flag flip is faster than `git revert` + redeploy. |
 
 ---
 
@@ -33,121 +37,169 @@ The user-facing copy is locked in #Cookie banner copy v1.2 and is not re-litigat
 
 ### 3.1 Two surfaces, two implementations, one config contract
 
-There is no shared package and no shared build pipeline. Each surface gets its own implementation in its native stack. The contract that keeps them in sync is a TypeScript module called `consent-config.ts` that lives identically in both repos (in the shared-copy portions) and ships the per-surface cookie list.
-
-The contract:
+There is no shared package and no shared build pipeline. Each surface gets its own implementation in its native stack. The contract that keeps them in sync is a TypeScript module called `consent-config.ts` that lives in both repos with byte-identical `COPY` constants and a build-time snapshot test.
 
 ```ts
 // consent-config.ts (parallel files in both repos)
 export const CONSENT_VERSION = 1;
 
 export const COPY = {
-  banner: {
-    title: "Cookies on Octopad",
-    body: "We use cookies to make Octopad work, ...", // verbatim from v1.2
-    rejectAll: "Reject all",
-    customize: "Customize",
-    acceptAll: "Accept all",
-    footerLine: "See our [Privacy Policy](/privacy) and [Cookie preferences](#cookie-preferences) for details.",
-  },
-  modal: {
-    title: "Your cookie preferences",
-    intro: "Choose which cookies Octopad sets. ...",
-    categories: {
-      necessary: { label: "Strictly necessary", description: "..." },
-      functional: { label: "Functional", description: "..." },
-      analytics: { label: "Analytics", description: "..." },
-    },
-    rejectAll: "Reject all",
-    savePreferences: "Save preferences",
-    acceptAll: "Accept all",
-    confirmation: "Saved. Your cookie preferences are stored. ...",
-  },
+  banner: { /* verbatim from v1.3 §1 */ },
+  modal: { /* verbatim from v1.3 §2 */ },
+  ccpa: { /* verbatim from v1.3 §5 */ },
 } as const;
 
 export const COOKIE_LIST: CookieRow[] = [/* per-surface, see §3.5 */];
+
+// EEA + UK + CH + Brazil. Used to decide whether to show the banner.
+export const CONSENT_COUNTRIES = new Set([
+  // EU 27
+  "AT","BE","BG","CY","CZ","DE","DK","EE","ES","FI","FR","GR","HR","HU","IE",
+  "IT","LT","LU","LV","MT","NL","PL","PT","RO","SE","SI","SK",
+  // EEA non-EU
+  "IS","LI","NO",
+  // UK + Switzerland
+  "GB","CH",
+  // Brazil (LGPD)
+  "BR",
+  // French overseas territories Cloudflare emits separately
+  "GP","MQ","GF","RE","YT","BL","MF","PM","WF","PF","NC","TF",
+  // Åland (Finland), Gibraltar (UK)
+  "AX","GI",
+]);
+
+// California — separate code path for CCPA "Your Privacy Choices"
+export const CCPA_COUNTRIES = new Set(["US"]);
 ```
 
-A unit test in each repo asserts `COPY` matches the verbatim strings from v1.2. A nightly CI job (or the Octopad agent that owns the spec) flags drift.
+Each repo includes `tests/consent-config.snapshot.test.ts` which asserts `COPY` matches a checked-in snapshot of v1.3. When v1.3 → v1.4 happens, the snapshot is regenerated in both repos in lockstep.
 
 **Plain English:** Each repo has its own copy of the banner code, but the user-facing words sit in one TypeScript file in each. A test makes sure the words don't drift between the two surfaces. The cookie list itself differs between surfaces because each surface fires different cookies.
 
 ### 3.2 Geo detection
 
-Both surfaces sit behind Cloudflare. Cloudflare sets the `CF-IPCountry` header on every request to the origin. We rely on this single header on both surfaces. No third-party geo-IP API. No client-side IP lookup.
+Both surfaces sit behind Cloudflare. Cloudflare sets the `CF-IPCountry` header on every request to the origin. We rely on this single header. No third-party geo-IP API. No client-side IP lookup.
 
-**EEA + UK + Switzerland country code allowlist (constant in `consent-config.ts`):**
+**Failure mode (Q8):** missing or unknown country (`XX`, `T1` for Tor, empty) → banner shows. EEA-allowlist test is `country !== undefined && country !== "" && (CONSENT_COUNTRIES.has(country) || country === "XX" || country === "T1")` — the absence of a known country is treated as "could be EEA, show banner."
 
+#### octopad.ai (Astro static on Vercel)
+
+**Web-standard Vercel Edge Middleware** (NOT Next.js style) at the project root, peer of `astro.config.mjs`:
+
+```ts
+// middleware.ts (project root)
+import { rewrite } from "@vercel/edge";
+
+export const config = { matcher: ["/((?!_next|_astro|favicon|.*\\.).*)"] };
+
+export default function middleware(request: Request): Response | undefined {
+  const country = request.headers.get("CF-IPCountry") ?? "XX";
+  const url = new URL(request.url);
+  // Rewrite to inject the country into a search param the static page reads via meta tag
+  url.searchParams.set("__geo", country);
+  return rewrite(url, {
+    headers: {
+      "x-octopad-geo": country,
+      "Cache-Control": "private, no-store",
+    },
+  });
+}
 ```
-AT, BE, BG, CY, CZ, DE, DK, EE, ES, FI, FR, GR, HR, HU, IE, IS, IT,
-LI, LT, LU, LV, MT, NL, NO, PL, PT, RO, SE, SI, SK,  // EEA = EU + Iceland, Liechtenstein, Norway
-GB,                                                    // UK
-CH                                                     // Switzerland
+
+The `BaseLayout.astro` reads `Astro.url.searchParams.get("__geo")` (or falls back to the `x-octopad-geo` header for static-route renders) and emits a `<meta name="x-octopad-geo" content="FR">` tag in the HTML head. The banner JS reads `document.querySelector('meta[name="x-octopad-geo"]')?.content` synchronously — no cookie race, no flash on first load.
+
+`Cache-Control: private, no-store` on dynamic-rewrite responses prevents Cloudflare from caching geo-specific HTML across visitors.
+
+#### octopad.app (Next.js)
+
+Extend the existing `src/middleware.ts`. The existing middleware does Supabase auth refresh + maintenance gate redirects. Geo detection must be additive and survive existing redirects.
+
+```ts
+// Inside updateSession(), immediately after the line:
+//   let supabaseResponse = NextResponse.next({ request });
+const country = request.headers.get("CF-IPCountry") ?? "XX";
+supabaseResponse.headers.set("x-octopad-geo", country);
+// Do NOT set as cookie — the existing redirectWithCookies copies all cookies,
+// but a header is cheaper and avoids cache-fragmentation concerns.
 ```
 
-**octopad.ai (Astro static on Vercel):** add `src/middleware.ts`. Astro 6 supports middleware via the Vercel adapter (currently set to static output; we extend it minimally — see §6 risks for why this is a non-trivial config change). The middleware reads `CF-IPCountry` and writes the geo into a response cookie `geo_hint` (httpOnly false, 24h, not the consent record). The banner JS reads `geo_hint` synchronously on mount; if the country code is in the allowlist AND no `consent_v1` cookie exists, render the banner.
+The root layout (server component) reads the header via `headers()` from `next/headers` and passes the geo string + the EEA-allowlist boolean to the client `CookieBannerMount` component as a prop. No cookie, no race, no client fetch.
 
-**octopad.app (Next.js):** extend the existing `src/middleware.ts`. Read `CF-IPCountry` from request headers. Set the same `geo_hint` cookie on the response. Root layout (server component) reads the cookie via `cookies()` and passes the geo-allowlist boolean as a prop to the client `CookieBannerMount` component.
-
-**Plain English:** Cloudflare tells every request which country the visitor is in. Our middleware (a tiny piece of code that runs on every page load) reads that country, decides if the visitor needs the banner, and tells the banner code "yes" or "no" via a small cookie.
+**Plain English:** Cloudflare tells every request which country the visitor is in. Our middleware reads that country and stamps it onto the page (as a meta tag on octopad.ai, as a response header on octopad.app). The banner JS reads it synchronously when the page renders. No fetch, no flash, no cookie race.
 
 ### 3.3 Consent state model
 
-Three layers:
+Three layers + a Supabase Edge Function as the integrity boundary.
 
 **Layer 1 — Active state on the visitor's browser. First-party cookie `consent_v1`:**
 
 ```json
 {
-  "v": 1,                              // consent string version
-  "uuid": "uuid-v4-from-localStorage", // visitor identifier, generated on first banner action
-  "ts": "2026-04-28T10:34:11Z",        // ISO timestamp of this consent action
-  "categories": {
-    "necessary": true,                 // always true (gloss for the user)
-    "functional": false,
-    "analytics": false
-  }
+  "v": 1,
+  "uuid": "uuid-v4-from-localStorage",
+  "ts": "2026-04-28T10:34:11Z",
+  "categories": { "necessary": true, "functional": false, "analytics": false }
 }
 ```
 
-`consent_v1` is set with `Domain=.octopad.ai` (or `.octopad.app` on the product app), `Secure`, `SameSite=Lax`, `Max-Age=33696000` (13 months in seconds). The two surfaces' cookies are independent (different domains, no shared cookie).
+`Domain=.octopad.ai` (or `.octopad.app`), `Path=/`, `Secure`, `SameSite=Lax`, `Max-Age=33696000` (13 months in seconds).
 
 **Layer 2 — Visitor identifier persistence. localStorage key `octopad_consent_uuid`:**
 
-Generated as a UUID v4 on the visitor's first banner interaction. Survives if the user clears `consent_v1` cookie but not localStorage. Used to correlate consent records across actions.
+UUID v4 generated client-side on the visitor's first banner interaction.
 
-**Layer 3 — Server-side audit log. Supabase append-only `consent_records` table:**
+**Layer 3 — Server-side audit log. Supabase Edge Function `record-consent` writing to `consent_records`:**
+
+The client does NOT use `supabase-js` (too heavy — 30KB gz). The client posts a small JSON payload to `https://<supabase-ref>.supabase.co/functions/v1/record-consent` via raw `fetch`. The Edge Function:
+
+1. Validates origin against `https://octopad.ai`, `https://www.octopad.ai`, `https://octopad.app`.
+2. Reads `CF-IPCountry` and the IP from request headers.
+3. Computes `request_ip_hash = sha256(ip + DAILY_SALT_FROM_VAULT)` — daily salt rotated by a cron, prevents correlating across days while still allowing same-day audit lookup.
+4. Strips query strings and fragments from `page_url` (tokens, emails, oauth state can leak via `?email=`, `?token=`).
+5. Truncates `user_agent` to 256 chars.
+6. Inserts into `consent_records` using the service role.
+
+Schema:
 
 ```sql
 create table public.consent_records (
   id uuid primary key default gen_random_uuid(),
   visitor_uuid uuid not null,
-  surface text not null check (surface in ('octopad.ai', 'octopad.app')),
+  user_id uuid references auth.users(id) on delete set null,  -- nullable, populated post-signup via claim RPC
+  surface text not null check (surface in ('octopad.ai', 'octopad.app', 'staging.octopad.ai', 'staging.octopad.app')),
   consent_version integer not null,
   necessary boolean not null default true,
   functional boolean not null,
   analytics boolean not null,
   action text not null check (action in ('accept_all', 'reject_all', 'save_preferences')),
-  page_url text not null,
-  country_code text,        -- snapshot of CF-IPCountry at time of action
-  user_agent text,
+  page_url text not null check (length(page_url) <= 2048),
+  user_agent text check (length(user_agent) <= 256),
+  country_code text check (length(country_code) <= 4),
+  request_ip_hash text not null,  -- server-set, integrity tag
   created_at timestamptz not null default now()
 );
 
+create index consent_records_visitor_uuid_created_at_idx
+  on public.consent_records (visitor_uuid, created_at desc);
+
 alter table public.consent_records enable row level security;
 
--- Anyone can insert. No one (anon or authenticated) can read.
--- Service role bypasses RLS and is the only path to read for compliance demonstrations.
-create policy "anonymous_insert"
-  on public.consent_records
-  for insert
-  to anon, authenticated
-  with check (true);
+-- No anon insert (Edge Function uses service role).
+-- Service role bypasses RLS for reads.
+revoke update, delete on public.consent_records from anon, authenticated;
+
+comment on table public.consent_records is
+  'GDPR Article 7(1) consent demonstrability log. Append-only. Service-role-read-only. Retention: 6 years per UK Limitation Act 1980; FR Civil Code Art 2224 = 3 years. Purged by cron job consent_records_purge_old.';
 ```
 
-Each click on Accept all / Reject all / Save preferences fires one insert from the client via `supabase-js` using the public anon key. No user authentication required. Bot writes are acceptable cost; a regulator only cares that genuine consent rows exist when a real user disputes.
+Retention purge: a Supabase scheduled function (pg_cron) runs nightly:
 
-**Plain English:** When a visitor clicks Accept / Reject / Save, three things happen. (1) we set a cookie on their browser so we know what they chose for next time. (2) we save a UUID in localStorage so we can identify the same visitor across visits. (3) we write a row to a Supabase table on our backend, which is the legally-required proof we can produce if a regulator asks "prove this user consented on this date."
+```sql
+delete from public.consent_records
+where created_at < now() - interval '6 years';
+```
+
+**Plain English:** When a visitor clicks Accept/Reject/Save, the browser posts a small JSON to our Supabase Edge Function. The Edge Function adds a server-side fingerprint (a daily-rotating hash of the IP) so a regulator can verify the row came from a real visitor, then writes to an append-only table. We keep rows for six years then auto-delete.
 
 ### 3.4 UI placement
 
@@ -155,43 +207,56 @@ Each click on Accept all / Reject all / Save preferences fires one insert from t
 
 | Surface | Where | Visibility |
 |---|---|---|
-| First-load banner | Bottom-fixed banner above the footer | Only when `geo_hint` ∈ allowlist AND no `consent_v1` set |
-| Cookie preferences link | Existing footer Legal column, alongside Privacy / Terms / DPA | Always, all visitors |
-| Preferences modal | Same modal opens from banner or footer link | On click |
+| First-load banner | Bottom-fixed banner above the footer | EEA/UK/CH/BR allowlist + no `consent_v1` set |
+| Cookie preferences link | Footer Legal column, alongside Privacy / Terms / DPA | Always |
+| "Your Privacy Choices" link | Footer Legal column, only for US visitors AND visitors sending GPC | Conditional |
+| Preferences modal | Same modal opens from any link | On click |
 
-Files:
+Files (in `/Users/alexandre/GitHub/octopad-landing-page`):
+- `middleware.ts` (NEW, project root, Web-standard Edge Middleware) CF-IPCountry → meta tag injection
 - `src/components/CookieBanner.astro` (NEW)
 - `src/components/CookiePreferencesModal.astro` (NEW)
-- `src/components/Footer.astro` (EDIT) add Cookie preferences link
-- `src/layouts/BaseLayout.astro` (EDIT) mount banner + modal
-- `src/lib/consent/config.ts` (NEW) the shared config contract
-- `src/lib/consent/state.ts` (NEW) read/write consent_v1, localStorage uuid, server insert
-- `src/middleware.ts` (NEW) CF-IPCountry → geo_hint cookie
+- `src/components/Footer.astro` (EDIT) add Cookie preferences link + conditional Your Privacy Choices link
+- `src/layouts/BaseLayout.astro` (EDIT) emit `<meta name="x-octopad-geo">` + mount banner + mount modal
+- `src/lib/consent/config.ts` (NEW) shared config contract
+- `src/lib/consent/snapshot.ts` (NEW) checked-in COPY snapshot for the build-time test
+- `public/scripts/consent.js` (NEW) vanilla TS/JS banner logic, loaded with `<script is:inline defer src="/scripts/consent.js">` matching the existing `tweaks.js` pattern
+- `tests/consent-config.snapshot.test.ts` (NEW)
+- `tests/consent.spec.ts` (NEW Playwright tests)
+- `.env.example` (EDIT) document `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, `PUBLIC_CONSENT_BANNER_ENABLED`
 
 #### octopad.app (product)
 
 | Surface | Where | Visibility |
 |---|---|---|
-| First-load banner | Bottom-fixed banner above all chrome | Only when `geo_hint` ∈ allowlist AND no `consent_v1` set, on every route |
-| Cookie preferences link in user Settings | New "Privacy & Cookies" subsection in `/settings` | Authenticated users |
-| Cookie preferences link on auth pages | Small bottom-of-card link on `/login`, `/signup`, `/forgot-password`, `/reset-password` | Unauthenticated visitors |
-| Preferences modal | Same modal opens from banner / settings entry / auth-page link | On click |
-| **No global footer on the dashboard** | n/a | Confirmed Q2 decision |
+| First-load banner | Bottom-fixed banner mounted in root layout | EEA/UK/CH/BR allowlist + no `consent_v1` set, on every route |
+| Cookie preferences entry in Settings | New "Privacy & Cookies" section in `account-settings-client.tsx` (the actual UI; the Server `page.tsx` just hydrates) | Authenticated users |
+| Cookie preferences link on auth pages | `(auth)/layout.tsx` shared layout under `/login`, `/signup`, `/forgot-password`, `/reset-password` | Unauthenticated |
+| "Your Privacy Choices" link | Same `(auth)/layout.tsx` shared layout + Settings entry | US visitors + GPC senders |
+| Preferences modal | Same modal opens from any entry point | On click |
+| **No global footer on the dashboard** | n/a | Confirmed Q2 |
 
-Files:
-- `src/middleware.ts` (EDIT) extend with CF-IPCountry → geo_hint cookie
+Files (in `/Users/alexandre/GitHub/octopad/frontend`):
+- `src/middleware.ts` (EDIT) add `CF-IPCountry` → response header line, immediately after `NextResponse.next` and before maintenance gate
 - `src/lib/consent/config.ts` (NEW)
-- `src/lib/consent/state.ts` (NEW)
-- `src/lib/consent/server.ts` (NEW) server-side helpers (read cookie in layout)
+- `src/lib/consent/snapshot.ts` (NEW)
+- `src/lib/consent/state.ts` (NEW) read/write consent_v1, localStorage uuid, post to Edge Function
+- `src/lib/consent/api.ts` (NEW) public consent API surface (§3.8)
 - `src/components/cookie-banner/banner.tsx` (NEW)
 - `src/components/cookie-banner/preferences-modal.tsx` (NEW)
-- `src/components/cookie-banner/category-toggle.tsx` (NEW) toggle primitive (no shadcn/ui in repo)
-- `src/components/cookie-banner/cookie-banner-mount.tsx` (NEW) client component for root layout
-- `src/app/layout.tsx` (EDIT) mount banner
-- `src/app/(app)/settings/page.tsx` (EDIT) add Privacy & Cookies subsection
-- `src/app/login/page.tsx` (EDIT), signup, forgot-password, reset-password (EDIT) add link
+- `src/components/cookie-banner/category-toggle.tsx` (NEW)
+- `src/components/cookie-banner/cookie-banner-mount.tsx` (NEW client component, reads geo prop from server layout)
+- `src/components/cookie-banner/your-privacy-choices-link.tsx` (NEW)
+- `src/app/layout.tsx` (EDIT) mount banner via `next/dynamic({ ssr: false })`, pass geo prop read from `headers()`
+- `src/app/(auth)/layout.tsx` (NEW) shared layout for `/login`, `/signup`, `/forgot-password`, `/reset-password`. Move existing pages under this group (or wrap in this layout if they remain at their current paths — Next.js route groups don't change URLs, just colocate files).
+- `src/app/(app)/settings/account-settings-client.tsx` (EDIT) add "Privacy & Cookies" section entry that opens the modal
+- `tests/consent-config.snapshot.test.ts` (NEW)
+- `tests/consent.spec.ts` (NEW Playwright)
+- `.env.local.example` (EDIT) document `NEXT_PUBLIC_CONSENT_BANNER_ENABLED`
 
-The product app has **no shadcn/ui or Radix primitives installed**. We build the modal/dialog with the native `<dialog>` element + a hand-rolled toggle. No new dependency.
+The product app has **no shadcn/ui or Radix primitives installed**. We build the modal/dialog with the native `<dialog>` element + a hand-rolled toggle. **React 19 hydration note:** render `<dialog>` without `open` attribute on the server; call `dialogRef.current?.showModal()` in `useEffect` to avoid hydration desync. Escape closes the modal but does NOT count as consent (closing without saving is a no-op on consent state).
+
+**Escape hatch:** if axe-core or Lighthouse accessibility tests fail with the native `<dialog>` + hand-rolled toggle, the implementer is allowlisted to add `@radix-ui/react-dialog` and `@radix-ui/react-switch` without further sign-off.
 
 ### 3.5 Cookie list per surface
 
@@ -201,53 +266,104 @@ The product app has **no shadcn/ui or Radix primitives installed**. We build the
 |---|---|---|---|---|
 | Strictly necessary | `__cf_bm` | Cloudflare | Bot-management challenge token | 30 minutes |
 | Strictly necessary | `consent_v1` | Octopad | Records the visitor's cookie consent choice | 13 months |
-| Strictly necessary | `geo_hint` | Octopad | Caches the visitor's country code so the banner does not flash on every page load | 24 hours |
 
-**Hard rule (resolves the v1.2 engineering note for our specific situation):** render the Functional and Analytics categories on octopad.ai with the row text "No cookies in this category on octopad.ai today." Do NOT hide them. This is the explicit consequence of Alex's "ship as if analytics were already live" directive: visitors should see the category exists and what it would contain when the SDKs land. The v1.2 hide-or-render guidance defers to the implementer; this design picks render.
+(`geo_hint` cookie removed in this revision — geo flows via meta tag injection now.)
 
-#### octopad.app (rendered in modal cookie list — names to be audited at build time)
+The Functional and Analytics categories on octopad.ai render with row text **"Not currently active on octopad.ai. Will appear when the relevant SDKs ship."** This addresses the privacy reviewer's transparency concern: visitors are not told consent is being asked for cookies that exist; they are told the categories exist for forward compatibility.
+
+#### octopad.app (rendered in modal cookie list — names audited at build time)
 
 | Category | Cookie name | Provider | Purpose | Duration |
 |---|---|---|---|---|
-| Strictly necessary | `sb-<project-ref>-auth-token` (and chunked `.0`, `.1` if cookie size > 4kb) | Supabase via `@supabase/ssr` | Authenticate session | Session and 7 days |
+| Strictly necessary | `sb-<project-ref>-auth-token` (and chunked `.0`, `.1` if >4kb) | Supabase via `@supabase/ssr` | Authenticate session | Session and 7 days |
 | Strictly necessary | `__cf_bm` | Cloudflare | Bot-management challenge token | 30 minutes |
 | Strictly necessary | `consent_v1` | Octopad | Records consent choice | 13 months |
-| Strictly necessary | `geo_hint` | Octopad | Caches visitor country | 24 hours |
-| Functional | `theme` | Octopad | Remembers light/dark/system theme | 12 months |
-| Functional | `lang` | Octopad | Remembers language preference | 12 months |
-| Analytics | `mp_*_mixpanel` | Mixpanel | Event tracking, funnels, retention | 12 months |
-| Analytics | `ph_*`, `ph_*_window_id` | PostHog | Event tracking, feature flags | 12 months |
+| Analytics | `mp_*_mixpanel` | [Mixpanel](https://example.com/privacy#subprocessors-mixpanel) | Event tracking, funnels, retention. **Not currently active. Will appear when SDK ships.** | 12 months |
+| Analytics | `ph_*`, `ph_*_window_id` | [PostHog](https://example.com/privacy#subprocessors-posthog) | Event tracking, feature flags. **Not currently active. Will appear when SDK ships.** | 12 months |
 
-**Audit at build time:** the implementer must verify the actual `sb-<project-ref>-auth-token` cookie name emitted by `@supabase/ssr` v0.8 against the Supabase project's URL ref (e.g. `sb-abcd1234-auth-token` if the project URL is `abcd1234.supabase.co`). The project ref is in `NEXT_PUBLIC_SUPABASE_URL`. **Do not infer; read the env var and assert at build time.**
+(`theme` and `lang` rows removed: `next-themes` default is localStorage and `lang` is not yet emitted. Per privacy review, listing cookies that aren't set = regulator-bait inaccuracy.)
 
-**`next-themes` storage check:** verify whether `next-themes` is currently configured for cookie storage or localStorage. Default is localStorage. If localStorage, drop the `theme` cookie row from Functional (the row is for cookies, not localStorage) and replace with a one-line note in the modal: "Theme is stored in your browser's local storage, not a cookie." If cookie, keep it. Implementer reports the result in the PR description.
+**Subprocessor links:** the provider column links to the Privacy Policy section that names the processor (GDPR Article 13(1)(e)).
 
-**`lang` cookie:** Octopad is English-only as of 2026-04-28 and `lang` is not yet emitted by the app. The row is listed in the modal per Alex's "ship as if analytics were live" directive (forward-compatible). Render the row with text "Set when language preference UI ships. Not currently emitted." If the implementer prefers, drop the row entirely and reinstate when i18n lands; flag at PR.
+**Audit at build time:** the implementer must verify the actual `sb-<project-ref>-auth-token` cookie name emitted by `@supabase/ssr` v0.8 against the Supabase project's URL ref. The project ref is in `NEXT_PUBLIC_SUPABASE_URL`. **Read the env var; do not infer.**
 
 ### 3.6 Withdrawal flow
 
 When a visitor toggles a category off and clicks Save preferences:
 
 1. Update `consent_v1` cookie with new state.
-2. Insert a new row in `consent_records` (action=`save_preferences`).
-3. **Functional toggled off:** delete first-party cookies in the category (`theme` if cookie-stored). The site falls back to system theme.
-4. **Analytics toggled off:** call `posthog.opt_out_capturing()` and `mixpanel.opt_out_tracking()` if the SDKs are loaded. No-op if not loaded yet (SDKs land in a future task). Delete `mp_*_mixpanel`, `ph_*`, `ph_*_window_id` cookies.
+2. POST to Edge Function `record-consent` with action=`save_preferences`.
+3. **Functional toggled off:** delete first-party cookies in the category. (No-op today — neither surface emits Functional cookies.)
+4. **Analytics toggled off:** call `posthog.opt_out_capturing()` and `mixpanel.opt_out_tracking()` if the SDKs are loaded. No-op if not loaded yet. Delete `mp_*_mixpanel`, `ph_*`, `ph_*_window_id` cookies.
 5. Show confirmation toast.
 
-The withdrawal flow is identical from the banner, the settings entry, and the auth-page link. It's the same modal.
-
-**Plain English:** Turning a category off and clicking Save does three things. (1) we update the cookie that remembers the choice. (2) we delete the cookies in that category from the visitor's browser. (3) we tell Mixpanel and PostHog to stop tracking via their built-in opt-out functions, if those SDKs happen to be loaded.
+The withdrawal flow is identical from banner / settings entry / auth-page link / Your Privacy Choices link.
 
 ### 3.7 Re-prompt logic
 
 On every page load, after geo check passes:
 
-1. If no `consent_v1` cookie exists → show banner.
-2. If `consent_v1.v < CONSENT_VERSION` → show banner (consent string version bumped means a new category was added; re-collect).
-3. If `Date.now() - consent_v1.ts > 13 months` → show banner.
+1. No `consent_v1` → show banner.
+2. `consent_v1.v < CONSENT_VERSION` → show banner (category added; re-collect).
+3. `Date.now() - consent_v1.ts > 13 months` → show banner.
 4. Else → no banner.
 
-Cookie additions within an existing category do NOT bump `CONSENT_VERSION`. Only category additions or removals do. (A new advertising category in the future would bump v=1 to v=2.)
+Cookie additions within an existing category do NOT bump `CONSENT_VERSION`. Only category additions or removals do.
+
+### 3.8 Public consent API contract
+
+Both surfaces expose the same API for SDK loaders to consume.
+
+**Browser global** (window-scoped, set by the banner module on load):
+
+```ts
+window.octopadConsent = {
+  has(category: "necessary" | "functional" | "analytics"): boolean,
+  on(event: "change" | "accept" | "reject", cb: (state: ConsentState) => void): () => void,
+  get(): ConsentState | null,
+  isEnabled(): boolean,  // returns false when CONSENT_BANNER_ENABLED env flag is off
+};
+```
+
+**React hook (octopad.app only):**
+
+```ts
+import { useConsent } from "@/lib/consent/api";
+
+function MyComponent() {
+  const consent = useConsent();
+  if (consent.has("analytics")) {
+    /* load analytics */
+  }
+}
+```
+
+When the Mixpanel/PostHog SDK install task lands, those SDKs are loaded inside an effect that gates on `useConsent().has("analytics") === true` (octopad.app) or `window.octopadConsent.has("analytics") === true` (octopad.ai).
+
+### 3.9 SDK loader contract (for the future Mixpanel/PostHog install task)
+
+When the SDK install task runs:
+
+1. Loader checks `window.octopadConsent.has("analytics")` BEFORE any SDK init or capture call.
+2. If false, the loader registers an `on("change")` listener and waits.
+3. If true, init the SDK normally.
+4. SDK init must call its provider's "respect existing opt-out" handshake on every load (Mixpanel: check `mixpanel.has_opted_out_tracking()` after init; PostHog: pass `opt_out_capturing_by_default: true` in init config and call `opt_in_capturing()` only if consent allows).
+5. On `change` event with `analytics: false`, call the SDK's opt-out function and stop loading new events.
+
+This contract is documented here so the SDK-install PR doesn't redesign the gate.
+
+### 3.10 CCPA / GPC handling
+
+**Detection:**
+- US visitors: `CF-IPCountry === "US"` in middleware. If California-specific detection is added later, use the Cloudflare `cf-region-code` header (state-level).
+- GPC: parse the `Sec-GPC: 1` header in middleware (or check `navigator.globalPrivacyControl === true` client-side).
+
+**Behavior:**
+- If `CF-IPCountry === "US"` OR GPC signal received: show "Your Privacy Choices" link in footer.
+- Clicking the link opens the same preferences modal, with US-specific intro copy from v1.3 §5.
+- GPC signal is treated as automatic opt-out from Analytics. Cookie banner does NOT show; analytics SDKs respect opt-out automatically; consent_records row written with action=`reject_all`, source=`gpc`.
+
+**Plain English:** a GPC-honoring browser is signaling "I refuse tracking" via an HTTP header. We respect it without showing a banner.
 
 ---
 
@@ -257,56 +373,59 @@ Each surface ships with these tests. Failing tests block the PR.
 
 ### 4.1 Button parity test (CNIL critical)
 
-Playwright test: take a screenshot of the first-load banner. Assert all three buttons (`Reject all`, `Customize`, `Accept all`) have:
-- Bounding boxes within 1px of each other in width AND height.
-- Identical computed CSS color, background-color, border, font-weight.
+Playwright test: capture banner. Assert all three buttons (`Reject all`, `Customize`, `Accept all`) have:
+- Identical computed CSS `color`, `background-color`, `border`, `font-weight`, `padding`, `font-size`.
 - Identical CSS class on the button element.
+- Bounding-box width within 2px of each other.
 
-Same test against the modal's three buttons.
-
-**Why:** CNIL Recommendation 2020-091 explicitly forbids visually-asymmetric Reject vs Accept. This test is the single biggest legal hygiene gate.
+Same against the modal's three buttons. (Pixel-perfect bounding-box comparison dropped per privacy reviewer's font-rendering flake concern.)
 
 ### 4.2 No cookies before consent (ePrivacy 5(3) critical)
 
-Playwright test: load `/`, do not click anything, wait 5s. Assert:
-- `document.cookie` contains ONLY `__cf_bm`, `geo_hint`, and (on octopad.app) `sb-*-auth-token` if logged in.
-- No `mp_*`, `ph_*`, `theme`, `lang` cookies are present.
+Playwright test: load `/`, do nothing, wait 5s. Assert:
+- `document.cookie` contains ONLY `__cf_bm` and (on octopad.app) `sb-*-auth-token` if logged in.
+- No `mp_*`, `ph_*`, `theme` cookies.
 - No network request to `mixpanel.com`, `posthog.com`, or any analytics domain.
-
-This test is the single biggest ePrivacy 5(3) hygiene gate.
 
 ### 4.3 X / Escape / scroll / click-outside don't count as consent
 
-Playwright test: load page, click outside the banner, scroll, press Escape. Assert no `consent_v1` cookie is set. Assert no row in `consent_records`.
+Playwright test: load page, click outside banner, scroll, press Escape on banner, press Escape on modal. Assert no `consent_v1` cookie set. Assert zero rows posted to `record-consent` Edge Function (intercept fetch).
 
-(Italy Garante June 2021 specifically calls out the X.)
+### 4.4 13-month re-prompt logic (unit)
 
-### 4.4 13-month re-prompt logic
+Test `shouldShowBanner({ consentRecord, now })` with `ts = 14 months ago`. Assert true.
 
-Unit test on `shouldShowBanner({ consentRecord, now })`. Pass a `consentRecord` with `ts = 14 months ago`. Assert returns true.
+### 4.5 Version bump triggers re-prompt (unit)
 
-### 4.5 Version bump triggers re-prompt
+Test with `consentRecord.v = 0` and `CONSENT_VERSION = 1`. Assert true.
 
-Unit test: pass a `consentRecord` with `v = 0` and `CONSENT_VERSION = 1`. Assert returns true.
+### 4.6 Geo fail-open (unit)
 
-### 4.6 Withdrawal flow
+Test `shouldShowBanner` with `geo = undefined`, `geo = ""`, `geo = "XX"`, `geo = "T1"`. Assert true for all.
 
-Playwright test: visit page, accept all, verify cookies set. Open preferences modal, toggle Analytics off, save. Assert `mp_*` and `ph_*` cookies deleted. Assert `consent_v1.categories.analytics === false`.
+### 4.7 Withdrawal flow
 
-### 4.7 No cookie wall
+Playwright: visit, accept all, verify cookies set. Open modal, toggle Analytics off, save. Assert `mp_*` and `ph_*` cookies deleted. Assert `consent_v1.categories.analytics === false`. Assert `record-consent` Edge Function called once with action=`save_preferences`.
 
-Manual checklist (documented in PR): visit page, dismiss banner, verify the site is fully usable. Visit page, reject all, verify the site is fully usable.
+### 4.8 No cookie wall (manual)
 
-### 4.8 French CNIL dummy visit
+Documented in PR. Visit, dismiss banner, verify site usable. Visit, reject all, verify site usable.
 
-Manual checklist (documented in PR):
-- Reject all and Accept all visually identical (verified by 4.1)
-- No dark patterns: no pre-checked toggles, no "Continue" buttons that imply consent
-- No cookie wall (verified by 4.7)
-- Reachable Cookie preferences link from any state (footer on octopad.ai, settings + auth-page link on octopad.app)
-- 13-month re-prompt logic (verified by 4.4)
+### 4.9 GPC honoring (Playwright)
 
-The implementer attaches a screen recording of the dummy visit to the PR.
+Set `Sec-GPC: 1` request header (Playwright `setExtraHTTPHeaders`). Load page. Assert no banner shown. Assert `consent_v1` set with `action=reject_all`, `source=gpc`. Assert no network request to analytics.
+
+### 4.10 Kill switch (Playwright)
+
+With `NEXT_PUBLIC_CONSENT_BANNER_ENABLED=false` (or `PUBLIC_CONSENT_BANNER_ENABLED=false` on Astro). Visit page from EEA-headers. Assert no banner DOM mounted. Assert `window.octopadConsent.isEnabled() === false`.
+
+### 4.11 SDK loader contract (unit, in shared lib)
+
+Mock SDK loader registers `on("change")`. Manually set consent state to `{ analytics: false }`. Assert SDK opt-out called. Set to `{ analytics: true }`. Assert SDK init called.
+
+### 4.12 French CNIL dummy visit (manual)
+
+Documented in PR. Screen recording attached.
 
 ---
 
@@ -314,15 +433,16 @@ The implementer attaches a screen recording of the dummy visit to the PR.
 
 | Phase | Scope | Why this order |
 |---|---|---|
-| 1 | Supabase migration: `consent_records` table + RLS | Both surfaces depend on this. Land first to unblock parallel surface work. |
-| 2 | Shared `consent-config.ts` + state module + server insert helper | Same shape on both surfaces. Author once, copy to both repos. |
-| 3 | octopad.ai: middleware + footer link + banner + modal + tests | Smaller surface, cleaner stack, proves the model. |
-| 4 | octopad.app: middleware extension + banner + settings entry + auth-page links + modal + tests | Larger surface, integrates with existing layout / auth / sidebar. |
-| 5 | Cross-repo string-match test in CI for COPY constants | Drift detection. |
-| 6 | (Done 2026-04-28 in this design session) Octopad page Cookie banner copy v1.1 → v1.2 placement-note correction | Spec hygiene; included for traceability. |
-| 7 | PR review + manual CNIL dummy visit + sign-off | Launch gate. |
+| 1 | Supabase migration `267_consent_records.sql` + Edge Function `record-consent` deployed (with daily salt secret in Supabase Vault) + retention cron | Both surfaces depend on this. Land first. |
+| 2 | `consent-config.ts` + `state.ts` + Edge Function poster + `useConsent` hook + `window.octopadConsent` global. Author once in octopad.app, copy to octopad-landing-page. | Same shape on both surfaces. |
+| 3 | octopad.ai: middleware.ts + meta-tag injection + footer link + banner + modal + tests + `PUBLIC_SUPABASE_URL` etc. plumbed into Vercel project env | Smaller surface, simpler stack, proves the model. |
+| 4 | octopad.app: middleware extension + banner mount + `(auth)/layout.tsx` + Settings entry + tests | Larger surface. |
+| 5 | Privacy Policy update on octopad.ai/privacy: add data-flow paragraph for consent_records, name the Edge Function as a processing step | In-scope per adversarial review (originally excluded; reinstated). |
+| 6 | Snapshot test in each repo's build pipeline | Drift detection. |
+| 7 | (Done in this design session) Octopad page Cookie banner copy v1.2 → v1.3 | Spec hygiene. |
+| 8 | PR review + manual CNIL dummy visit + sign-off | Launch gate. |
 
-Phases 3 and 4 can run in parallel after phase 2 if the implementer is comfortable; otherwise serialize.
+Phases 3 and 4 can run in parallel after phase 2.
 
 ---
 
@@ -330,72 +450,89 @@ Phases 3 and 4 can run in parallel after phase 2 if the implementer is comfortab
 
 ### 6.1 octopad.ai is currently `output: "static"` on Astro
 
-Adding middleware on Astro Vercel adapter requires either (a) switching to `output: "hybrid"` or (b) running the middleware as a Vercel Edge Middleware function (`middleware.ts` at the project root, outside Astro's adapter, in standard Next.js-style Vercel Edge format).
-
-**Recommendation: option (b).** Place `middleware.ts` at the project root (peer of `astro.config.mjs`). Vercel auto-detects and runs it on the edge. Astro stays static. This is the lowest-blast-radius change.
+Vercel Edge Middleware at the project root works alongside Astro static output. Vercel runs the middleware before serving the static asset; Astro never sees it. **The middleware must use the Web-standard `Request`/`Response` signature, NOT Next.js `NextRequest`/`NextResponse` — copying a Next.js middleware will ship a 500.**
 
 ### 6.2 No shadcn/ui in octopad/frontend
 
-The product app does not currently have a Dialog / Switch / Button primitive library. We build:
-- `<dialog>` native HTML element with custom styling (Tailwind v4)
-- A small toggle component (~40 lines)
-- Re-use existing button styles from the app
+Build `<dialog>` + hand-rolled toggle. **React 19:** render `<dialog>` without the `open` attribute server-side; call `showModal()` in `useEffect`. Otherwise hydration desyncs.
 
-**Escape hatch:** if axe-core or Lighthouse accessibility tests fail with the native `<dialog>` + hand-rolled toggle (e.g. focus trap or screen-reader announcement issues), the implementer is allowlisted to add `@radix-ui/react-dialog` and `@radix-ui/react-switch` without further sign-off. Otherwise stay native.
+**Escape hatch:** Radix dialog/switch allowlisted if axe/Lighthouse a11y tests fail.
 
-### 6.3 Supabase anon insert on both domains
+### 6.3 Cloudflare cache fragmentation
 
-The Supabase client uses the public anon key. It works from any origin including `octopad.ai`. Confirm CORS on Supabase project allows both domains. (Supabase by default allows all origins for client SDK; check project settings.)
+Edge Middleware that rewrites with geo could fragment cache. Mitigation: middleware sets `Cache-Control: private, no-store` on the rewritten response. Static asset cache hit rate drops on the first request per visitor; subsequent loads use the meta tag in HTML and don't re-rewrite (the banner JS reads the meta synchronously and stores no further state).
 
-### 6.4 Geo cookie privacy
+### 6.4 Geo cookie removed
 
-`geo_hint` is set by us, contains a country code, lasts 24h. This is a strictly-necessary cookie used to suppress the banner on subsequent page loads in the same session — without it, every page navigation would re-evaluate geo and re-flash the banner. List it under Strictly Necessary in both surfaces' cookie tables.
+Earlier draft used a `geo_hint` cookie. Adversarial review surfaced a first-load race (cookie set on response, not yet readable in same parse). Replaced with meta-tag injection on octopad.ai and request-header read on octopad.app. No client-side cookie for geo.
 
 ### 6.5 Localized copy
 
-v1.2 is English-only. Localized copy (French, German, Spanish, Italian) is out of scope for this design. If/when localization happens, the `COPY` constant in `consent-config.ts` becomes a per-locale lookup. No structural change.
+v1.3 is English-only. Localized copy (FR, DE, ES, IT) is out of scope. If/when localization happens, `COPY` becomes a per-locale lookup.
 
 ### 6.6 Performance budget
 
-Banner JS payload should be < 8 KB gzipped on both surfaces. octopad.ai is a static marketing site where every byte matters; do not pull in a UI framework just for the banner.
+Banner JS payload: < 8KB gzipped on octopad.ai (vanilla TS, raw `fetch` to Edge Function — NOT `supabase-js` which is ~30KB gz). On octopad.app, banner is lazy-loaded via `next/dynamic({ ssr: false })` so non-EEA non-CCPA sessions pay zero kilobytes.
+
+### 6.7 Kill switch
+
+`NEXT_PUBLIC_CONSENT_BANNER_ENABLED` (or `PUBLIC_CONSENT_BANNER_ENABLED` on Astro). Default true. Set to false to immediately disable the banner without redeploy. Banner module checks this before any DOM mount.
+
+### 6.8 Observability
+
+Failed Edge Function POST → `console.error` + Sentry breadcrumb (octopad.app already has Sentry per launch hardening; octopad.ai does not — log to console only on the marketing site, accept the gap). Supabase Logs alert on `record-consent` Edge Function error rate > 1% over 1h.
+
+### 6.9 Staging
+
+Both surfaces have staging envs. The `surface` field in `consent_records` includes `staging.octopad.ai` and `staging.octopad.app` so production audit log isn't polluted. Staging may not have Cloudflare proxy → `CF-IPCountry` missing → fail-open shows banner (acceptable).
 
 ---
 
 ## 7. Out of scope (explicit exclusions)
 
-- Mixpanel SDK install (separate task, gated behind Analytics consent at install time)
-- PostHog SDK install (separate task, gated behind Analytics consent at install time)
+- Mixpanel SDK install (separate task — uses §3.9 contract)
+- PostHog SDK install (separate task — uses §3.9 contract)
 - Stripe.js install + cookie list rows (Stripe Integration stream)
 - External counsel review (deferred per parent legal stance)
 - Localized copy beyond English
-- Drafting copy (v1.2 is the source of truth)
-- Privacy Policy edit to reference the consent log (separate task; the Policy already broadly references "consent management")
+- Drafting copy (v1.3 is the source of truth)
+- Full CCPA Sale/Share categorization with separate toggle (deferred until adtech enters the stack — minimum-viable today is GPC honoring + "Your Privacy Choices" link)
+- TCF/IAB integration (skip until ad-tech enters the stack)
+- IAB GDPR TC string format (out of scope; we use our own consent string)
 
 ---
 
 ## 8. Done when
 
-Per the parent task acceptance criteria:
-
-- ✅ Banner ships on both surfaces (octopad.ai + octopad.app).
-- ✅ Banner copy matches #Cookie banner copy v1.2 verbatim (string-match test in CI).
-- ✅ Cookie list table renders per-surface with actual SDK-emitted cookie names (audit-at-build-time enforced by build script).
-- ✅ Consent record persists with version tracking (cookie + localStorage + Supabase table).
-- ✅ 13-month re-prompt scheduled (unit test).
-- ✅ Tested with French CNIL dummy visit (manual checklist + screen recording attached to PR).
-- ✅ Mixpanel, PostHog, and Stripe.js (when added) wire behind the appropriate consent gate (gate API exists; SDK install is separate task).
-- ✅ Cookie banner copy v1.1 page on Octopad updated to v1.2 with the placement-note correction (engineering note: "reachable from banner, account settings, and unauthenticated auth pages" replacing "permanent footer link on every page of octopad.app").
+- Banner ships on both surfaces.
+- Banner copy matches #Cookie banner copy v1.3 verbatim (snapshot test).
+- Cookie list renders per-surface; SDK-emitted names audited against env at build time.
+- Consent record persists with version tracking (cookie + localStorage + Edge Function → Supabase append-only table with HMAC integrity).
+- Retention cron deployed (6-year purge).
+- 13-month re-prompt scheduled.
+- Geo fail-open implemented and tested.
+- Kill switch env flag implemented and tested.
+- GPC honoring implemented and tested.
+- "Your Privacy Choices" link visible to US visitors.
+- Public consent API (`window.octopadConsent` + `useConsent` hook) shipped.
+- Privacy Policy updated to reference consent_records data flow.
+- French CNIL dummy visit screen recording attached to PR.
+- Cookie banner copy v1.3 (Octopad page) reflects retention, CCPA, and "not yet active" framing.
 
 ---
 
 ## 9. References
 
-- #Cookie banner copy v1.2 (Octopad page, source of truth for user-facing copy)
-- #Cookie banner copy v1.0 Adversarial Review 2026-04-25 (Octopad page, full rationale on per-surface render and identity-claim corrections)
-- #Legal Documents Launch Handoff 2026-04-23 (Octopad page, pre-publish checklist item 3)
+- #Cookie banner copy v1.3 (source of truth for user-facing copy)
+- #Cookie banner copy v1.0 Adversarial Review 2026-04-25
+- #Legal Documents Launch Handoff 2026-04-23
 - ePrivacy Directive 2002/58/EC Article 5(3)
-- GDPR Article 7(1) (demonstrability of consent)
+- GDPR Article 7(1) (demonstrability), Article 5(1)(a) (transparency), Article 5(1)(e) (storage limitation), Article 13(1)(e) (subprocessor disclosure), Article 8 (children)
 - CNIL Recommendation 2020-091 (Reject all parity)
-- ICO PECR guidance
+- ICO PECR guidance + Limitation Act 1980 (UK retention)
 - TTDSG (Germany)
 - Garante Guidance June 2021 (Italy, X-to-close)
+- LGPD (Brazil) Art 8 §1
+- CCPA / CPRA Cal. Civ. Code §1798.135 + §1798.140(ah); Sephora settlement (2022); CPPA 2025 GPC enforcement actions
+- French Civil Code Art 2224 (3-year limitation)
+- EDPB Guidelines 05/2020 v1.1 (consent)
